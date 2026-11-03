@@ -14,9 +14,7 @@
   --muted: #64766a;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -31,21 +29,11 @@ header {
   border-bottom: 1px solid var(--border);
 }
 
-.header-content,
-main {
-  max-width: 800px;
-  margin: auto;
-}
+.header-content, main { max-width: 800px; margin: auto; }
 
-.logo {
-  color: var(--green);
-  font-size: 26px;
-  font-weight: 850;
-}
+.logo { color: var(--green); font-size: 26px; font-weight: 850; }
 
-main {
-  padding: 24px 16px 50px;
-}
+main { padding: 24px 16px 50px; }
 
 nav {
   display: grid;
@@ -54,11 +42,7 @@ nav {
   margin-bottom: 22px;
 }
 
-button,
-input,
-select {
-  font: inherit;
-}
+button, input, select { font: inherit; }
 
 button {
   padding: 13px;
@@ -70,19 +54,10 @@ button {
   font-weight: 700;
 }
 
-nav button {
-  background: #e6eee8;
-  color: var(--green);
-}
+nav button { background: #e6eee8; color: var(--green); }
+nav button.active { background: var(--green); color: white; }
 
-nav button.active {
-  background: var(--green);
-  color: white;
-}
-
-button:focus-visible,
-input:focus-visible,
-select:focus-visible {
+button:focus-visible, input:focus-visible, select:focus-visible {
   outline: 3px solid #85b698;
   outline-offset: 3px;
 }
@@ -95,20 +70,9 @@ select:focus-visible {
   margin-bottom: 20px;
 }
 
-h1 {
-  margin: 0 0 20px;
-  font-size: 25px;
-}
-
-.wr {
-  background: var(--green);
-  color: white;
-}
-
-.wr-title {
-  font-size: 16px;
-  font-weight: 800;
-}
+h1 { margin: 0 0 20px; font-size: 25px; }
+.wr { background: var(--green); color: white; }
+.wr-title { font-size: 16px; font-weight: 800; }
 
 .wr-time {
   margin: 12px 0;
@@ -118,9 +82,7 @@ h1 {
   overflow-wrap: anywhere;
 }
 
-.table-container {
-  overflow-x: auto;
-}
+.table-container { overflow-x: auto; }
 
 table {
   width: 100%;
@@ -141,14 +103,8 @@ td {
   font-size: 15px;
 }
 
-tbody tr:last-child td {
-  border-bottom: 0;
-}
-
-th:last-child,
-td:last-child {
-  text-align: right;
-}
+tbody tr:last-child td { border-bottom: 0; }
+th:last-child, td:last-child { text-align: right; }
 
 .player {
   display: flex;
@@ -170,10 +126,18 @@ td:last-child {
   font-variant-numeric: tabular-nums;
 }
 
-form {
-  display: grid;
-  gap: 18px;
+.video-link {
+  display: inline-block;
+  margin-left: 10px;
+  color: var(--green);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: bold;
 }
+
+.video-link:hover { text-decoration: underline; }
+
+form { display: grid; gap: 18px; }
 
 label {
   display: grid;
@@ -183,8 +147,7 @@ label {
   font-weight: 650;
 }
 
-input,
-select {
+input, select {
   width: 100%;
   padding: 13px;
   border: 1px solid var(--border);
@@ -199,10 +162,7 @@ select {
   gap: 8px;
 }
 
-.time-fields input {
-  padding: 12px 5px;
-  text-align: center;
-}
+.time-fields input { padding: 12px 5px; text-align: center; }
 
 .preview {
   padding: 15px;
@@ -213,39 +173,16 @@ select {
   font-variant-numeric: tabular-nums;
 }
 
-.note,
-.empty {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.6;
-}
+.note, .empty { color: var(--muted); font-size: 13px; line-height: 1.6; }
+.empty { padding: 20px; text-align: center; }
+#notice { margin-top: 15px; }
 
-.empty {
-  padding: 20px;
-  text-align: center;
-}
-
-#notice {
-  margin-top: 15px;
-}
-
-[hidden] {
-  display: none !important;
-}
+[hidden] { display: none !important; }
 
 @media (max-width: 480px) {
-  .card {
-    padding: 16px;
-  }
-
-  td {
-    padding: 16px 4px;
-    font-size: 13px;
-  }
-
-  nav button {
-    font-size: 13px;
-  }
+  .card { padding: 16px; }
+  td { padding: 16px 4px; font-size: 13px; }
+  nav button { font-size: 13px; }
 }
 </style>
 </head>
@@ -259,8 +196,7 @@ select {
 
 <main>
   <nav aria-label="Secciones">
-    <button id="rankingButton" class="active"
-      aria-pressed="true" type="button">
+    <button id="rankingButton" class="active" aria-pressed="true" type="button">
       Tabla de clasificación
     </button>
 
@@ -304,8 +240,7 @@ select {
       <form id="recordForm">
         <label>
           Nombre del jugador
-          <input id="playerName" maxlength="40"
-            placeholder="Escribe tu nombre" required>
+          <input id="playerName" maxlength="40" placeholder="Escribe tu nombre" required>
         </label>
 
         <label>
@@ -315,42 +250,23 @@ select {
 
         <div>
           <p class="note">Tiempo obligatorio</p>
-
           <div class="time-fields">
-            <label>
-              Horas
-              <input id="hours" type="number"
-                min="0" max="99" step="1" placeholder="00" required>
-            </label>
-
-            <label>
-              Minutos
-              <input id="minutes" type="number"
-                min="0" max="59" step="1" placeholder="00" required>
-            </label>
-
-            <label>
-              Segundos
-              <input id="seconds" type="number"
-                min="0" max="59" step="1" placeholder="00" required>
-            </label>
-
-            <label>
-              Milisegundos
-              <input id="milliseconds" type="number"
-                min="0" max="999" step="1" placeholder="000" required>
-            </label>
+            <label>Horas <input id="hours" type="number" min="0" max="99" step="1" placeholder="00" required></label>
+            <label>Minutos <input id="minutes" type="number" min="0" max="59" step="1" placeholder="00" required></label>
+            <label>Segundos <input id="seconds" type="number" min="0" max="59" step="1" placeholder="00" required></label>
+            <label>Milisegundos <input id="milliseconds" type="number" min="0" max="999" step="1" placeholder="000" required></label>
           </div>
         </div>
 
-        <div id="timePreview" class="preview">
-          00h:00m:00s.000ms
-        </div>
+        <div id="timePreview" class="preview">00h:00m:00s.000ms</div>
+
+        <label>
+          Enlace de YouTube (opcional)
+          <input id="youtubeLink" type="url" placeholder="https://www.youtube.com/watch?v=...">
+        </label>
 
         <p class="note">
-          Completa los cuatro campos, usando 0 donde corresponda.
-          El tiempo total debe ser mayor que cero.
-          Enviar otro récord no borra los anteriores.
+          Completa los cuatro campos, usando 0 donde corresponda. El tiempo total debe ser mayor que cero. Enviar otro récord no borra los anteriores.
         </p>
 
         <button type="submit">Guardar récord</button>
@@ -361,10 +277,7 @@ select {
   <p id="notice" role="status" aria-live="polite"></p>
 
   <p class="note">
-    Los registros se guardan en este navegador, sin opciones para
-    eliminarlos desde la página. No se sincronizan entre dispositivos.
-    WR representa el menor tiempo registrado aquí, no un récord mundial
-    verificado. Todos los tiempos deben corresponder a la misma prueba.
+    Los registros se guardan en este navegador, sin opciones para eliminarlos desde la página. No se sincronizan entre dispositivos. WR representa el menor tiempo registrado aquí, no un récord mundial verificado. Todos los tiempos deben corresponder a la misma prueba.
   </p>
 </main>
 
@@ -377,295 +290,32 @@ let records = [];
 let storageReady = true;
 
 const countries = {
-  AD: "Andorra",
-  AE: "Emiratos Árabes Unidos",
-  AF: "Afganistán",
-  AG: "Antigua y Barbuda",
-  AI: "Anguila",
-  AL: "Albania",
-  AM: "Armenia",
-  AO: "Angola",
-  AQ: "Antártida",
-  AR: "Argentina",
-  AS: "Samoa Americana",
-  AT: "Austria",
-  AU: "Australia",
-  AW: "Aruba",
-  AX: "Islas Åland",
-  AZ: "Azerbaiyán",
-
-  BA: "Bosnia y Herzegovina",
-  BB: "Barbados",
-  BD: "Bangladés",
-  BE: "Bélgica",
-  BF: "Burkina Faso",
-  BG: "Bulgaria",
-  BH: "Baréin",
-  BI: "Burundi",
-  BJ: "Benín",
-  BL: "San Bartolomé",
-  BM: "Bermudas",
-  BN: "Brunéi",
-  BO: "Bolivia",
-  BQ: "Bonaire, San Eustaquio y Saba",
-  BR: "Brasil",
-  BS: "Bahamas",
-  BT: "Bután",
-  BV: "Isla Bouvet",
-  BW: "Botsuana",
-  BY: "Bielorrusia",
-  BZ: "Belice",
-
-  CA: "Canadá",
-  CC: "Islas Cocos",
-  CD: "República Democrática del Congo",
-  CF: "República Centroafricana",
-  CG: "República del Congo",
-  CH: "Suiza",
-  CI: "Costa de Marfil",
-  CK: "Islas Cook",
-  CL: "Chile",
-  CM: "Camerún",
-  CN: "China",
-  CO: "Colombia",
-  CR: "Costa Rica",
-  CU: "Cuba",
-  CV: "Cabo Verde",
-  CW: "Curazao",
-  CX: "Isla de Navidad",
-  CY: "Chipre",
-  CZ: "Chequia",
-
-  DE: "Alemania",
-  DJ: "Yibuti",
-  DK: "Dinamarca",
-  DM: "Dominica",
-  DO: "República Dominicana",
-  DZ: "Argelia",
-
-  EC: "Ecuador",
-  EE: "Estonia",
-  EG: "Egipto",
-  EH: "Sáhara Occidental",
-  ER: "Eritrea",
-  ES: "España",
-  ET: "Etiopía",
-
-  FI: "Finlandia",
-  FJ: "Fiyi",
-  FK: "Islas Malvinas",
-  FM: "Micronesia",
-  FO: "Islas Feroe",
-  FR: "Francia",
-
-  GA: "Gabón",
-  GB: "Reino Unido",
-  GD: "Granada",
-  GE: "Georgia",
-  GF: "Guayana Francesa",
-  GG: "Guernsey",
-  GH: "Ghana",
-  GI: "Gibraltar",
-  GL: "Groenlandia",
-  GM: "Gambia",
-  GN: "Guinea",
-  GP: "Guadalupe",
-  GQ: "Guinea Ecuatorial",
-  GR: "Grecia",
-  GS: "Islas Georgias del Sur y Sandwich del Sur",
-  GT: "Guatemala",
-  GU: "Guam",
-  GW: "Guinea-Bisáu",
-  GY: "Guyana",
-
-  HK: "Hong Kong",
-  HM: "Islas Heard y McDonald",
-  HN: "Honduras",
-  HR: "Croacia",
-  HT: "Haití",
-  HU: "Hungría",
-
-  ID: "Indonesia",
-  IE: "Irlanda",
-  IL: "Israel",
-  IM: "Isla de Man",
-  IN: "India",
-  IO: "Territorio Británico del Océano Índico",
-  IQ: "Irak",
-  IR: "Irán",
-  IS: "Islandia",
-  IT: "Italia",
-
-  JE: "Jersey",
-  JM: "Jamaica",
-  JO: "Jordania",
-  JP: "Japón",
-
-  KE: "Kenia",
-  KG: "Kirguistán",
-  KH: "Camboya",
-  KI: "Kiribati",
-  KM: "Comoras",
-  KN: "San Cristóbal y Nieves",
-  KP: "Corea del Norte",
-  KR: "Corea del Sur",
-  KW: "Kuwait",
-  KY: "Islas Caimán",
-  KZ: "Kazajistán",
-
-  LA: "Laos",
-  LB: "Líbano",
-  LC: "Santa Lucía",
-  LI: "Liechtenstein",
-  LK: "Sri Lanka",
-  LR: "Liberia",
-  LS: "Lesoto",
-  LT: "Lituania",
-  LU: "Luxemburgo",
-  LV: "Letonia",
-  LY: "Libia",
-
-  MA: "Marruecos",
-  MC: "Mónaco",
-  MD: "Moldavia",
-  ME: "Montenegro",
-  MF: "San Martín (parte francesa)",
-  MG: "Madagascar",
-  MH: "Islas Marshall",
-  MK: "Macedonia del Norte",
-  ML: "Malí",
-  MM: "Myanmar",
-  MN: "Mongolia",
-  MO: "Macao",
-  MP: "Islas Marianas del Norte",
-  MQ: "Martinica",
-  MR: "Mauritania",
-  MS: "Montserrat",
-  MT: "Malta",
-  MU: "Mauricio",
-  MV: "Maldivas",
-  MW: "Malaui",
-  MX: "México",
-  MY: "Malasia",
-  MZ: "Mozambique",
-
-  NA: "Namibia",
-  NC: "Nueva Caledonia",
-  NE: "Níger",
-  NF: "Isla Norfolk",
-  NG: "Nigeria",
-  NI: "Nicaragua",
-  NL: "Países Bajos",
-  NO: "Noruega",
-  NP: "Nepal",
-  NR: "Nauru",
-  NU: "Niue",
-  NZ: "Nueva Zelanda",
-
+  AD: "Andorra", AE: "Emiratos Árabes Unidos", AF: "Afganistán", AG: "Antigua y Barbuda", AI: "Anguila", AL: "Albania", AM: "Armenia", AO: "Angola", AQ: "Antártida", AR: "Argentina", AS: "Samoa Americana", AT: "Austria", AU: "Australia", AW: "Aruba", AX: "Islas Åland", AZ: "Azerbaiyán",
+  BA: "Bosnia y Herzegovina", BB: "Barbados", BD: "Bangladés", BE: "Bélgica", BF: "Burkina Faso", BG: "Bulgaria", BH: "Baréin", BI: "Burundi", BJ: "Benín", BL: "San Bartolomé", BM: "Bermudas", BN: "Brunéi", BO: "Bolivia", BQ: "Bonaire, San Eustaquio y Saba", BR: "Brasil", BS: "Bahamas", BT: "Bután", BV: "Isla Bouvet", BW: "Botsuana", BY: "Bielorrusia", BZ: "Belice",
+  CA: "Canadá", CC: "Islas Cocos", CD: "República Democrática del Congo", CF: "República Centroafricana", CG: "República del Congo", CH: "Suiza", CI: "Costa de Marfil", CK: "Islas Cook", CL: "Chile", CM: "Camerún", CN: "China", CO: "Colombia", CR: "Costa Rica", CU: "Cuba", CV: "Cabo Verde", CW: "Curazao", CX: "Isla de Navidad", CY: "Chipre", CZ: "Chequia",
+  DE: "Alemania", DJ: "Yibuti", DK: "Dinamarca", DM: "Dominica", DO: "República Dominicana", DZ: "Argelia",
+  EC: "Ecuador", EE: "Estonia", EG: "Egipto", EH: "Sáhara Occidental", ER: "Eritrea", ES: "España", ET: "Etiopía",
+  FI: "Finlandia", FJ: "Fiyi", FK: "Islas Malvinas", FM: "Micronesia", FO: "Islas Feroe", FR: "Francia",
+  GA: "Gabón", GB: "Reino Unido", GD: "Granada", GE: "Georgia", GF: "Guayana Francesa", GG: "Guernsey", GH: "Ghana", GI: "Gibraltar", GL: "Groenlandia", GM: "Gambia", GN: "Guinea", GP: "Guadalupe", GQ: "Guinea Ecuatorial", GR: "Grecia", GS: "Islas Georgias del Sur y Sandwich del Sur", GT: "Guatemala", GU: "Guam", GW: "Guinea-Bisáu", GY: "Guyana",
+  HK: "Hong Kong", HM: "Islas Heard y McDonald", HN: "Honduras", HR: "Croacia", HT: "Haití", HU: "Hungría",
+  ID: "Indonesia", IE: "Irlanda", IL: "Israel", IM: "Isla de Man", IN: "India", IO: "Territorio Británico del Océano Índico", IQ: "Irak", IR: "Irán", IS: "Islandia", IT: "Italia",
+  JE: "Jersey", JM: "Jamaica", JO: "Jordania", JP: "Japón",
+  KE: "Kenia", KG: "Kirguistán", KH: "Camboya", KI: "Kiribati", KM: "Comoras", KN: "San Cristóbal y Nieves", KP: "Corea del Norte", KR: "Corea del Sur", KW: "Kuwait", KY: "Islas Caimán", KZ: "Kazajistán",
+  LA: "Laos", LB: "Líbano", LC: "Santa Lucía", LI: "Liechtenstein", LK: "Sri Lanka", LR: "Liberia", LS: "Lesoto", LT: "Lituania", LU: "Luxemburgo", LV: "Letonia", LY: "Libia",
+  MA: "Marruecos", MC: "Mónaco", MD: "Moldavia", ME: "Montenegro", MF: "San Martín (parte francesa)", MG: "Madagascar", MH: "Islas Marshall", MK: "Macedonia del Norte", ML: "Malí", MM: "Myanmar", MN: "Mongolia", MO: "Macao", MP: "Islas Marianas del Norte", MQ: "Martinica", MR: "Mauritania", MS: "Montserrat", MT: "Malta", MU: "Mauricio", MV: "Maldivas", MW: "Malaui", MX: "México", MY: "Malasia", MZ: "Mozambique",
+  NA: "Namibia", NC: "Nueva Caledonia", NE: "Níger", NF: "Isla Norfolk", NG: "Nigeria", NI: "Nicaragua", NL: "Países Bajos", NO: "Noruega", NP: "Nepal", NR: "Nauru", NU: "Niue", NZ: "Nueva Zelanda",
   OM: "Omán",
-
-  PA: "Panamá",
-  PE: "Perú",
-  PF: "Polinesia Francesa",
-  PG: "Papúa Nueva Guinea",
-  PH: "Filipinas",
-  PK: "Pakistán",
-  PL: "Polonia",
-  PM: "San Pedro y Miquelón",
-  PN: "Islas Pitcairn",
-  PR: "Puerto Rico",
-  PS: "Palestina",
-  PT: "Portugal",
-  PW: "Palaos",
-  PY: "Paraguay",
-
+  PA: "Panamá", PE: "Perú", PF: "Polinesia Francesa", PG: "Papúa Nueva Guinea", PH: "Filipinas", PK: "Pakistán", PL: "Polonia", PM: "San Pedro y Miquelón", PN: "Islas Pitcairn", PR: "Puerto Rico", PS: "Palestina", PT: "Portugal", PW: "Palaos", PY: "Paraguay",
   QA: "Catar",
-
-  RE: "Reunión",
-  RO: "Rumanía",
-  RS: "Serbia",
-  RU: "Rusia",
-  RW: "Ruanda",
-
-  SA: "Arabia Saudita",
-  SB: "Islas Salomón",
-  SC: "Seychelles",
-  SD: "Sudán",
-  SE: "Suecia",
-  SG: "Singapur",
-  SH: "Santa Elena, Ascensión y Tristán de Acuña",
-  SI: "Eslovenia",
-  SJ: "Svalbard y Jan Mayen",
-  SK: "Eslovaquia",
-  SL: "Sierra Leona",
-  SM: "San Marino",
-  SN: "Senegal",
-  SO: "Somalia",
-  SR: "Surinam",
-  SS: "Sudán del Sur",
-  ST: "Santo Tomé y Príncipe",
-  SV: "El Salvador",
-  SX: "San Martín (parte neerlandesa)",
-  SY: "Siria",
-  SZ: "Esuatini",
-
-  TC: "Islas Turcas y Caicos",
-  TD: "Chad",
-  TF: "Tierras Australes Francesas",
-  TG: "Togo",
-  TH: "Tailandia",
-  TJ: "Tayikistán",
-  TK: "Tokelau",
-  TL: "Timor Oriental",
-  TM: "Turkmenistán",
-  TN: "Túnez",
-  TO: "Tonga",
-  TR: "Turquía",
-  TT: "Trinidad y Tobago",
-  TV: "Tuvalu",
-  TW: "Taiwán",
-  TZ: "Tanzania",
-
-  UA: "Ucrania",
-  UG: "Uganda",
-  UM: "Islas menores alejadas de Estados Unidos",
-  US: "Estados Unidos",
-  UY: "Uruguay",
-  UZ: "Uzbekistán",
-
-  VA: "Ciudad del Vaticano",
-  VC: "San Vicente y las Granadinas",
-  VE: "Venezuela",
-  VG: "Islas Vírgenes Británicas",
-  VI: "Islas Vírgenes de Estados Unidos",
-  VN: "Vietnam",
-  VU: "Vanuatu",
-
-  WF: "Wallis y Futuna",
-  WS: "Samoa",
-
-  YE: "Yemen",
-  YT: "Mayotte",
-
-  ZA: "Sudáfrica",
-  ZM: "Zambia",
-  ZW: "Zimbabue"
+  RE: "Reunión", RO: "Rumanía", RS: "Serbia", RU: "Rusia", RW: "Ruanda",
+  SA: "Arabia Saudita", SB: "Islas Salomón", SC: "Seychelles", SD: "Sudán", SE: "Suecia", SG: "Singapur", SH: "Santa Elena, Ascensión y Tristán de Acuña", SI: "Eslovenia", SJ: "Svalbard y Jan Mayen", SK: "Eslovaquia", SL: "Sierra Leona", SM: "San Marino", SN: "Senegal", SO: "Somalia", SR: "Surinam", SS: "Sudán del Sur", ST: "Santo Tomé y Príncipe", SV: "El Salvador", SX: "San Martín (parte neerlandesa)", SY: "Siria", SZ: "Esuatini",
+  TC: "Islas Turcas y Caicos", TD: "Chad", TF: "Tierras Australes Francesas", TG: "Togo", TH: "Tailandia", TJ: "Tayikistán", TK: "Tokelau", TL: "Timor Oriental", TM: "Turkmenistán", TN: "Túnez", TO: "Tonga", TR: "Turquía", TT: "Trinidad y Tobago", TV: "Tuvalu", TW: "Taiwán", TZ: "Tanzania",
+  UA: "Ucrania", UG: "Uganda", UM: "Islas menores alejadas de Estados Unidos", US: "Estados Unidos", UY: "Uruguay", UZ: "Uzbekistán",
+  VA: "Ciudad del Vaticano", VC: "San Vicente y las Granadinas", VE: "Venezuela", VG: "Islas Vírgenes Británicas", VI: "Islas Vírgenes de Estados Unidos", VN: "Vietnam", VU: "Vanuatu",
+  WF: "Wallis y Futuna", WS: "Samoa",
+  YE: "Yemen", YT: "Mayotte",
+  ZA: "Sudáfrica", ZM: "Zambia", ZW: "Zimbabue"
 };
-function flagEmoji(code) {
-  return [...code].map(letter =>
-    String.fromCodePoint(127397 + letter.charCodeAt(0))
-  ).join("");
-}
-
-$("country").add(new Option("Selecciona tu país", ""));
-
-Object.entries(countries)
-  .sort((a, b) => a[1].localeCompare(b[1], "es"))
-  .forEach(([code, name]) => {
-    $("country").add(new Option(
-      `${flagEmoji(code)} ${name}`, code
-    ));
-  });
 
 function flagEmoji(code) {
   return [...code].map(letter =>
@@ -674,13 +324,10 @@ function flagEmoji(code) {
 }
 
 $("country").add(new Option("Selecciona tu país", ""));
-
 Object.entries(countries)
   .sort((a, b) => a[1].localeCompare(b[1], "es"))
   .forEach(([code, name]) => {
-    $("country").add(new Option(
-      `${flagEmoji(code)} ${name}`, code
-    ));
+    $("country").add(new Option(`${flagEmoji(code)} ${name}`, code));
   });
 
 function validRecord(record) {
@@ -690,26 +337,22 @@ function validRecord(record) {
     Number.isSafeInteger(record.ms) &&
     record.ms > 0 &&
     record.ms < 360000000 &&
-    Number.isFinite(record.created);
+    Number.isFinite(record.created) &&
+    (record.youtube === undefined || typeof record.youtube === "string");
 }
 
 try {
   const saved = localStorage.getItem(STORAGE_KEY);
-
   if (saved !== null) {
     const parsed = JSON.parse(saved);
-
     if (!Array.isArray(parsed) || !parsed.every(validRecord)) {
       throw new Error("Datos inválidos");
     }
-
     records = parsed;
   }
 } catch {
   storageReady = false;
-  $("notice").textContent =
-    "No se pudieron leer los datos guardados. " +
-    "No se sobrescribirán con registros nuevos.";
+  $("notice").textContent = "No se pudieron leer los datos guardados. No se sobrescribirán con registros nuevos.";
 }
 
 function formatTime(ms) {
@@ -717,7 +360,6 @@ function formatTime(ms) {
   const minutes = Math.floor(ms / 60000) % 60;
   const seconds = Math.floor(ms / 1000) % 60;
   const milliseconds = ms % 1000;
-
   return (
     String(hours).padStart(2, "0") + "h:" +
     String(minutes).padStart(2, "0") + "m:" +
@@ -728,25 +370,12 @@ function formatTime(ms) {
 
 function readTime() {
   const values = [
-    $("hours").value,
-    $("minutes").value,
-    $("seconds").value,
-    $("milliseconds").value
+    $("hours").value, $("minutes").value, $("seconds").value, $("milliseconds").value
   ];
-
   if (values.some(value => value.trim() === "")) return null;
-
   const [h, m, s, ms] = values.map(Number);
-
   if (![h, m, s, ms].every(Number.isInteger)) return null;
-
-  if (
-    h < 0 || h > 99 ||
-    m < 0 || m > 59 ||
-    s < 0 || s > 59 ||
-    ms < 0 || ms > 999
-  ) return null;
-
+  if (h < 0 || h > 99 || m < 0 || m > 59 || s < 0 || s > 59 || ms < 0 || ms > 999) return null;
   return h * 3600000 + m * 60000 + s * 1000 + ms;
 }
 
@@ -756,9 +385,7 @@ function makePlayer(record) {
 
   const image = document.createElement("img");
   image.className = "flag";
-  image.src =
-    "https://flagcdn.com/w40/" +
-    record.country.toLowerCase() + ".png";
+  image.src = "https://flagcdn.com/w40/" + record.country.toLowerCase() + ".png";
   image.alt = countries[record.country];
   image.width = 28;
   image.height = 20;
@@ -778,33 +405,36 @@ function makePlayer(record) {
 }
 
 function render() {
-  const sorted = [...records].sort(
-    (a, b) => a.ms - b.ms || a.created - b.created
-  );
-
+  const sorted = [...records].sort((a, b) => a.ms - b.ms || a.created - b.created);
   $("rankingBody").replaceChildren();
 
-  // Cada récord conserva su propia fila, incluso si el nombre se repite.
   for (const record of sorted) {
     const row = document.createElement("tr");
     const playerCell = document.createElement("td");
     const timeCell = document.createElement("td");
 
     playerCell.append(makePlayer(record));
+    
     timeCell.className = "time";
     timeCell.textContent = formatTime(record.ms);
+
+    if (record.youtube && record.youtube.trim() !== "") {
+      const ytLink = document.createElement("a");
+      ytLink.href = record.youtube;
+      ytLink.target = "_blank";
+      ytLink.rel = "noopener noreferrer";
+      ytLink.textContent = "▶ Ver video";
+      ytLink.className = "video-link";
+      timeCell.append(ytLink);
+    }
 
     row.append(playerCell, timeCell);
     $("rankingBody").append(row);
   }
 
   $("emptyRanking").hidden = sorted.length > 0;
-
   const best = sorted[0];
-  $("wrTime").textContent = best
-    ? formatTime(best.ms)
-    : "00h:00m:00s.000ms";
-
+  $("wrTime").textContent = best ? formatTime(best.ms) : "00h:00m:00s.000ms";
   $("wrPlayer").replaceChildren();
 
   if (!best) {
@@ -813,12 +443,8 @@ function render() {
   }
 
   const holders = new Map();
-
   for (const record of sorted.filter(r => r.ms === best.ms)) {
-    const identity =
-      record.country + ":" +
-      record.name.normalize("NFKC").toLocaleLowerCase("es");
-
+    const identity = record.country + ":" + record.name.normalize("NFKC").toLocaleLowerCase("es");
     if (!holders.has(identity)) holders.set(identity, record);
   }
 
@@ -830,10 +456,8 @@ function render() {
 function showSubmission(show) {
   $("rankingPanel").hidden = show;
   $("submitPanel").hidden = !show;
-
   $("rankingButton").classList.toggle("active", !show);
   $("submitButton").classList.toggle("active", show);
-
   $("rankingButton").setAttribute("aria-pressed", String(!show));
   $("submitButton").setAttribute("aria-pressed", String(show));
 }
@@ -844,23 +468,23 @@ $("submitButton").onclick = () => showSubmission(true);
 ["hours", "minutes", "seconds", "milliseconds"].forEach(id => {
   $(id).addEventListener("input", () => {
     const time = readTime();
-    $("timePreview").textContent =
-      time === null ? "Completa el tiempo" : formatTime(time);
+    $("timePreview").textContent = time === null ? "Completa el tiempo" : formatTime(time);
   });
 });
 
+// AQUÍ ESTÁ TU NUEVO CÓDIGO INTEGRADO
 $("recordForm").addEventListener("submit", event => {
   event.preventDefault();
 
   if (!storageReady) {
-    $("notice").textContent =
-      "No se puede guardar hasta resolver la lectura de los datos existentes.";
+    $("notice").textContent = "No se puede guardar hasta resolver la lectura de los datos existentes.";
     return;
   }
 
   const name = $("playerName").value.trim();
   const country = $("country").value;
   const ms = readTime();
+  const youtube = $("youtubeLink").value.trim();
 
   if (!name || !Object.hasOwn(countries, country)) {
     $("notice").textContent = "Completa el nombre y selecciona el país.";
@@ -868,31 +492,50 @@ $("recordForm").addEventListener("submit", event => {
   }
 
   if (ms === null || ms <= 0) {
-    $("notice").textContent =
-      "El tiempo es obligatorio y debe ser mayor que cero.";
+    $("notice").textContent = "El tiempo es obligatorio y debe ser mayor que cero.";
     return;
   }
 
+  // Validación del enlace de YouTube
+  if (youtube) {
+    let url;
+    try {
+      url = new URL(youtube);
+    } catch {
+      $("notice").textContent = "Escribe un enlace completo de YouTube que empiece con https://.";
+      return;
+    }
+
+    const host = url.hostname.toLowerCase();
+    const allowedHosts = ["youtube.com", "www.youtube.com", "m.youtube.com", "youtu.be", "www.youtu.be"];
+    const isShortLink = (host === "youtu.be" || host === "www.youtu.be") && /^\/[A-Za-z0-9_-]{11}\/?$/.test(url.pathname);
+    const isWatchLink = host !== "youtu.be" && host !== "www.youtu.be" && url.pathname === "/watch" && /^[A-Za-z0-9_-]{11}$/.test(url.searchParams.get("v") || "");
+    const isVideoPath = host !== "youtu.be" && host !== "www.youtu.be" && /^\/(shorts|live|embed)\/[A-Za-z0-9_-]{11}\/?$/.test(url.pathname);
+
+    if (url.protocol !== "https:" || !allowedHosts.includes(host) || url.username || url.password || url.port || !(isShortLink || isWatchLink || isVideoPath)) {
+      $("notice").textContent = "Introduce un enlace válido a un video de YouTube.";
+      return;
+    }
+  }
+
+  // Guardar
   try {
-    // Leer de nuevo evita reemplazar registros enviados desde otra pestaña.
     const raw = localStorage.getItem(STORAGE_KEY);
     const latest = raw === null ? [] : JSON.parse(raw);
 
     if (!Array.isArray(latest) || !latest.every(validRecord)) {
-      throw new Error("Datos inválidos");
+      throw new Error("Datos guardados inválidos");
     }
 
     const updated = [
       ...latest,
-      { name, country, ms, created: Date.now() }
+      { name, country, ms, youtube, created: Date.now() }
     ];
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
     records = updated;
   } catch {
-    $("notice").textContent =
-      "No se pudo guardar el récord. No se ha confirmado el envío. " +
-      "Tus campos siguen completos para que puedas intentarlo otra vez.";
+    $("notice").textContent = "No se pudo guardar el récord. Tus campos siguen completos para intentarlo otra vez.";
     return;
   }
 
@@ -905,17 +548,13 @@ $("recordForm").addEventListener("submit", event => {
 
 window.addEventListener("storage", event => {
   if (event.key !== STORAGE_KEY) return;
-
   try {
     const updated = JSON.parse(event.newValue || "[]");
-
     if (!Array.isArray(updated) || !updated.every(validRecord)) return;
-
     records = updated;
     render();
   } catch {
-    $("notice").textContent =
-      "No se pudo actualizar la lista desde la otra pestaña.";
+    $("notice").textContent = "No se pudo actualizar la lista desde la otra pestaña.";
   }
 });
 
