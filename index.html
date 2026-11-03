@@ -82,6 +82,28 @@ h1 { margin: 0 0 20px; font-size: 25px; }
   overflow-wrap: anywhere;
 }
 
+/* ESTILOS PARA LAS CATEGORÍAS Y JUEGOS */
+.game-section {
+  margin-bottom: 30px;
+}
+.game-section:last-child {
+  margin-bottom: 0;
+}
+.game-header {
+  font-size: 22px;
+  color: var(--green);
+  margin: 0 0 15px 0;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 8px;
+}
+.category-header {
+  font-size: 15px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 20px 0 10px 0;
+}
+
 .table-container { overflow-x: auto; }
 
 table {
@@ -183,8 +205,6 @@ input, select {
   .card { padding: 16px; }
   td { padding: 16px 4px; font-size: 13px; }
   nav button { font-size: 13px; }
-  .table-container table th:nth-child(1),
-  .table-container table td:nth-child(1) { display: none; } /* Ocultar juego en móvil si se ve muy apretado */
 }
 </style>
 </head>
@@ -216,20 +236,8 @@ input, select {
 
     <article class="card">
       <h1>Tabla de clasificación</h1>
-
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">Juego</th>
-              <th scope="col">Categoría</th>
-              <th scope="col">Jugador</th>
-              <th scope="col">Tiempo</th>
-            </tr>
-          </thead>
-          <tbody id="rankingBody"></tbody>
-        </table>
-      </div>
+      <!-- Aquí se va a dibujar la tabla dinámica con juegos y categorías -->
+      <div id="rankingContainer"></div>
 
       <p id="emptyRanking" class="empty">
         Todavía no hay récords enviados.
@@ -242,17 +250,15 @@ input, select {
       <h1>Enviar el récord</h1>
 
       <form id="recordForm">
-        
-        <!-- NUEVO: Nombre del Juego -->
+        <!-- AQUÍ ESTÁN LOS CAMPOS NUEVOS -->
         <label>
           Nombre del juego
-          <input id="gameName" maxlength="50" placeholder="Ej: snake.io" required>
+          <input id="gameName" maxlength="50" placeholder="Ej: snake.io" value="snake.io" required>
         </label>
 
-        <!-- NUEVO: Categoría libre (no obligatoria, pero recomendada) -->
         <label>
-          Categoría (opcional)
-          <input id="category" maxlength="30" placeholder="Ej: Any%, Glitchless, Carrera...">
+          Categoría (opcional, si la dejas vacía será "General")
+          <input id="category" maxlength="30" placeholder="Ej: Any%, Glitchless...">
         </label>
 
         <label>
@@ -266,7 +272,7 @@ input, select {
         </label>
 
         <div>
-          <p class="note">Tiempo (completa solo lo que necesites)</p>
+          <p class="note">Tiempo (completa solo lo que necesites, pon 0 en lo demás)</p>
           <div class="time-fields">
             <label>Horas <input id="hours" type="number" min="0" max="99" step="1" placeholder="00"></label>
             <label>Minutos <input id="minutes" type="number" min="0" max="59" step="1" placeholder="00"></label>
@@ -387,25 +393,27 @@ function readTime() {
 
   if (![h, m, s, ms].every(Number.isInteger)) return null;
   if (h < 0 || h > 99 || m < 0 || m > 59 || s < 0 || s > 59 || ms < 0 || ms > 999) return null;
-
   return h * 3600000 + m * 60000 + s * 1000 + ms;
 }
 
 function makePlayer(record) {
   const container = document.createElement("div");
   container.className = "player";
+
   const image = document.createElement("img");
   image.className = "flag";
   image.src = "https://flagcdn.com/w40/" + record.country.toLowerCase() + ".png";
   image.alt = countries[record.country];
   image.width = 28;
   image.height = 20;
+
   image.addEventListener("error", () => {
     const fallback = document.createElement("span");
     fallback.textContent = flagEmoji(record.country);
     fallback.setAttribute("aria-label", countries[record.country]);
     image.replaceWith(fallback);
   }, { once: true });
+
   const name = document.createElement("span");
   name.textContent = record.name;
   container.append(image, name);
@@ -413,57 +421,90 @@ function makePlayer(record) {
 }
 
 function render() {
-  // Ordenar por juego, luego por categoría, luego por tiempo
-  const sorted = [...records].sort((a, b) => {
-    if (a.gameName !== b.gameName) return a.gameName.localeCompare(b.gameName);
-    if (a.category !== b.category) return a.category.localeCompare(b.category);
-    return a.ms - b.ms || a.created - b.created;
-  });
+  $("rankingContainer").replaceChildren();
+  $("emptyRanking").hidden = records.length > 0;
 
-  $("rankingBody").replaceChildren();
+  if (records.length === 0) return;
 
-  for (const record of sorted) {
-    const row = document.createElement("tr");
+  // Agrupar récords por juego
+  const grouped = {};
+  for (const record of records) {
+    if (!grouped[record.gameName]) grouped[record.gameName] = {};
+    if (!grouped[record.gameName][record.category]) grouped[record.gameName][record.category] = [];
+    grouped[record.gameName][record.category].push(record);
+  }
+
+  const sortedGames = Object.keys(grouped).sort((a,b) => a.localeCompare(b));
+
+  // Crear la tabla para cada juego y categoría
+  for (const game of sortedGames) {
+    const gameSection = document.createElement("div");
+    gameSection.className = "game-section";
     
-    const gameCell = document.createElement("td");
-    gameCell.textContent = record.gameName;
-    
-    const catCell = document.createElement("td");
-    catCell.textContent = record.category || "-";
+    const gameHeader = document.createElement("h2");
+    gameHeader.className = "game-header";
+    gameHeader.textContent = game;
+    gameSection.append(gameHeader);
 
-    const playerCell = document.createElement("td");
-    playerCell.append(makePlayer(record));
-    
-    const timeCell = document.createElement("td");
-    timeCell.className = "time";
-    timeCell.textContent = formatTime(record.ms);
+    const sortedCategories = Object.keys(grouped[game]).sort((a,b) => a.localeCompare(b));
 
-    if (record.youtube && record.youtube.trim() !== "") {
-      const ytLink = document.createElement("a");
-      ytLink.href = record.youtube;
-      ytLink.target = "_blank";
-      ytLink.rel = "noopener noreferrer";
-      ytLink.textContent = "▶ Video";
-      ytLink.className = "video-link";
-      timeCell.append(ytLink);
+    for (const category of sortedCategories) {
+      const catHeader = document.createElement("h3");
+      catHeader.className = "category-header";
+      catHeader.textContent = category;
+      gameSection.append(catHeader);
+
+      const tableContainer = document.createElement("div");
+      tableContainer.className = "table-container";
+      const table = document.createElement("table");
+      const thead = document.createElement("thead");
+      thead.innerHTML = `<tr><th scope="col">Jugador</th><th scope="col">Tiempo</th></tr>`;
+      const tbody = document.createElement("tbody");
+      
+      // Ordenar los récords de esta categoría por tiempo
+      const catRecords = grouped[game][category].sort((a, b) => a.ms - b.ms || a.created - b.created);
+      const bestTime = catRecords[0].ms;
+
+      for (const record of catRecords) {
+        const row = document.createElement("tr");
+        const playerCell = document.createElement("td");
+        const timeCell = document.createElement("td");
+
+        playerCell.append(makePlayer(record));
+        timeCell.className = "time";
+        
+        // Poner corona al mejor de la categoría
+        if (record.ms === bestTime) {
+          timeCell.textContent = "👑 " + formatTime(record.ms);
+        } else {
+          timeCell.textContent = formatTime(record.ms);
+        }
+
+        if (record.youtube && record.youtube.trim() !== "") {
+          const ytLink = document.createElement("a");
+          ytLink.href = record.youtube;
+          ytLink.target = "_blank";
+          ytLink.rel = "noopener noreferrer";
+          ytLink.textContent = "▶ Video";
+          ytLink.className = "video-link";
+          timeCell.append(ytLink);
+        }
+
+        row.append(playerCell, timeCell);
+        tbody.append(row);
+      }
+
+      table.append(thead, tbody);
+      tableContainer.append(table);
+      gameSection.append(tableContainer);
     }
-
-    row.append(gameCell, catCell, playerCell, timeCell);
-    $("rankingBody").append(row);
+    $("rankingContainer").append(gameSection);
   }
 
-  $("emptyRanking").hidden = sorted.length > 0;
-  
-  // El WR ahora es el mejor tiempo general (puedes cambiarlo para que sea por juego si quieres)
-  const best = [...records].sort((a, b) => a.ms - b.ms)[0];
-  $("wrTime").textContent = best ? formatTime(best.ms) : "00h:00m:00s.000ms";
-  
-  $("wrPlayer").replaceChildren();
-  if (!best) {
-    $("wrPlayer").textContent = "Sin récords registrados";
-    return;
-  }
-  $("wrPlayer").append(makePlayer(best));
+  // Actualizar el WR global
+  const globalBest = [...records].sort((a, b) => a.ms - b.ms)[0];
+  $("wrTime").textContent = formatTime(globalBest.ms);
+  $("wrPlayer").replaceChildren(makePlayer(globalBest));
 }
 
 function showSubmission(show) {
@@ -494,7 +535,6 @@ $("recordForm").addEventListener("submit", event => {
   }
 
   const gameName = $("gameName").value.trim();
-  // Si no ponen categoría, ponemos "General" por defecto
   const category = $("category").value.trim() || "General"; 
   const name = $("playerName").value.trim();
   const country = $("country").value;
@@ -512,7 +552,7 @@ $("recordForm").addEventListener("submit", event => {
   }
 
   if (ms === null || ms <= 0) {
-    $("notice").textContent = "El tiempo es obligatorio y debe ser mayor que cero.";
+    $("notice").textContent = "El tiempo es obligatorio y debe ser mayor que cero (escribe al menos en un campo).";
     return;
   }
 
