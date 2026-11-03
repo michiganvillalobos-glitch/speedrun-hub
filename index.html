@@ -183,6 +183,8 @@ input, select {
   .card { padding: 16px; }
   td { padding: 16px 4px; font-size: 13px; }
   nav button { font-size: 13px; }
+  .table-container table th:nth-child(1),
+  .table-container table td:nth-child(1) { display: none; } /* Ocultar juego en móvil si se ve muy apretado */
 }
 </style>
 </head>
@@ -219,6 +221,8 @@ input, select {
         <table>
           <thead>
             <tr>
+              <th scope="col">Juego</th>
+              <th scope="col">Categoría</th>
               <th scope="col">Jugador</th>
               <th scope="col">Tiempo</th>
             </tr>
@@ -238,6 +242,19 @@ input, select {
       <h1>Enviar el récord</h1>
 
       <form id="recordForm">
+        
+        <!-- NUEVO: Nombre del Juego -->
+        <label>
+          Nombre del juego
+          <input id="gameName" maxlength="50" placeholder="Ej: snake.io" required>
+        </label>
+
+        <!-- NUEVO: Categoría libre (no obligatoria, pero recomendada) -->
+        <label>
+          Categoría (opcional)
+          <input id="category" maxlength="30" placeholder="Ej: Any%, Glitchless, Carrera...">
+        </label>
+
         <label>
           Nombre del jugador
           <input id="playerName" maxlength="40" placeholder="Escribe tu nombre" required>
@@ -249,12 +266,12 @@ input, select {
         </label>
 
         <div>
-          <p class="note">Tiempo obligatorio</p>
+          <p class="note">Tiempo (completa solo lo que necesites)</p>
           <div class="time-fields">
-            <label>Horas <input id="hours" type="number" min="0" max="99" step="1" placeholder="00" required></label>
-            <label>Minutos <input id="minutes" type="number" min="0" max="59" step="1" placeholder="00" required></label>
-            <label>Segundos <input id="seconds" type="number" min="0" max="59" step="1" placeholder="00" required></label>
-            <label>Milisegundos <input id="milliseconds" type="number" min="0" max="999" step="1" placeholder="000" required></label>
+            <label>Horas <input id="hours" type="number" min="0" max="99" step="1" placeholder="00"></label>
+            <label>Minutos <input id="minutes" type="number" min="0" max="59" step="1" placeholder="00"></label>
+            <label>Segundos <input id="seconds" type="number" min="0" max="59" step="1" placeholder="00"></label>
+            <label>Milisegundos <input id="milliseconds" type="number" min="0" max="999" step="1" placeholder="000"></label>
           </div>
         </div>
 
@@ -265,20 +282,12 @@ input, select {
           <input id="youtubeLink" type="url" placeholder="https://www.youtube.com/watch?v=...">
         </label>
 
-        <p class="note">
-          Completa los cuatro campos, usando 0 donde corresponda. El tiempo total debe ser mayor que cero. Enviar otro récord no borra los anteriores.
-        </p>
-
         <button type="submit">Guardar récord</button>
       </form>
     </article>
   </section>
 
   <p id="notice" role="status" aria-live="polite"></p>
-
-  <p class="note">
-    Los registros se guardan en este navegador, sin opciones para eliminarlos desde la página. No se sincronizan entre dispositivos. WR representa el menor tiempo registrado aquí, no un récord mundial verificado. Todos los tiempos deben corresponder a la misma prueba.
-  </p>
 </main>
 
 <script>
@@ -332,6 +341,8 @@ Object.entries(countries)
 
 function validRecord(record) {
   return record &&
+    typeof record.gameName === "string" &&
+    typeof record.category === "string" &&
     typeof record.name === "string" &&
     Object.hasOwn(countries, record.country) &&
     Number.isSafeInteger(record.ms) &&
@@ -369,52 +380,61 @@ function formatTime(ms) {
 }
 
 function readTime() {
-  const values = [
-    $("hours").value, $("minutes").value, $("seconds").value, $("milliseconds").value
-  ];
-  if (values.some(value => value.trim() === "")) return null;
-  const [h, m, s, ms] = values.map(Number);
+  const h = $("hours").value.trim() === "" ? 0 : Number($("hours").value);
+  const m = $("minutes").value.trim() === "" ? 0 : Number($("minutes").value);
+  const s = $("seconds").value.trim() === "" ? 0 : Number($("seconds").value);
+  const ms = $("milliseconds").value.trim() === "" ? 0 : Number($("milliseconds").value);
+
   if (![h, m, s, ms].every(Number.isInteger)) return null;
   if (h < 0 || h > 99 || m < 0 || m > 59 || s < 0 || s > 59 || ms < 0 || ms > 999) return null;
+
   return h * 3600000 + m * 60000 + s * 1000 + ms;
 }
 
 function makePlayer(record) {
   const container = document.createElement("div");
   container.className = "player";
-
   const image = document.createElement("img");
   image.className = "flag";
   image.src = "https://flagcdn.com/w40/" + record.country.toLowerCase() + ".png";
   image.alt = countries[record.country];
   image.width = 28;
   image.height = 20;
-
   image.addEventListener("error", () => {
     const fallback = document.createElement("span");
     fallback.textContent = flagEmoji(record.country);
     fallback.setAttribute("aria-label", countries[record.country]);
     image.replaceWith(fallback);
   }, { once: true });
-
   const name = document.createElement("span");
   name.textContent = record.name;
-
   container.append(image, name);
   return container;
 }
 
 function render() {
-  const sorted = [...records].sort((a, b) => a.ms - b.ms || a.created - b.created);
+  // Ordenar por juego, luego por categoría, luego por tiempo
+  const sorted = [...records].sort((a, b) => {
+    if (a.gameName !== b.gameName) return a.gameName.localeCompare(b.gameName);
+    if (a.category !== b.category) return a.category.localeCompare(b.category);
+    return a.ms - b.ms || a.created - b.created;
+  });
+
   $("rankingBody").replaceChildren();
 
   for (const record of sorted) {
     const row = document.createElement("tr");
-    const playerCell = document.createElement("td");
-    const timeCell = document.createElement("td");
+    
+    const gameCell = document.createElement("td");
+    gameCell.textContent = record.gameName;
+    
+    const catCell = document.createElement("td");
+    catCell.textContent = record.category || "-";
 
+    const playerCell = document.createElement("td");
     playerCell.append(makePlayer(record));
     
+    const timeCell = document.createElement("td");
     timeCell.className = "time";
     timeCell.textContent = formatTime(record.ms);
 
@@ -423,34 +443,27 @@ function render() {
       ytLink.href = record.youtube;
       ytLink.target = "_blank";
       ytLink.rel = "noopener noreferrer";
-      ytLink.textContent = "▶ Ver video";
+      ytLink.textContent = "▶ Video";
       ytLink.className = "video-link";
       timeCell.append(ytLink);
     }
 
-    row.append(playerCell, timeCell);
+    row.append(gameCell, catCell, playerCell, timeCell);
     $("rankingBody").append(row);
   }
 
   $("emptyRanking").hidden = sorted.length > 0;
-  const best = sorted[0];
+  
+  // El WR ahora es el mejor tiempo general (puedes cambiarlo para que sea por juego si quieres)
+  const best = [...records].sort((a, b) => a.ms - b.ms)[0];
   $("wrTime").textContent = best ? formatTime(best.ms) : "00h:00m:00s.000ms";
+  
   $("wrPlayer").replaceChildren();
-
   if (!best) {
     $("wrPlayer").textContent = "Sin récords registrados";
     return;
   }
-
-  const holders = new Map();
-  for (const record of sorted.filter(r => r.ms === best.ms)) {
-    const identity = record.country + ":" + record.name.normalize("NFKC").toLocaleLowerCase("es");
-    if (!holders.has(identity)) holders.set(identity, record);
-  }
-
-  for (const record of holders.values()) {
-    $("wrPlayer").append(makePlayer(record));
-  }
+  $("wrPlayer").append(makePlayer(best));
 }
 
 function showSubmission(show) {
@@ -472,7 +485,6 @@ $("submitButton").onclick = () => showSubmission(true);
   });
 });
 
-// AQUÍ ESTÁ TU NUEVO CÓDIGO INTEGRADO
 $("recordForm").addEventListener("submit", event => {
   event.preventDefault();
 
@@ -481,10 +493,18 @@ $("recordForm").addEventListener("submit", event => {
     return;
   }
 
+  const gameName = $("gameName").value.trim();
+  // Si no ponen categoría, ponemos "General" por defecto
+  const category = $("category").value.trim() || "General"; 
   const name = $("playerName").value.trim();
   const country = $("country").value;
   const ms = readTime();
   const youtube = $("youtubeLink").value.trim();
+
+  if (!gameName) {
+    $("notice").textContent = "El nombre del juego es obligatorio.";
+    return;
+  }
 
   if (!name || !Object.hasOwn(countries, country)) {
     $("notice").textContent = "Completa el nombre y selecciona el país.";
@@ -496,16 +516,12 @@ $("recordForm").addEventListener("submit", event => {
     return;
   }
 
-  // Validación del enlace de YouTube
   if (youtube) {
     let url;
-    try {
-      url = new URL(youtube);
-    } catch {
+    try { url = new URL(youtube); } catch {
       $("notice").textContent = "Escribe un enlace completo de YouTube que empiece con https://.";
       return;
     }
-
     const host = url.hostname.toLowerCase();
     const allowedHosts = ["youtube.com", "www.youtube.com", "m.youtube.com", "youtu.be", "www.youtu.be"];
     const isShortLink = (host === "youtu.be" || host === "www.youtu.be") && /^\/[A-Za-z0-9_-]{11}\/?$/.test(url.pathname);
@@ -518,7 +534,6 @@ $("recordForm").addEventListener("submit", event => {
     }
   }
 
-  // Guardar
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     const latest = raw === null ? [] : JSON.parse(raw);
@@ -529,7 +544,7 @@ $("recordForm").addEventListener("submit", event => {
 
     const updated = [
       ...latest,
-      { name, country, ms, youtube, created: Date.now() }
+      { gameName, category, name, country, ms, youtube, created: Date.now() }
     ];
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
