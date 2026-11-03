@@ -2,245 +2,149 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SpeedRun Hub · Panel de gestión</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SpeedRun Hub</title>
 <style>
-:root{
-  --bg:#f4f7f5;--surface:#fff;--green:#166347;
-  --green-soft:#e9f4ee;--ink:#172b21;--muted:#68786e;
-  --line:#e1e9e4;--red:#b33b43;--radius:18px
-}
 *{box-sizing:border-box}
-body{
-  margin:0;background:var(--bg);color:var(--ink);
-  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif
-}
+body{margin:0;background:#f4f7f5;color:#183225;font-family:system-ui,sans-serif}
+header{background:white;border-bottom:1px solid #dce7df;padding:22px}
+header div,main{max-width:850px;margin:auto}
+header div{font-size:25px;font-weight:800;color:#166347}
+main{padding:20px 15px 50px}
 button,input,select{font:inherit}
-button{cursor:pointer}
-button:focus-visible,input:focus-visible,select:focus-visible{
-  outline:3px solid #6eaf8b;outline-offset:3px
-}
-header{background:white;border-bottom:1px solid var(--line)}
-.wrap{max-width:1160px;margin:auto;padding:0 20px}
-.header-inner{
-  min-height:80px;display:flex;justify-content:space-between;
-  align-items:center;gap:16px;flex-wrap:wrap
-}
-.logo{font-size:24px;font-weight:850;color:var(--green)}
-.logo span{color:var(--ink)}
-.local-label,.note{font-size:12px;color:var(--muted)}
-main{padding-top:30px!important;padding-bottom:50px!important}
-h1{font-size:clamp(28px,5vw,40px);margin:10px 0}
-h2{font-size:19px;margin:0}
-p{color:var(--muted);line-height:1.6}
-.timer-card{
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:20px;background:var(--green);color:white;
-  padding:26px;border-radius:var(--radius);margin:25px 0
-}
-.clock{
-  font-size:clamp(28px,7vw,52px);font-weight:800;
-  font-variant-numeric:tabular-nums
-}
-.actions{display:flex;gap:8px;flex-wrap:wrap}
-.btn{
-  border:1px solid transparent;border-radius:10px;
-  padding:11px 15px;font-size:13px;font-weight:700;
-  background:var(--green);color:white
-}
-.btn.secondary{background:white;color:var(--green);border-color:var(--line)}
-.btn.danger{background:#fff0f1;color:var(--red)}
-.btn.small{padding:8px 10px;font-size:12px}
-.tabs{
-  display:flex;gap:6px;overflow:auto;padding:5px;
-  background:#edf2ee;border-radius:13px;margin-bottom:22px
-}
-.tab{
-  border:0;background:transparent;padding:12px 16px;
-  white-space:nowrap;border-radius:9px;color:var(--muted);font-weight:700
-}
-.tab.active{background:white;color:var(--green)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:22px}
-.card{
-  background:white;border:1px solid var(--line);
-  border-radius:var(--radius);padding:24px;margin-bottom:20px
-}
-.grid .card{margin-bottom:0}
-.form{display:grid;gap:14px;margin-top:18px}
-label{display:grid;gap:7px;font-size:13px;font-weight:650;color:var(--muted)}
-input,select{
-  width:100%;min-width:0;padding:12px;border:1px solid var(--line);
-  border-radius:10px;background:#fbfcfb;color:var(--ink)
-}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.section-top{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:16px;flex-wrap:wrap;margin-bottom:18px
-}
-.section-top label{min-width:180px}
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;text-align:left}
-th{
-  font-size:11px;text-transform:uppercase;color:var(--muted);
-  padding:13px 10px;border-bottom:1px solid var(--line)
-}
-td{font-size:13px;padding:15px 10px;border-bottom:1px solid var(--line)}
-.time{font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
-.badge{display:inline-block;padding:6px 9px;border-radius:7px;font-size:11px}
-.accepted{background:#e9f4ee;color:var(--green)}
-.pending{background:#fff6e4;color:#946414}
-.rejected,.removed{background:#fff0f1;color:var(--red)}
-.empty{text-align:center;padding:30px;color:var(--muted)}
-.wr-card{background:linear-gradient(120deg,#123e2d,#196e4d);color:white}
-.wr-card p{color:#d2eadd}
-.wr-title{font-size:15px;font-weight:800;letter-spacing:1px}
-.wr-time{font-size:clamp(28px,6vw,48px);font-weight:850;margin:12px 0}
-a{color:var(--green)}
+button{border:0;border-radius:9px;padding:11px 15px;background:#166347;color:white;cursor:pointer}
+button.secondary{background:#e7f0e9;color:#166347}
+button.danger{background:#ffe9e9;color:#a02a35}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #83b796;outline-offset:2px}
+nav,.actions{display:flex;gap:8px;flex-wrap:wrap}
+nav{margin-bottom:20px}
+.card{background:white;padding:22px;border:1px solid #dce7df;border-radius:16px;margin-bottom:20px}
+h1,h2{margin:0 0 18px}
+h1{font-size:25px}h2{font-size:19px}
+.wr{background:#166347;color:white}
+.wr-title{font-weight:800;font-size:16px}
+.wr-time{font-size:clamp(29px,7vw,44px);font-weight:850;margin:12px 0}
+.time{font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:750}
+table{width:100%;border-collapse:collapse}
+th,td{padding:16px 5px;text-align:left;border-bottom:1px solid #e2ebe5}
+th{font-size:12px;color:#718176}
+th:last-child,td:last-child{text-align:right}
+tbody tr:last-child td{border-bottom:0}
+.flag{font-size:22px;margin-right:8px}
+.player{font-weight:650;overflow-wrap:anywhere}
+form{display:grid;gap:13px}
+label{display:grid;gap:7px;font-size:13px;color:#526b5c}
+input,select{width:100%;padding:12px;border:1px solid #dce7df;border-radius:9px;background:#fbfcfb}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.entry{padding:16px 0;border-bottom:1px solid #e2ebe5}
+.entry:last-child{border:0}
+.entry p{line-height:1.6;margin:0 0 12px}
+.note,.empty{color:#65796b;font-size:13px;line-height:1.6}
+.empty{text-align:center;padding:22px}
+.clock{font-size:32px;font-weight:800;margin-bottom:15px}
 [hidden]{display:none!important}
-#toast{
-  position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
-  max-width:92%;background:var(--ink);color:white;
-  padding:14px 20px;border-radius:12px;z-index:20
-}
-@media(max-width:760px){
-  .grid,.row{grid-template-columns:1fr}
-  .card{padding:18px}
-  .header-inner{padding-top:15px;padding-bottom:15px}
-}
+#message{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#183225;color:white;padding:14px 20px;border-radius:12px;max-width:92%;z-index:10}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.card{padding:17px}td{font-size:14px}}
 </style>
 </head>
 <body>
-<header>
-  <div class="wrap header-inner">
-    <div class="logo">SpeedRun<span> Hub</span></div>
-    <span class="local-label">Panel local · Sin autenticación</span>
-  </div>
-</header>
+<header><div>SpeedRun Hub</div></header>
 
-<main class="wrap">
-  <h1>Cada récord, en orden.</h1>
-  <p>Registra jugadores, revisa tiempos y aprueba los récords.</p>
+<main>
+<nav aria-label="Secciones">
+  <button id="publicButton" aria-pressed="true">Clasificación</button>
+  <button id="manageButton" class="secondary" aria-pressed="false">Registro y gestión</button>
+</nav>
 
-  <section class="timer-card" aria-label="Cronómetro">
-    <div>
-      <div>Cronómetro</div>
-      <div id="clock" class="clock">00:00:00.000</div>
-    </div>
-    <div class="actions">
-      <button id="start" class="btn secondary">Iniciar</button>
-      <button id="reset" class="btn secondary">Reiniciar</button>
-      <button id="useTime" class="btn secondary">Usar tiempo</button>
-    </div>
-  </section>
+<section id="publicPanel">
+  <article class="card wr">
+    <div class="wr-title">WR 🌏</div>
+    <div id="wrTime" class="wr-time time">00:00:00.000</div>
+    <div id="wrName">Sin récords aprobados</div>
+  </article>
 
-  <nav class="tabs" aria-label="Secciones">
-    <button class="tab active" data-tab="ranking" aria-pressed="true">Clasificación</button>
-    <button class="tab" data-tab="players" aria-pressed="false">Jugadores</button>
-    <button class="tab" data-tab="records" aria-pressed="false">Revisar récords</button>
-    <button class="tab" data-tab="removed" aria-pressed="false">Eliminados</button>
-  </nav>
+  <article class="card">
+    <h1>Clasificación</h1>
+    <table>
+      <thead><tr><th scope="col">Jugador</th><th scope="col">Tiempo</th></tr></thead>
+      <tbody id="ranking"></tbody>
+    </table>
+    <p id="emptyRanking" class="empty">Todavía no hay tiempos aprobados.</p>
+  </article>
+</section>
 
-  <section class="grid">
+<section id="managePanel" hidden>
+  <div class="grid">
     <article class="card">
-      <h2>Registrar jugador</h2>
-      <p>Escribe el nombre. Después podrás aceptar al jugador.</p>
-      <form id="playerForm" class="form">
-        <label>Nombre del jugador
-          <input id="playerName" placeholder="Escribe tu nombre" maxlength="40" required>
+      <h2 id="playerTitle">Registrar jugador</h2>
+      <form id="playerForm">
+        <label>Nombre
+          <input id="name" maxlength="40" placeholder="Escribe tu nombre" required>
         </label>
-        <button class="btn">Registrar jugador</button>
-      </form>
-    </article>
-
-    <article class="card">
-      <h2>Enviar récord</h2>
-      <form id="recordForm" class="form">
-        <label>Nombre del jugador
-          <input id="recordName" placeholder="Escribe tu nombre" maxlength="40" required>
+        <label>País
+          <select id="country" required></select>
         </label>
-        <div class="row">
-          <label>Categoría
-            <input id="category" placeholder="Por ejemplo: Any%" maxlength="40" required>
-          </label>
-          <label>Tiempo · HH:MM:SS.mmm
-            <input id="recordTime" value="00:00:00.000"
-              pattern="[0-9]{2}:[0-5][0-9]:[0-5][0-9]\.[0-9]{3}"
-              title="Ejemplo: 00:01:23.456" required>
-          </label>
+        <div class="actions">
+          <button id="savePlayer">Registrar jugador</button>
+          <button id="cancelEdit" type="button" class="secondary" hidden>Cancelar</button>
         </div>
-        <label>Evidencia opcional
-          <input id="evidence" type="url" placeholder="https://...">
-        </label>
-        <button class="btn">Enviar récord</button>
       </form>
-      <p class="note">Si el nombre no existe, se registra como pendiente.</p>
     </article>
-  </section>
 
-  <section id="ranking">
     <article class="card">
-      <div class="section-top">
-        <h2>Clasificación · Menor a mayor tiempo</h2>
-        <label>Categoría
-          <select id="categoryFilter"></select>
+      <h2>Enviar tiempo</h2>
+      <form id="recordForm">
+        <label>Nombre del jugador registrado
+          <input id="recordName" maxlength="40" placeholder="Escribe tu nombre" required>
         </label>
-      </div>
-      <p class="note">Mejor tiempo aprobado de cada jugador aceptado.</p>
-      <div id="rankingTable" class="table-wrap"></div>
+        <label>Tiempo · HH:MM:SS.mmm
+          <input id="recordTime" value="00:00:00.000"
+            pattern="[0-9]{2}:[0-5][0-9]:[0-5][0-9]\.[0-9]{3}"
+            title="Ejemplo: 00:00:08.617" required>
+        </label>
+        <button>Enviar tiempo</button>
+      </form>
     </article>
+  </div>
 
-    <article class="card wr-card">
-      <div class="wr-title">WR 🌏 · MEJOR TIEMPO HISTÓRICO</div>
-      <div id="wrTime" class="wr-time time">00:00:00.000</div>
-      <div id="wrDetails">Todavía no hay récords aprobados.</div>
-      <p class="note">
-        Solo muestra el menor tiempo aprobado de la categoría seleccionada.
-        Se conserva aunque elimines al jugador de la clasificación.
-      </p>
-    </article>
-  </section>
+  <article class="card">
+    <h2>Cronómetro</h2>
+    <div id="clock" class="clock time">00:00:00.000</div>
+    <div class="actions">
+      <button id="start">Iniciar</button>
+      <button id="reset" class="secondary">Reiniciar</button>
+      <button id="useTime" class="secondary">Usar tiempo</button>
+    </div>
+  </article>
 
-  <section id="players" hidden>
-    <article class="card">
-      <h2>Jugadores</h2>
-      <div id="playersTable" class="table-wrap"></div>
-    </article>
-  </section>
+  <article class="card">
+    <h2>Jugadores</h2>
+    <div id="players"></div>
+  </article>
 
-  <section id="records" hidden>
-    <article class="card">
-      <h2>Revisar récords</h2>
-      <p class="note">
-        Retirar la aprobación excluye el tiempo de la clasificación y del WR.
-      </p>
-      <div id="recordsTable" class="table-wrap"></div>
-    </article>
-  </section>
+  <article class="card">
+    <h2>Aprobar tiempos</h2>
+    <div id="records"></div>
+  </article>
+</section>
 
-  <section id="removed" hidden>
-    <article class="card">
-      <h2>Jugadores eliminados</h2>
-      <p>Puedes volver a aceptarlos sin perder sus récords.</p>
-      <div id="removedTable" class="table-wrap"></div>
-    </article>
-  </section>
-
-  <p class="note">
-    Registro por nombre, sin correo ni contraseña.
-    Datos guardados únicamente en este navegador.
-    No hay autenticación ni permisos de administrador.
-    WR significa el mejor tiempo de este panel, no un récord mundial verificado.
-  </p>
+<p class="note">
+  Panel local: registro por nombre, sin correo, contraseña ni permisos de administrador.
+  Los datos se guardan en este navegador. WR indica el menor tiempo aprobado
+  de este panel, incluso si el jugador fue retirado. Todos los tiempos deben
+  corresponder a la misma prueba; no es un récord mundial verificado.
+</p>
 </main>
 
-<div id="toast" role="status" hidden></div>
+<div id="message" role="status" hidden></div>
 
 <script>
 "use strict";
 
 const $ = id => document.getElementById(id);
 const KEY = "speedrun-hub-panel-v2";
-let state = {players:[], records:[]};
+let state = {players:[],records:[]};
+let editing = null;
 
 try {
   const saved = JSON.parse(localStorage.getItem(KEY));
@@ -248,336 +152,283 @@ try {
     state = saved;
   }
 } catch {
-  alert("No se pudieron cargar los datos guardados.");
+  alert("No se pudieron cargar los datos locales.");
 }
 
-const labels = {
-  pending:"Pendiente", accepted:"Aceptado",
-  rejected:"Rechazado", removed:"Eliminado"
+const countries = {
+  AR:"Argentina",BO:"Bolivia",BR:"Brasil",CA:"Canadá",CL:"Chile",
+  CO:"Colombia",CR:"Costa Rica",CU:"Cuba",EC:"Ecuador",SV:"El Salvador",
+  ES:"España",US:"Estados Unidos",GT:"Guatemala",HN:"Honduras",
+  MX:"México",NI:"Nicaragua",PA:"Panamá",PY:"Paraguay",PE:"Perú",
+  PR:"Puerto Rico",DO:"República Dominicana",UY:"Uruguay",VE:"Venezuela",
+  DE:"Alemania",AU:"Australia",CN:"China",KR:"Corea del Sur",
+  FR:"Francia",IN:"India",IT:"Italia",JP:"Japón",NL:"Países Bajos",
+  PT:"Portugal",GB:"Reino Unido",CH:"Suiza"
 };
 
-const esc = value => String(value).replace(/[&<>"']/g, c => ({
+const esc = text => String(text).replace(/[&<>"']/g,c=>({
   "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
 }[c]));
 
-const normalize = value =>
-  value.trim().normalize("NFKC").toLocaleLowerCase("es");
+const norm = text => text.trim().normalize("NFKC").toLocaleLowerCase("es");
+const getPlayer = id => state.players.find(p=>p.id===id);
+const uid = () => globalThis.crypto?.randomUUID
+  ? crypto.randomUUID()
+  : Date.now().toString(36)+Math.random().toString(36).slice(2);
 
-const uid = () => {
-  if (globalThis.crypto?.randomUUID) return crypto.randomUUID();
-  return Date.now().toString(36) + Math.random().toString(36).slice(2);
-};
-
-const playerById = id => state.players.find(p => p.id === id);
-
-function badge(status) {
-  const valid = Object.hasOwn(labels, status) ? status : "pending";
-  return `<span class="badge ${valid}">${labels[valid]}</span>`;
+function flag(code) {
+  return /^[A-Z]{2}$/.test(code || "")
+    ? [...code].map(c=>String.fromCodePoint(127397+c.charCodeAt(0))).join("")
+    : "🌐";
 }
 
-function toast(message) {
-  $("toast").textContent = message;
-  $("toast").hidden = false;
-  clearTimeout(toast.timer);
-  toast.timer = setTimeout(() => $("toast").hidden = true, 4000);
+$("country").add(new Option("Selecciona tu país",""));
+Object.entries(countries)
+  .sort((a,b)=>a[1].localeCompare(b[1],"es"))
+  .forEach(([code,name])=>{
+    $("country").add(new Option(`${flag(code)} ${name}`,code));
+  });
+
+function message(text) {
+  $("message").textContent = text;
+  $("message").hidden = false;
+  clearTimeout(message.timer);
+  message.timer = setTimeout(()=>$("message").hidden=true,4000);
 }
 
-function save(message) {
+function save(text) {
+  let saved = true;
   try {
-    localStorage.setItem(KEY, JSON.stringify(state));
-    render();
-    toast(message);
+    localStorage.setItem(KEY,JSON.stringify(state));
   } catch {
-    render();
-    toast("No se pudo guardar. Los cambios podrían perderse al cerrar.");
+    saved = false;
   }
+  render();
+  message(saved ? text : "No se pudo guardar. Los cambios podrían perderse al cerrar.");
 }
 
-function formatTime(ms) {
-  ms = Math.max(0, Math.floor(ms));
-  const h = Math.floor(ms / 3600000);
-  const m = Math.floor(ms / 60000) % 60;
-  const s = Math.floor(ms / 1000) % 60;
-  return `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:` +
-    `${String(s).padStart(2,"0")}.${String(ms % 1000).padStart(3,"0")}`;
+function format(ms) {
+  ms = Math.max(0,Math.floor(ms));
+  return [
+    Math.floor(ms/3600000),
+    Math.floor(ms/60000)%60,
+    Math.floor(ms/1000)%60
+  ].map(n=>String(n).padStart(2,"0")).join(":")+
+    "."+String(ms%1000).padStart(3,"0");
 }
 
-function parseTime(value) {
-  const m = /^(\d{2}):([0-5]\d):([0-5]\d)\.(\d{3})$/.exec(value);
+function parse(text) {
+  const m = /^(\d{2}):([0-5]\d):([0-5]\d)\.(\d{3})$/.exec(text);
   return m ? +m[1]*3600000 + +m[2]*60000 + +m[3]*1000 + +m[4] : null;
 }
 
 function button(action,id,text,danger=false) {
-  return `<button type="button"
-    class="btn small ${danger ? "danger" : "secondary"}"
+  return `<button type="button" class="${danger?"danger":"secondary"}"
     data-action="${action}" data-id="${esc(id)}">${text}</button>`;
 }
 
-function table(headers,rows,message) {
-  if (!rows.length) return `<div class="empty">${esc(message)}</div>`;
-  return `<table><thead><tr>` +
-    headers.map(h=>`<th scope="col">${h}</th>`).join("") +
-    `</tr></thead><tbody>` +
-    rows.map(row=>`<tr>${row.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("") +
-    `</tbody></table>`;
-}
-
-function renderPlayers(removed) {
-  const list = state.players.filter(p =>
-    removed ? p.status === "removed" : p.status !== "removed"
-  );
-  const rows = list.map(p=>[
-    esc(p.name),
-    badge(p.status),
-    `<div class="actions">
-      ${button("edit",p.id,"Editar nombre")}
-      ${p.status === "accepted"
-        ? button("remove",p.id,"Eliminar",true)
-        : button("acceptPlayer",p.id,removed ? "Volver a aceptar" : "Aceptar")}
-    </div>`
-  ]);
-  $(removed ? "removedTable" : "playersTable").innerHTML =
-    table(["Jugador","Estado","Acciones"],rows,"No hay jugadores en esta sección.");
-}
-
-function renderRecords() {
-  const list = [...state.records].sort((a,b)=>b.created-a.created);
-  const rows = list.map(r=>[
-    esc(playerById(r.playerId)?.name || "Jugador no disponible"),
-    esc(r.category),
-    `<span class="time">${formatTime(r.ms)}</span>`,
-    esc(new Date(r.created).toLocaleString("es")),
-    badge(r.status),
-    /^https?:\/\//i.test(r.evidence || "")
-      ? `<a href="${esc(r.evidence)}" target="_blank"
-           rel="noopener noreferrer">Ver</a>` : "—",
-    `<div class="actions">${
-      r.status === "pending"
-        ? button("approve",r.id,"Aceptar récord") +
-          button("reject",r.id,"Rechazar",true)
-        : button("review",r.id,"Volver a revisar")
-    }</div>`
-  ]);
-  $("recordsTable").innerHTML = table(
-    ["Jugador","Categoría","Tiempo","Fecha","Estado","Evidencia","Acciones"],
-    rows,"Todavía no hay récords."
-  );
-}
-
-function renderRanking() {
-  const category = $("categoryFilter").value;
-
-  const historical = state.records.filter(r =>
-    r.status === "accepted" && r.category === category &&
-    Number.isFinite(r.ms) && r.ms > 0
+function render() {
+  const approved = state.records.filter(r=>
+    r.status==="accepted" && Number.isFinite(r.ms) && r.ms>0
   ).sort((a,b)=>a.ms-b.ms || a.created-b.created);
 
   const seen = new Set();
-  const ranking = historical.filter(r=>{
-    const p = playerById(r.playerId);
-    if (!p || p.status !== "accepted" || seen.has(p.id)) return false;
+  const ranking = approved.filter(r=>{
+    const p = getPlayer(r.playerId);
+    if (!p || p.status!=="accepted" || seen.has(p.id)) return false;
     seen.add(p.id);
     return true;
   });
 
-  let position = 0;
-  let previous = null;
-  const rows = ranking.map((r,index)=>{
-    if (r.ms !== previous) position = index + 1;
-    previous = r.ms;
-    const medal = position === 1 ? "🥇 " :
-      position === 2 ? "🥈 " : position === 3 ? "🥉 " : "";
-    return [
-      medal + position,
-      esc(playerById(r.playerId).name),
-      esc(r.category),
-      `<span class="time">${formatTime(r.ms)}</span>`
-    ];
-  });
+  $("ranking").innerHTML = ranking.map(r=>{
+    const p = getPlayer(r.playerId);
+    return `<tr>
+      <td class="player"><span class="flag">${flag(p.country)}</span>${esc(p.name)}</td>
+      <td class="time">${format(r.ms)}</td>
+    </tr>`;
+  }).join("");
+  $("emptyRanking").hidden = ranking.length>0;
 
-  $("rankingTable").innerHTML = table(
-    ["Puesto","Jugador","Categoría","Mejor tiempo"],
-    rows,"No hay tiempos aprobados de jugadores aceptados."
-  );
+  const wr = approved[0];
+  $("wrTime").textContent = wr ? format(wr.ms) : "00:00:00.000";
+  $("wrName").textContent = wr
+    ? [...new Set(approved.filter(r=>r.ms===wr.ms).map(r=>r.playerId))]
+      .map(id=>{
+        const p = getPlayer(id);
+        return p ? `${flag(p.country)} ${p.name}` : "Jugador no disponible";
+      }).join(" · ")
+    : "Sin récords aprobados";
 
-  const wr = historical[0];
-  $("wrTime").textContent = wr ? formatTime(wr.ms) : "00:00:00.000";
+  $("players").innerHTML = state.players.map(p=>{
+    const status = p.status==="accepted" ? "Aceptado" :
+      p.status==="removed" ? "Eliminado" : "Pendiente";
+    return `<div class="entry">
+      <p>${flag(p.country)} ${esc(p.name)} · ${status}</p>
+      <div class="actions">
+        ${button("edit",p.id,"Editar")}
+        ${p.status==="accepted"
+          ? button("remove",p.id,"Eliminar",true)
+          : button("accept",p.id,p.status==="removed"?"Volver a aceptar":"Aceptar")}
+      </div>
+    </div>`;
+  }).join("") || '<p class="empty">Sin jugadores registrados.</p>';
 
-  if (!wr) {
-    $("wrDetails").textContent = "Todavía no hay récords aprobados en esta categoría.";
-    return;
-  }
-
-  const ids = [...new Set(
-    historical.filter(r=>r.ms === wr.ms).map(r=>r.playerId)
-  )];
-  const holders = ids.map(id=>playerById(id)?.name || "Jugador no disponible");
-  $("wrDetails").textContent =
-    `${holders.join(" · ")} | ${category} | ` +
-    new Date(wr.created).toLocaleDateString("es") +
-    (ids.length > 1 ? " | Récord compartido" : "");
+  $("records").innerHTML = [...state.records]
+    .sort((a,b)=>b.created-a.created)
+    .map(r=>{
+      const p = getPlayer(r.playerId);
+      const status = r.status==="accepted" ? "Aprobado" :
+        r.status==="rejected" ? "Rechazado" : "Pendiente";
+      return `<div class="entry">
+        <p>${flag(p?.country)} ${esc(p?.name || "Jugador no disponible")}
+          · <span class="time">${format(r.ms)}</span> · ${status}</p>
+        <div class="actions">
+          ${r.status==="pending"
+            ? button("approve",r.id,"Aceptar tiempo")+button("reject",r.id,"Rechazar",true)
+            : button("review",r.id,"Volver a revisar")}
+        </div>
+      </div>`;
+    }).join("") || '<p class="empty">Sin tiempos enviados.</p>';
 }
 
-function render() {
-  const previous = $("categoryFilter").value;
-  const categories = [...new Set(state.records.map(r=>r.category))]
-    .sort((a,b)=>a.localeCompare(b,"es"));
-
-  $("categoryFilter").replaceChildren();
-  if (!categories.length) {
-    $("categoryFilter").add(new Option("Sin categorías",""));
-  } else {
-    categories.forEach(c=>$("categoryFilter").add(new Option(c,c)));
-    if (categories.includes(previous)) $("categoryFilter").value = previous;
-  }
-
-  renderPlayers(false);
-  renderPlayers(true);
-  renderRecords();
-  renderRanking();
+function showManagement(show) {
+  $("publicPanel").hidden = show;
+  $("managePanel").hidden = !show;
+  $("publicButton").classList.toggle("secondary",show);
+  $("manageButton").classList.toggle("secondary",!show);
+  $("publicButton").setAttribute("aria-pressed",String(!show));
+  $("manageButton").setAttribute("aria-pressed",String(show));
 }
 
-$("playerForm").addEventListener("submit",event=>{
-  event.preventDefault();
-  const name = $("playerName").value.trim();
-  if (!name) return toast("Escribe un nombre.");
-  if (state.players.some(p=>normalize(p.name) === normalize(name))) {
-    return toast("Ese nombre ya existe. Revisa Jugadores o Eliminados.");
-  }
-  state.players.push({id:uid(),name,status:"pending"});
+$("publicButton").onclick = ()=>showManagement(false);
+$("manageButton").onclick = ()=>showManagement(true);
+
+function cancelEdit() {
+  editing = null;
   $("playerForm").reset();
-  save("Jugador registrado. Ahora puedes aceptarlo.");
-});
+  $("playerTitle").textContent = "Registrar jugador";
+  $("savePlayer").textContent = "Registrar jugador";
+  $("cancelEdit").hidden = true;
+}
+$("cancelEdit").onclick = cancelEdit;
 
-$("recordForm").addEventListener("submit",event=>{
+$("playerForm").onsubmit = event=>{
   event.preventDefault();
-  const name = $("recordName").value.trim();
-  let category = $("category").value.trim();
-  const ms = parseTime($("recordTime").value.trim());
-  const evidence = $("evidence").value.trim();
-
-  if (!name || !category) return toast("Completa nombre y categoría.");
-  if (ms === null || ms <= 0) return toast("El tiempo debe ser válido y mayor que cero.");
-  if (evidence && !/^https?:\/\//i.test(evidence)) {
-    return toast("Usa un enlace que comience con http:// o https://.");
+  const name = $("name").value.trim();
+  const country = $("country").value;
+  if (!name || !countries[country]) return message("Completa nombre y país.");
+  if (state.players.some(p=>p.id!==editing && norm(p.name)===norm(name))) {
+    return message("Ese nombre ya existe. Usa otro nombre.");
   }
 
-  let player = state.players.find(p=>normalize(p.name) === normalize(name));
-  if (player?.status === "removed") {
-    return toast("Primero vuelve a aceptar al jugador en Eliminados.");
-  }
-  if (!player) {
-    player = {id:uid(),name,status:"pending"};
-    state.players.push(player);
+  if (editing) {
+    const p = getPlayer(editing);
+    if (!p) return message("Jugador no encontrado.");
+    p.name = name;
+    p.country = country;
+  } else {
+    state.players.push({id:uid(),name,country,status:"pending"});
   }
 
-  const existing = state.records.find(r=>normalize(r.category) === normalize(category));
-  if (existing) category = existing.category;
+  cancelEdit();
+  save("Jugador guardado.");
+};
+
+$("recordForm").onsubmit = event=>{
+  event.preventDefault();
+  const p = state.players.find(p=>norm(p.name)===norm($("recordName").value));
+  const ms = parse($("recordTime").value.trim());
+
+  if (!p) return message("Primero registra al jugador.");
+  if (p.status==="removed") return message("Primero vuelve a aceptar al jugador.");
+  if (ms===null || ms<=0) return message("Escribe un tiempo válido mayor que cero.");
 
   state.records.push({
-    id:uid(),playerId:player.id,category,ms,evidence,
-    status:"pending",created:Date.now()
+    id:uid(),playerId:p.id,ms,status:"pending",created:Date.now()
   });
-
   $("recordForm").reset();
-  $("recordTime").value = "00:00:00.000";
-  save("Récord enviado. Falta aprobarlo.");
-});
+  save("Tiempo enviado. Falta aprobarlo.");
+};
 
 document.addEventListener("click",event=>{
   const target = event.target.closest("button[data-action]");
   if (!target) return;
   const {action,id} = target.dataset;
-  const p = playerById(id);
-  const r = state.records.find(record=>record.id === id);
+  const p = getPlayer(id);
+  const r = state.records.find(r=>r.id===id);
 
-  if (action === "edit" && p) {
-    const entered = prompt("Editar nombre:",p.name);
-    if (entered === null) return;
-    const name = entered.trim();
-    if (!name || name.length > 40) return toast("Usa entre 1 y 40 caracteres.");
-    if (state.players.some(other=>
-      other.id !== p.id && normalize(other.name) === normalize(name)
-    )) return toast("Ese nombre está en uso. Escribe otro.");
-    p.name = name;
-  } else if (action === "remove" && p) {
-    if (!confirm(`¿Retirar a ${p.name}? Sus récords no se borrarán.`)) return;
-    p.status = "removed";
-  } else if (action === "acceptPlayer" && p) {
+  if (action==="edit" && p) {
+    editing = p.id;
+    $("name").value = p.name;
+    $("country").value = p.country || "";
+    $("playerTitle").textContent = "Editar jugador";
+    $("savePlayer").textContent = "Guardar cambios";
+    $("cancelEdit").hidden = false;
+    $("playerForm").scrollIntoView({behavior:"smooth",block:"center"});
+    return;
+  }
+
+  if (action==="accept" && p) {
     p.status = "accepted";
-  } else if (action === "approve" && r) {
-    if (playerById(r.playerId)?.status !== "accepted") {
-      return toast("Primero acepta al jugador.");
+  } else if (action==="remove" && p) {
+    if (!confirm(`¿Retirar a ${p.name}? Sus récords se conservarán.`)) return;
+    p.status = "removed";
+  } else if (action==="approve" && r) {
+    if (getPlayer(r.playerId)?.status!=="accepted") {
+      return message("Primero acepta al jugador.");
     }
     r.status = "accepted";
-  } else if (action === "reject" && r) {
+  } else if (action==="reject" && r) {
     r.status = "rejected";
-  } else if (action === "review" && r) {
-    if (r.status === "accepted" &&
-      !confirm("¿Retirar aprobación? Dejará de contar en la clasificación y el WR.")) {
-      return;
-    }
+  } else if (action==="review" && r) {
+    if (r.status==="accepted" &&
+      !confirm("¿Retirar aprobación? Dejará de contar en la clasificación y el WR.")) return;
     r.status = "pending";
   } else return;
 
   save("Cambios guardados.");
 });
 
-document.querySelectorAll("[data-tab]").forEach(tab=>{
-  tab.addEventListener("click",()=>{
-    document.querySelectorAll("[data-tab]").forEach(button=>{
-      const active = button === tab;
-      button.classList.toggle("active",active);
-      button.setAttribute("aria-pressed",String(active));
-      $(button.dataset.tab).hidden = !active;
-    });
-  });
-});
-
-$("categoryFilter").addEventListener("change",renderRanking);
-
-let elapsed = 0;
-let startedAt = 0;
-let running = false;
-let frame;
-const currentTime = ()=>elapsed + (running ? performance.now()-startedAt : 0);
+let elapsed=0,startedAt=0,running=false,frame;
+const currentTime = ()=>elapsed+(running?performance.now()-startedAt:0);
 
 function tick() {
-  $("clock").textContent = formatTime(currentTime());
-  if (running) frame = requestAnimationFrame(tick);
+  $("clock").textContent = format(currentTime());
+  if (running) frame=requestAnimationFrame(tick);
 }
 
-$("start").addEventListener("click",()=>{
+$("start").onclick = ()=>{
   if (running) {
-    elapsed = currentTime();
-    running = false;
+    elapsed=currentTime();
+    running=false;
     cancelAnimationFrame(frame);
-    $("start").textContent = "Continuar";
+    $("start").textContent="Continuar";
     tick();
   } else {
-    startedAt = performance.now();
-    running = true;
-    $("start").textContent = "Pausar";
+    startedAt=performance.now();
+    running=true;
+    $("start").textContent="Pausar";
     tick();
   }
-});
+};
 
-$("reset").addEventListener("click",()=>{
-  running = false;
-  elapsed = 0;
+$("reset").onclick = ()=>{
+  running=false;
+  elapsed=0;
   cancelAnimationFrame(frame);
-  $("start").textContent = "Iniciar";
+  $("start").textContent="Iniciar";
   tick();
-});
+};
 
-$("useTime").addEventListener("click",()=>{
-  const ms = Math.floor(currentTime());
-  if (ms <= 0) return toast("Primero registra un tiempo mayor que cero.");
-  if (ms >= 360000000) return toast("El formulario admite menos de 100 horas.");
-  $("recordTime").value = formatTime(ms);
+$("useTime").onclick = ()=>{
+  const ms=Math.floor(currentTime());
+  if (ms<=0 || ms>=360000000) {
+    return message("Usa un tiempo mayor que cero y menor de 100 horas.");
+  }
+  $("recordTime").value=format(ms);
   $("recordTime").scrollIntoView({behavior:"smooth",block:"center"});
-  toast("Tiempo copiado al formulario.");
-});
+  message("Tiempo copiado.");
+};
 
 render();
 </script>
