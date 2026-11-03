@@ -206,8 +206,7 @@ a {color:var(--green)}
             <input id="category" placeholder="Por ejemplo: Any%" maxlength="40" required>
           </label>
           <label>Tiempo · HH:MM:SS.mmm
-            <input id="recordTime" value="00:00:00.000"
-              pattern="[0-9]{2}:[0-5][0-9]:[0-5][0-9]\.[0-9]{3}" required>
+            <input id="recordTime" value="00:00:00.000" required>
           </label>
         </div>
         <button class="btn" type="submit">Enviar récord</button>
@@ -310,10 +309,9 @@ a {color:var(--green)}
 <div id="toast" hidden></div>
 
 <script>
-// --- ESTADO Y PERSISTENCIA ---
 let state = JSON.parse(localStorage.getItem('speedrun_hub_state')) || {
-  players: [], // {id, name, status: 'accepted' | 'pending' | 'removed'}
-  records: []  // {id, playerId, playerName, category, time, status: 'accepted' | 'pending' | 'rejected' | 'removed'}
+  players: [],
+  records: []
 };
 
 function saveState() {
@@ -327,7 +325,6 @@ function showToast(message) {
   setTimeout(() => { toast.hidden = true; }, 3000);
 }
 
-// --- CRONÓMETRO ---
 let timerInterval = null;
 let startTime = 0;
 let elapsedTime = 0;
@@ -382,7 +379,6 @@ useTimeBtn.addEventListener('click', () => {
   showToast('Tiempo copiado al formulario de récord.');
 });
 
-// --- PESTAÑAS (TABS) ---
 const tabs = document.querySelectorAll('.tab');
 const tabPanes = document.querySelectorAll('.tab-pane');
 
@@ -406,7 +402,6 @@ tabs.forEach(tab => {
   });
 });
 
-// --- GESTIÓN DE JUGADORES ---
 const playerForm = document.getElementById('playerForm');
 const playerNameInput = document.getElementById('playerName');
 const recordPlayerSelect = document.getElementById('recordPlayer');
@@ -419,7 +414,7 @@ playerForm.addEventListener('submit', (e) => {
   const newPlayer = {
     id: 'p_' + Date.now(),
     name: name,
-    status: 'pending' // Por defecto pendiente de aceptación
+    status: 'pending'
   };
 
   state.players.push(newPlayer);
@@ -429,7 +424,6 @@ playerForm.addEventListener('submit', (e) => {
   showToast('Jugador registrado. Debe ser aceptado en la sección "Jugadores".');
 });
 
-// --- ENVÍO DE RÉCORDS ---
 const recordForm = document.getElementById('recordForm');
 const categoryInput = document.getElementById('category');
 const recordTimeInput = document.getElementById('recordTime');
@@ -460,7 +454,6 @@ recordForm.addEventListener('submit', (e) => {
   showToast('Récord enviado para revisión.');
 });
 
-// --- RENDERIZADO GENERAL ---
 function renderAll() {
   renderSelectPlayers();
   renderRanking();
@@ -483,8 +476,6 @@ function renderSelectPlayers() {
 function renderRanking() {
   const tbody = document.getElementById('rankingTable');
   const acceptedRecords = state.records.filter(r => r.status === 'accepted');
-  
-  // Ordenar por tiempo ascendente (HH:MM:SS.mmm se ordena lexicográficamente de forma correcta)
   acceptedRecords.sort((a, b) => a.time.localeCompare(b.time));
 
   if (acceptedRecords.length === 0) {
@@ -580,12 +571,10 @@ function renderRemovedTable() {
   tbody.innerHTML = html;
 }
 
-// --- ACCIONES DE ESTADO ---
 window.updatePlayerStatus = function(id, newStatus) {
   const player = state.players.find(p => p.id === id);
   if (player) {
     player.status = newStatus;
-    // Si se elimina un jugador, sus récords también pasan a eliminados
     if (newStatus === 'removed') {
       state.records.forEach(r => {
         if (r.playerId === id) r.status = 'removed';
@@ -613,4 +602,28 @@ window.removeRecord = function(id) {
     record.status = 'removed';
     saveState();
     renderAll();
-    showToast('Récord en
+    showToast('Récord enviado a eliminados.');
+  }
+};
+
+function translateStatus(status) {
+  const map = {
+    accepted: 'Aceptado',
+    pending: 'Pendiente',
+    rejected: 'Rechazado',
+    removed: 'Eliminado'
+  };
+  return map[status] || status;
+}
+
+function escapeHtml(str) {
+  return str.replace(/[&<>'"]/g, 
+    tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+  );
+}
+
+renderAll();
+</script>
+</body>
+</html>
+
