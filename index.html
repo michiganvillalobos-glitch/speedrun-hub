@@ -12,6 +12,7 @@
   --border: #dce7df;
   --text: #183225;
   --muted: #64766a;
+  --red: #d32f2f;
 }
 
 * { box-sizing: border-box; }
@@ -29,11 +30,27 @@ header {
   border-bottom: 1px solid var(--border);
 }
 
-.header-content, main { max-width: 800px; margin: auto; }
+.header-content {
+  max-width: 800px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 .logo { color: var(--green); font-size: 26px; font-weight: 850; }
 
-main { padding: 24px 16px 50px; }
+#adminBtn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--muted);
+  padding: 5px;
+}
+#adminBtn.active { color: var(--red); }
+
+main { max-width: 800px; margin: auto; padding: 24px 16px 50px; }
 
 nav {
   display: grid;
@@ -57,11 +74,6 @@ button {
 nav button { background: #e6eee8; color: var(--green); }
 nav button.active { background: var(--green); color: white; }
 
-button:focus-visible, input:focus-visible, select:focus-visible {
-  outline: 3px solid #85b698;
-  outline-offset: 3px;
-}
-
 .card {
   padding: 22px;
   background: white;
@@ -79,74 +91,65 @@ h1 { margin: 0 0 20px; font-size: 25px; }
   font-size: clamp(22px, 5vw, 36px);
   font-weight: 850;
   font-variant-numeric: tabular-nums;
-  overflow-wrap: anywhere;
 }
 
-/* ESTILOS PARA LAS CATEGORÍAS Y JUEGOS */
-.game-section {
+.search-box {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fbfcfb;
+}
+
+.game-group {
   margin-bottom: 30px;
+  border-left: 4px solid var(--green);
+  padding-left: 15px;
 }
-.game-section:last-child {
-  margin-bottom: 0;
-}
-.game-header {
+
+.game-title {
   font-size: 22px;
-  color: var(--green);
+  font-weight: 800;
   margin: 0 0 15px 0;
-  border-bottom: 2px solid var(--border);
-  padding-bottom: 8px;
 }
-.category-header {
-  font-size: 15px;
-  color: var(--muted);
+
+.category-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--green);
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin: 20px 0 10px 0;
+  margin: 15px 0 8px 0;
+  background: #edf5ef;
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
 }
 
 .table-container { overflow-x: auto; }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-}
+table { width: 100%; border-collapse: collapse; text-align: left; }
 
 th {
-  padding: 12px 8px;
+  padding: 10px 8px;
   border-bottom: 1px solid var(--border);
   color: var(--muted);
   font-size: 12px;
 }
 
 td {
-  padding: 18px 8px;
+  padding: 15px 8px;
   border-bottom: 1px solid var(--border);
   font-size: 15px;
 }
 
-tbody tr:last-child td { border-bottom: 0; }
 th:last-child, td:last-child { text-align: right; }
 
-.player {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  min-width: 130px;
-}
+.player { display: flex; align-items: center; gap: 9px; }
 
-.flag {
-  width: 28px;
-  height: 20px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
+.flag { width: 28px; height: 20px; object-fit: contain; }
 
-.time {
-  white-space: nowrap;
-  font-weight: 750;
-  font-variant-numeric: tabular-nums;
-}
+.time { white-space: nowrap; font-weight: 750; }
 
 .video-link {
   display: inline-block;
@@ -154,28 +157,29 @@ th:last-child, td:last-child { text-align: right; }
   color: var(--green);
   text-decoration: none;
   font-size: 12px;
-  font-weight: bold;
 }
 
-.video-link:hover { text-decoration: underline; }
+.admin-actions { display: inline-flex; gap: 5px; margin-left: 15px; }
+
+.admin-btn-icon {
+  background: none;
+  border: 1px solid var(--border);
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.admin-btn-icon.delete { color: var(--red); background: #ffebee; }
+.admin-btn-icon.edit { color: #1976d2; background: #e3f2fd; }
 
 form { display: grid; gap: 18px; }
 
-label {
-  display: grid;
-  gap: 8px;
-  color: var(--muted);
-  font-size: 14px;
-  font-weight: 650;
-}
+label { display: grid; gap: 8px; color: var(--muted); font-size: 14px; }
 
 input, select {
   width: 100%;
   padding: 13px;
   border: 1px solid var(--border);
   border-radius: 10px;
-  background: #fbfcfb;
-  color: var(--text);
 }
 
 .time-fields {
@@ -184,27 +188,23 @@ input, select {
   gap: 8px;
 }
 
-.time-fields input { padding: 12px 5px; text-align: center; }
-
 .preview {
   padding: 15px;
   background: #edf5ef;
   border-radius: 10px;
   text-align: center;
   font-weight: 800;
-  font-variant-numeric: tabular-nums;
 }
 
-.note, .empty { color: var(--muted); font-size: 13px; line-height: 1.6; }
-.empty { padding: 20px; text-align: center; }
-#notice { margin-top: 15px; }
+.note, .empty { color: var(--muted); font-size: 13px; }
+#notice { margin-top: 15px; font-weight: bold; }
 
 [hidden] { display: none !important; }
 
 @media (max-width: 480px) {
   .card { padding: 16px; }
   td { padding: 16px 4px; font-size: 13px; }
-  nav button { font-size: 13px; }
+  .admin-actions { display: flex; margin-top: 5px; margin-left: 0; }
 }
 </style>
 </head>
@@ -213,18 +213,14 @@ input, select {
 <header>
   <div class="header-content">
     <div class="logo">SpeedRun Hub</div>
+    <button id="adminBtn" title="Panel de Moderador">⚙️</button>
   </div>
 </header>
 
 <main>
   <nav aria-label="Secciones">
-    <button id="rankingButton" class="active" aria-pressed="true" type="button">
-      Tabla de clasificación
-    </button>
-
-    <button id="submitButton" aria-pressed="false" type="button">
-      Enviar el récord
-    </button>
+    <button id="rankingButton" class="active" type="button">Tabla de clasificación</button>
+    <button id="submitButton" type="button">Enviar el récord</button>
   </nav>
 
   <section id="rankingPanel">
@@ -236,73 +232,51 @@ input, select {
 
     <article class="card">
       <h1>Tabla de clasificación</h1>
-      <!-- Aquí se va a dibujar la tabla dinámica con juegos y categorías -->
+      <input type="text" id="searchGame" class="search-box" placeholder="🔍 Buscar juego...">
       <div id="rankingContainer"></div>
-
-      <p id="emptyRanking" class="empty">
-        Todavía no hay récords enviados.
-      </p>
+      <p id="emptyRanking" class="empty">Todavía no hay récords enviados.</p>
     </article>
   </section>
 
   <section id="submitPanel" hidden>
     <article class="card">
-      <h1>Enviar el récord</h1>
-
+      <h1 id="formTitle">Enviar el récord</h1>
       <form id="recordForm">
-        <!-- AQUÍ ESTÁN LOS CAMPOS NUEVOS -->
-        <label>
-          Nombre del juego
-          <input id="gameName" maxlength="50" placeholder="Ej: snake.io" value="snake.io" required>
-        </label>
-
-        <label>
-          Categoría (opcional, si la dejas vacía será "General")
-          <input id="category" maxlength="30" placeholder="Ej: Any%, Glitchless...">
-        </label>
-
-        <label>
-          Nombre del jugador
-          <input id="playerName" maxlength="40" placeholder="Escribe tu nombre" required>
-        </label>
-
-        <label>
-          País y bandera
-          <select id="country" required></select>
-        </label>
-
+        <input type="hidden" id="editRecordId">
+        <label>Nombre del juego <input id="gameName" maxlength="50" value="snake.io" required></label>
+        <label>Categoría (opcional) <input id="category" maxlength="30" placeholder="Ej: Any%"></label>
+        <label>Nombre del jugador <input id="playerName" maxlength="40" required></label>
+        <label>País y bandera <select id="country" required></select></label>
+        
         <div>
-          <p class="note">Tiempo (completa solo lo que necesites, pon 0 en lo demás)</p>
+          <p class="note">Tiempo</p>
           <div class="time-fields">
-            <label>Horas <input id="hours" type="number" min="0" max="99" step="1" placeholder="00"></label>
-            <label>Minutos <input id="minutes" type="number" min="0" max="59" step="1" placeholder="00"></label>
-            <label>Segundos <input id="seconds" type="number" min="0" max="59" step="1" placeholder="00"></label>
-            <label>Milisegundos <input id="milliseconds" type="number" min="0" max="999" step="1" placeholder="000"></label>
+            <label>Horas <input id="hours" type="number" min="0" max="99"></label>
+            <label>Minutos <input id="minutes" type="number" min="0" max="59"></label>
+            <label>Segundos <input id="seconds" type="number" min="0" max="59"></label>
+            <label>Milisegundos <input id="milliseconds" type="number" min="0" max="999"></label>
           </div>
         </div>
 
         <div id="timePreview" class="preview">00h:00m:00s.000ms</div>
-
-        <label>
-          Enlace de YouTube (opcional)
-          <input id="youtubeLink" type="url" placeholder="https://www.youtube.com/watch?v=...">
-        </label>
-
-        <button type="submit">Guardar récord</button>
+        <label>Enlace de YouTube (opcional) <input id="youtubeLink" type="url"></label>
+        
+        <button type="submit" id="submitBtn">Guardar récord</button>
+        <button type="button" id="cancelEditBtn" style="background: var(--muted); display: none;">Cancelar Edición</button>
       </form>
     </article>
   </section>
-
-  <p id="notice" role="status" aria-live="polite"></p>
+  <p id="notice" role="status"></p>
 </main>
-
 <script>
 "use strict";
 
+const ADMIN_PASSWORD = "admin123"; 
 const $ = id => document.getElementById(id);
-const STORAGE_KEY = "speedrun-simple-records-v1";
+const STORAGE_KEY = "speedrun-hub-v4"; 
 let records = [];
-let storageReady = true;
+let isAdmin = false; 
+let editingId = null;
 
 const countries = {
   AD: "Andorra", AE: "Emiratos Árabes Unidos", AF: "Afganistán", AG: "Antigua y Barbuda", AI: "Anguila", AL: "Albania", AM: "Armenia", AO: "Angola", AQ: "Antártida", AR: "Argentina", AS: "Samoa Americana", AT: "Austria", AU: "Australia", AW: "Aruba", AX: "Islas Åland", AZ: "Azerbaiyán",
@@ -333,56 +307,25 @@ const countries = {
 };
 
 function flagEmoji(code) {
-  return [...code].map(letter =>
-    String.fromCodePoint(127397 + letter.charCodeAt(0))
-  ).join("");
+  return [...code].map(letter => String.fromCodePoint(127397 + letter.charCodeAt(0))).join("");
 }
 
 $("country").add(new Option("Selecciona tu país", ""));
-Object.entries(countries)
-  .sort((a, b) => a[1].localeCompare(b[1], "es"))
-  .forEach(([code, name]) => {
-    $("country").add(new Option(`${flagEmoji(code)} ${name}`, code));
-  });
-
-function validRecord(record) {
-  return record &&
-    typeof record.gameName === "string" &&
-    typeof record.category === "string" &&
-    typeof record.name === "string" &&
-    Object.hasOwn(countries, record.country) &&
-    Number.isSafeInteger(record.ms) &&
-    record.ms > 0 &&
-    record.ms < 360000000 &&
-    Number.isFinite(record.created) &&
-    (record.youtube === undefined || typeof record.youtube === "string");
-}
+Object.entries(countries).sort((a, b) => a[1].localeCompare(b[1], "es")).forEach(([code, name]) => {
+  $("country").add(new Option(`${flagEmoji(code)} ${name}`, code));
+});
 
 try {
   const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved !== null) {
-    const parsed = JSON.parse(saved);
-    if (!Array.isArray(parsed) || !parsed.every(validRecord)) {
-      throw new Error("Datos inválidos");
-    }
-    records = parsed;
-  }
-} catch {
-  storageReady = false;
-  $("notice").textContent = "No se pudieron leer los datos guardados. No se sobrescribirán con registros nuevos.";
-}
+  if (saved !== null) records = JSON.parse(saved);
+} catch { records = []; }
 
 function formatTime(ms) {
   const hours = Math.floor(ms / 3600000);
   const minutes = Math.floor(ms / 60000) % 60;
   const seconds = Math.floor(ms / 1000) % 60;
   const milliseconds = ms % 1000;
-  return (
-    String(hours).padStart(2, "0") + "h:" +
-    String(minutes).padStart(2, "0") + "m:" +
-    String(seconds).padStart(2, "0") + "s." +
-    String(milliseconds).padStart(3, "0") + "ms"
-  );
+  return (String(hours).padStart(2, "0") + "h:" + String(minutes).padStart(2, "0") + "m:" + String(seconds).padStart(2, "0") + "s." + String(milliseconds).padStart(3, "0") + "ms");
 }
 
 function readTime() {
@@ -390,7 +333,6 @@ function readTime() {
   const m = $("minutes").value.trim() === "" ? 0 : Number($("minutes").value);
   const s = $("seconds").value.trim() === "" ? 0 : Number($("seconds").value);
   const ms = $("milliseconds").value.trim() === "" ? 0 : Number($("milliseconds").value);
-
   if (![h, m, s, ms].every(Number.isInteger)) return null;
   if (h < 0 || h > 99 || m < 0 || m > 59 || s < 0 || s > 59 || ms < 0 || ms > 999) return null;
   return h * 3600000 + m * 60000 + s * 1000 + ms;
@@ -399,60 +341,116 @@ function readTime() {
 function makePlayer(record) {
   const container = document.createElement("div");
   container.className = "player";
-
   const image = document.createElement("img");
   image.className = "flag";
   image.src = "https://flagcdn.com/w40/" + record.country.toLowerCase() + ".png";
   image.alt = countries[record.country];
-  image.width = 28;
-  image.height = 20;
-
+  image.width = 28; image.height = 20;
   image.addEventListener("error", () => {
     const fallback = document.createElement("span");
     fallback.textContent = flagEmoji(record.country);
-    fallback.setAttribute("aria-label", countries[record.country]);
     image.replaceWith(fallback);
   }, { once: true });
-
   const name = document.createElement("span");
   name.textContent = record.name;
   container.append(image, name);
   return container;
 }
 
+$("adminBtn").onclick = () => {
+  if (isAdmin) {
+    isAdmin = false;
+    $("adminBtn").classList.remove("active");
+    $("notice").textContent = "Modo moderador desactivado.";
+    render();
+  } else {
+    const pass = prompt("Introduce la contraseña de moderador:");
+    if (pass === ADMIN_PASSWORD) {
+      isAdmin = true;
+      $("adminBtn").classList.add("active");
+      $("notice").textContent = "¡Modo moderador activado!";
+      render();
+    } else if (pass !== null) { alert("Contraseña incorrecta."); }
+  }
+};
+
+function deleteRecord(id) {
+  if (!isAdmin) return;
+  if (confirm("¿Estás seguro de que quieres eliminar este récord?")) {
+    records = records.filter(r => r.created !== id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+    render();
+  }
+}
+
+function editRecord(id) {
+  if (!isAdmin) return;
+  const record = records.find(r => r.created === id);
+  if (!record) return;
+
+  $("gameName").value = record.game;
+  $("category").value = record.category;
+  $("playerName").value = record.name;
+  $("country").value = record.country;
+  $("youtubeLink").value = record.youtube || "";
+  $("hours").value = Math.floor(record.ms / 3600000);
+  $("minutes").value = Math.floor(record.ms / 60000) % 60;
+  $("seconds").value = Math.floor(record.ms / 1000) % 60;
+  $("milliseconds").value = record.ms % 1000;
+  $("timePreview").textContent = formatTime(record.ms);
+
+  editingId = id;
+  $("editRecordId").value = id;
+  $("submitBtn").textContent = "Actualizar récord";
+  $("cancelEditBtn").style.display = "block";
+  $("formTitle").textContent = "Editar récord";
+  showSubmission(true);
+}
+
+$("cancelEditBtn").onclick = () => {
+  editingId = null;
+  $("recordForm").reset();
+  $("editRecordId").value = "";
+  $("submitBtn").textContent = "Guardar récord";
+  $("cancelEditBtn").style.display = "none";
+  $("formTitle").textContent = "Enviar el récord";
+  $("timePreview").textContent = "00h:00m:00s.000ms";
+  showSubmission(false);
+};
+
 function render() {
-  $("rankingContainer").replaceChildren();
-  $("emptyRanking").hidden = records.length > 0;
+  const container = $("rankingContainer");
+  container.replaceChildren();
+  const searchTerm = $("searchGame").value.toLowerCase();
+  const filtered = records.filter(r => r.game.toLowerCase().includes(searchTerm));
 
-  if (records.length === 0) return;
+  $("emptyRanking").hidden = filtered.length > 0;
+  if (filtered.length === 0) return;
 
-  // Agrupar récords por juego
   const grouped = {};
-  for (const record of records) {
-    if (!grouped[record.gameName]) grouped[record.gameName] = {};
-    if (!grouped[record.gameName][record.category]) grouped[record.gameName][record.category] = [];
-    grouped[record.gameName][record.category].push(record);
+  for (const record of filtered) {
+    if (!grouped[record.game]) grouped[record.game] = {};
+    if (!grouped[record.game][record.category]) grouped[record.game][record.category] = [];
+    grouped[record.game][record.category].push(record);
   }
 
   const sortedGames = Object.keys(grouped).sort((a,b) => a.localeCompare(b));
 
-  // Crear la tabla para cada juego y categoría
   for (const game of sortedGames) {
-    const gameSection = document.createElement("div");
-    gameSection.className = "game-section";
-    
-    const gameHeader = document.createElement("h2");
-    gameHeader.className = "game-header";
-    gameHeader.textContent = game;
-    gameSection.append(gameHeader);
+    const gameGroup = document.createElement("div");
+    gameGroup.className = "game-group";
+    const gameTitle = document.createElement("h2");
+    gameTitle.className = "game-title";
+    gameTitle.textContent = game;
+    gameGroup.append(gameTitle);
 
     const sortedCategories = Object.keys(grouped[game]).sort((a,b) => a.localeCompare(b));
 
     for (const category of sortedCategories) {
-      const catHeader = document.createElement("h3");
-      catHeader.className = "category-header";
-      catHeader.textContent = category;
-      gameSection.append(catHeader);
+      const catTitle = document.createElement("div");
+      catTitle.className = "category-title";
+      catTitle.textContent = category;
+      gameGroup.append(catTitle);
 
       const tableContainer = document.createElement("div");
       tableContainer.className = "table-container";
@@ -460,8 +458,7 @@ function render() {
       const thead = document.createElement("thead");
       thead.innerHTML = `<tr><th scope="col">Jugador</th><th scope="col">Tiempo</th></tr>`;
       const tbody = document.createElement("tbody");
-      
-      // Ordenar los récords de esta categoría por tiempo
+
       const catRecords = grouped[game][category].sort((a, b) => a.ms - b.ms || a.created - b.created);
       const bestTime = catRecords[0].ms;
 
@@ -469,11 +466,9 @@ function render() {
         const row = document.createElement("tr");
         const playerCell = document.createElement("td");
         const timeCell = document.createElement("td");
-
         playerCell.append(makePlayer(record));
         timeCell.className = "time";
         
-        // Poner corona al mejor de la categoría
         if (record.ms === bestTime) {
           timeCell.textContent = "👑 " + formatTime(record.ms);
         } else {
@@ -484,10 +479,24 @@ function render() {
           const ytLink = document.createElement("a");
           ytLink.href = record.youtube;
           ytLink.target = "_blank";
-          ytLink.rel = "noopener noreferrer";
           ytLink.textContent = "▶ Video";
           ytLink.className = "video-link";
           timeCell.append(ytLink);
+        }
+
+        if (isAdmin) {
+          const adminDiv = document.createElement("div");
+          adminDiv.className = "admin-actions";
+          const editBtn = document.createElement("button");
+          editBtn.className = "admin-btn-icon edit";
+          editBtn.textContent = "✏️";
+          editBtn.onclick = () => editRecord(record.created);
+          const deleteBtn = document.createElement("button");
+          deleteBtn.className = "admin-btn-icon delete";
+          deleteBtn.textContent = "🗑️";
+          deleteBtn.onclick = () => deleteRecord(record.created);
+          adminDiv.append(editBtn, deleteBtn);
+          playerCell.append(adminDiv);
         }
 
         row.append(playerCell, timeCell);
@@ -496,27 +505,34 @@ function render() {
 
       table.append(thead, tbody);
       tableContainer.append(table);
-      gameSection.append(tableContainer);
+      gameGroup.append(tableContainer);
     }
-    $("rankingContainer").append(gameSection);
+    container.append(gameGroup);
   }
 
-  // Actualizar el WR global
   const globalBest = [...records].sort((a, b) => a.ms - b.ms)[0];
-  $("wrTime").textContent = formatTime(globalBest.ms);
-  $("wrPlayer").replaceChildren(makePlayer(globalBest));
+  if (globalBest) {
+    $("wrTime").textContent = formatTime(globalBest.ms);
+    $("wrPlayer").replaceChildren(makePlayer(globalBest));
+  } else {
+    $("wrTime").textContent = "00h:00m:00s.000ms";
+    $("wrPlayer").textContent = "Sin récords registrados";
+  }
 }
+
+$("searchGame").addEventListener("input", render);
 
 function showSubmission(show) {
   $("rankingPanel").hidden = show;
   $("submitPanel").hidden = !show;
   $("rankingButton").classList.toggle("active", !show);
   $("submitButton").classList.toggle("active", show);
-  $("rankingButton").setAttribute("aria-pressed", String(!show));
-  $("submitButton").setAttribute("aria-pressed", String(show));
 }
 
-$("rankingButton").onclick = () => showSubmission(false);
+$("rankingButton").onclick = () => {
+  showSubmission(false);
+  if (editingId) $("cancelEditBtn").click();
+};
 $("submitButton").onclick = () => showSubmission(true);
 
 ["hours", "minutes", "seconds", "milliseconds"].forEach(id => {
@@ -528,69 +544,36 @@ $("submitButton").onclick = () => showSubmission(true);
 
 $("recordForm").addEventListener("submit", event => {
   event.preventDefault();
-
-  if (!storageReady) {
-    $("notice").textContent = "No se puede guardar hasta resolver la lectura de los datos existentes.";
-    return;
-  }
-
-  const gameName = $("gameName").value.trim();
+  const game = $("gameName").value.trim();
   const category = $("category").value.trim() || "General"; 
   const name = $("playerName").value.trim();
   const country = $("country").value;
   const ms = readTime();
   const youtube = $("youtubeLink").value.trim();
 
-  if (!gameName) {
-    $("notice").textContent = "El nombre del juego es obligatorio.";
+  if (!game || !name || !country || ms === null || ms <= 0) {
+    $("notice").textContent = "Completa los campos correctamente y pon un tiempo válido.";
     return;
-  }
-
-  if (!name || !Object.hasOwn(countries, country)) {
-    $("notice").textContent = "Completa el nombre y selecciona el país.";
-    return;
-  }
-
-  if (ms === null || ms <= 0) {
-    $("notice").textContent = "El tiempo es obligatorio y debe ser mayor que cero (escribe al menos en un campo).";
-    return;
-  }
-
-  if (youtube) {
-    let url;
-    try { url = new URL(youtube); } catch {
-      $("notice").textContent = "Escribe un enlace completo de YouTube que empiece con https://.";
-      return;
-    }
-    const host = url.hostname.toLowerCase();
-    const allowedHosts = ["youtube.com", "www.youtube.com", "m.youtube.com", "youtu.be", "www.youtu.be"];
-    const isShortLink = (host === "youtu.be" || host === "www.youtu.be") && /^\/[A-Za-z0-9_-]{11}\/?$/.test(url.pathname);
-    const isWatchLink = host !== "youtu.be" && host !== "www.youtu.be" && url.pathname === "/watch" && /^[A-Za-z0-9_-]{11}$/.test(url.searchParams.get("v") || "");
-    const isVideoPath = host !== "youtu.be" && host !== "www.youtu.be" && /^\/(shorts|live|embed)\/[A-Za-z0-9_-]{11}\/?$/.test(url.pathname);
-
-    if (url.protocol !== "https:" || !allowedHosts.includes(host) || url.username || url.password || url.port || !(isShortLink || isWatchLink || isVideoPath)) {
-      $("notice").textContent = "Introduce un enlace válido a un video de YouTube.";
-      return;
-    }
   }
 
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    const latest = raw === null ? [] : JSON.parse(raw);
-
-    if (!Array.isArray(latest) || !latest.every(validRecord)) {
-      throw new Error("Datos guardados inválidos");
+    if (editingId) {
+      const index = records.findIndex(r => r.created === editingId);
+      if (index !== -1) {
+        records[index] = { ...records[index], game, category, name, country, ms, youtube };
+      }
+      $("notice").textContent = "Récord actualizado correctamente.";
+      editingId = null;
+      $("submitBtn").textContent = "Guardar récord";
+      $("cancelEditBtn").style.display = "none";
+      $("formTitle").textContent = "Enviar el récord";
+    } else {
+      records.push({ game, category, name, country, ms, youtube, created: Date.now() });
+      $("notice").textContent = "Récord guardado correctamente.";
     }
-
-    const updated = [
-      ...latest,
-      { gameName, category, name, country, ms, youtube, created: Date.now() }
-    ];
-
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-    records = updated;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
   } catch {
-    $("notice").textContent = "No se pudo guardar el récord. Tus campos siguen completos para intentarlo otra vez.";
+    $("notice").textContent = "No se pudo guardar el récord.";
     return;
   }
 
@@ -598,19 +581,6 @@ $("recordForm").addEventListener("submit", event => {
   $("recordForm").reset();
   $("timePreview").textContent = "00h:00m:00s.000ms";
   showSubmission(false);
-  $("notice").textContent = "Récord guardado correctamente.";
-});
-
-window.addEventListener("storage", event => {
-  if (event.key !== STORAGE_KEY) return;
-  try {
-    const updated = JSON.parse(event.newValue || "[]");
-    if (!Array.isArray(updated) || !updated.every(validRecord)) return;
-    records = updated;
-    render();
-  } catch {
-    $("notice").textContent = "No se pudo actualizar la lista desde la otra pestaña.";
-  }
 });
 
 render();
