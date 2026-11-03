@@ -5,143 +5,107 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SpeedRun Hub · Panel de gestión</title>
 <style>
-:root {
-  --bg:#f4f7f5;
-  --surface:#fff;
-  --green:#166347;
-  --green-dark:#104c36;
-  --green-soft:#e9f4ee;
-  --ink:#172b21;
-  --muted:#68786e;
-  --line:#e1e9e4;
-  --red:#b33b43;
-  --red-soft:#fff0f1;
-  --amber:#946414;
-  --amber-soft:#fff6e4;
-  --radius:18px;
+:root{
+  --bg:#f4f7f5;--surface:#fff;--green:#166347;
+  --green-soft:#e9f4ee;--ink:#172b21;--muted:#68786e;
+  --line:#e1e9e4;--red:#b33b43;--radius:18px
 }
-* {box-sizing:border-box}
-body {
+*{box-sizing:border-box}
+body{
   margin:0;background:var(--bg);color:var(--ink);
-  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif
 }
-button,input,select {font:inherit}
-button {cursor:pointer}
-button:disabled {opacity:.45;cursor:not-allowed}
-button:focus-visible,a:focus-visible,input:focus-visible,
-select:focus-visible {
-  outline:3px solid #6eaf8b;outline-offset:3px;
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{
+  outline:3px solid #6eaf8b;outline-offset:3px
 }
-header {background:var(--surface);border-bottom:1px solid var(--line)}
-.wrap {max-width:1160px;margin:auto;padding:0 24px}
-.header-inner {
-  min-height:82px;display:flex;align-items:center;
-  justify-content:space-between;gap:16px;
+header{background:white;border-bottom:1px solid var(--line)}
+.wrap{max-width:1160px;margin:auto;padding:0 20px}
+.header-inner{
+  min-height:80px;display:flex;justify-content:space-between;
+  align-items:center;gap:16px;flex-wrap:wrap
 }
-.logo {font-size:23px;font-weight:850;letter-spacing:-1px;color:var(--green)}
-.logo span {color:var(--ink)}
-.local-label {
-  font-size:12px;color:var(--muted);
-  background:var(--bg);padding:8px 12px;border-radius:30px;
-}
-main {padding-top:38px!important;padding-bottom:60px!important}
-.intro {margin-bottom:26px}
-.eyebrow {
-  font-size:11px;letter-spacing:2px;color:var(--green);
-  font-weight:800;text-transform:uppercase;
-}
-h1 {font-size:clamp(28px,5vw,40px);letter-spacing:-1.5px;margin:10px 0}
-h2 {font-size:18px;letter-spacing:-.5px;margin:0}
-p {color:var(--muted);line-height:1.6}
-.timer-card {
+.logo{font-size:24px;font-weight:850;color:var(--green)}
+.logo span{color:var(--ink)}
+.local-label,.note{font-size:12px;color:var(--muted)}
+main{padding-top:30px!important;padding-bottom:50px!important}
+h1{font-size:clamp(28px,5vw,40px);margin:10px 0}
+h2{font-size:19px;margin:0}
+p{color:var(--muted);line-height:1.6}
+.timer-card{
   display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:24px;background:var(--green);color:white;
-  padding:28px;border-radius:var(--radius);margin-bottom:28px;
+  flex-wrap:wrap;gap:20px;background:var(--green);color:white;
+  padding:26px;border-radius:var(--radius);margin:25px 0
 }
-.timer-card .eyebrow {color:#c0e5cf}
-.clock {
-  font-size:clamp(30px,7vw,52px);font-weight:750;
-  font-variant-numeric:tabular-nums;letter-spacing:-1px;
-  margin-top:8px;
+.clock{
+  font-size:clamp(28px,7vw,52px);font-weight:800;
+  font-variant-numeric:tabular-nums
 }
-.actions {display:flex;gap:8px;flex-wrap:wrap}
-.btn {
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
   border:1px solid transparent;border-radius:10px;
-  padding:11px 16px;font-weight:650;font-size:13px;
-  background:var(--green);color:white;
+  padding:11px 15px;font-size:13px;font-weight:700;
+  background:var(--green);color:white
 }
-.btn:hover {filter:brightness(.95)}
-.btn.secondary {background:white;color:var(--green);border-color:var(--line)}
-.btn.danger {background:var(--red-soft);color:var(--red)}
-.btn.ghost {background:#ffffff18;color:white;border-color:#ffffff45}
-.btn.small {padding:8px 11px;font-size:12px}
-.tabs {
+.btn.secondary{background:white;color:var(--green);border-color:var(--line)}
+.btn.danger{background:#fff0f1;color:var(--red)}
+.btn.small{padding:8px 10px;font-size:12px}
+.tabs{
   display:flex;gap:6px;overflow:auto;padding:5px;
-  border:1px solid var(--line);background:#edf2ee;
-  border-radius:13px;margin-bottom:24px;
+  background:#edf2ee;border-radius:13px;margin-bottom:22px
 }
-.tab {
-  white-space:nowrap;border:0;background:transparent;
-  padding:12px 17px;border-radius:9px;color:var(--muted);
-  font-size:13px;font-weight:700;
+.tab{
+  border:0;background:transparent;padding:12px 16px;
+  white-space:nowrap;border-radius:9px;color:var(--muted);font-weight:700
 }
-.tab.active {
-  background:white;color:var(--green);
-  box-shadow:0 2px 6px #172b2108;
+.tab.active{background:white;color:var(--green)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:22px}
+.card{
+  background:white;border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px;margin-bottom:20px
 }
-.grid {display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
-.card {
-  background:var(--surface);border:1px solid var(--line);
-  border-radius:var(--radius);padding:24px;
+.grid .card{margin-bottom:0}
+.form{display:grid;gap:14px;margin-top:18px}
+label{display:grid;gap:7px;font-size:13px;font-weight:650;color:var(--muted)}
+input,select{
+  width:100%;min-width:0;padding:12px;border:1px solid var(--line);
+  border-radius:10px;background:#fbfcfb;color:var(--ink)
 }
-.card > p {font-size:13px;margin:8px 0 20px}
-.form {display:grid;gap:14px}
-label {display:grid;gap:7px;font-size:12px;font-weight:700;color:var(--muted)}
-input,select {
-  width:100%;min-width:0;border:1px solid var(--line);
-  border-radius:10px;background:#fbfcfb;color:var(--ink);
-  padding:12px;font-size:14px;
-}
-input::placeholder {color:#95a198}
-.row {display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.section-top {
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.section-top{
   display:flex;align-items:center;justify-content:space-between;
-  gap:15px;margin-bottom:20px;
+  gap:16px;flex-wrap:wrap;margin-bottom:18px
 }
-.table-wrap {overflow-x:auto}
-table {width:100%;border-collapse:collapse;text-align:left}
-th {
-  font-size:11px;text-transform:uppercase;letter-spacing:.7px;
-  color:var(--muted);padding:13px 12px;border-bottom:1px solid var(--line);
+.section-top label{min-width:180px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;text-align:left}
+th{
+  font-size:11px;text-transform:uppercase;color:var(--muted);
+  padding:13px 10px;border-bottom:1px solid var(--line)
 }
-td {font-size:13px;padding:16px 12px;border-bottom:1px solid var(--line)}
-tbody tr:last-child td {border-bottom:0}
-.time {font-variant-numeric:tabular-nums;font-weight:750;white-space:nowrap}
-.badge {
-  display:inline-block;padding:6px 9px;border-radius:7px;
-  font-size:11px;font-weight:750;white-space:nowrap;
+td{font-size:13px;padding:15px 10px;border-bottom:1px solid var(--line)}
+.time{font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.badge{display:inline-block;padding:6px 9px;border-radius:7px;font-size:11px}
+.accepted{background:#e9f4ee;color:var(--green)}
+.pending{background:#fff6e4;color:#946414}
+.rejected,.removed{background:#fff0f1;color:var(--red)}
+.empty{text-align:center;padding:30px;color:var(--muted)}
+.wr-card{background:linear-gradient(120deg,#123e2d,#196e4d);color:white}
+.wr-card p{color:#d2eadd}
+.wr-title{font-size:15px;font-weight:800;letter-spacing:1px}
+.wr-time{font-size:clamp(28px,6vw,48px);font-weight:850;margin:12px 0}
+a{color:var(--green)}
+[hidden]{display:none!important}
+#toast{
+  position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
+  max-width:92%;background:var(--ink);color:white;
+  padding:14px 20px;border-radius:12px;z-index:20
 }
-.accepted {background:var(--green-soft);color:var(--green)}
-.pending {background:var(--amber-soft);color:var(--amber)}
-.rejected,.removed {background:var(--red-soft);color:var(--red)}
-.empty {text-align:center;padding:45px 15px;color:var(--muted);font-size:14px}
-.note {font-size:12px;margin-top:20px}
-a {color:var(--green)}
-[hidden] {display:none!important}
-#toast {
-  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
-  background:var(--ink);color:white;padding:13px 20px;border-radius:12px;
-  box-shadow:0 8px 30px #0002;z-index:10;max-width:90%;font-size:13px;
-}
-@media(max-width:760px) {
-  .wrap {padding:0 16px}
-  .grid {grid-template-columns:1fr}
-  .card {padding:18px}
-  .header-inner {min-height:72px}
-  .local-label {font-size:10px}
-  .timer-card {padding:22px}
-  .row {grid-template-columns:1fr}
-  .section-top {align-items:flex-start;flex-direction:column}
+@media(max-width:760px){
+  .grid,.row{grid-template-columns:1fr}
+  .card{padding:18px}
+  .header-inner{padding-top:15px;padding-bottom:15px}
 }
 </style>
 </head>
@@ -154,21 +118,18 @@ a {color:var(--green)}
 </header>
 
 <main class="wrap">
-  <div class="intro">
-    <span class="eyebrow">Centro de gestión</span>
-    <h1>Cada récord, en orden.</h1>
-    <p>Gestiona jugadores, revisa tiempos y publica los récords que apruebes.</p>
-  </div>
+  <h1>Cada récord, en orden.</h1>
+  <p>Registra jugadores, revisa tiempos y aprueba los récords.</p>
 
   <section class="timer-card" aria-label="Cronómetro">
     <div>
-      <div class="eyebrow">Cronómetro</div>
+      <div>Cronómetro</div>
       <div id="clock" class="clock">00:00:00.000</div>
     </div>
     <div class="actions">
       <button id="start" class="btn secondary">Iniciar</button>
-      <button id="reset" class="btn ghost">Reiniciar</button>
-      <button id="useTime" class="btn ghost">Usar tiempo</button>
+      <button id="reset" class="btn secondary">Reiniciar</button>
+      <button id="useTime" class="btn secondary">Usar tiempo</button>
     </div>
   </section>
 
@@ -179,24 +140,23 @@ a {color:var(--green)}
     <button class="tab" data-tab="removed" aria-pressed="false">Eliminados</button>
   </nav>
 
-  <section id="forms" class="grid" hidden>
+  <section class="grid">
     <article class="card">
-      <h2>Nuevo jugador</h2>
-      <p>Regístralo y después acepta su participación.</p>
+      <h2>Registrar jugador</h2>
+      <p>Escribe el nombre. Después podrás aceptar al jugador.</p>
       <form id="playerForm" class="form">
         <label>Nombre del jugador
-          <input id="playerName" placeholder="Escribe un nombre" maxlength="40" required>
+          <input id="playerName" placeholder="Escribe tu nombre" maxlength="40" required>
         </label>
-        <button class="btn" type="submit">Registrar jugador</button>
+        <button class="btn">Registrar jugador</button>
       </form>
     </article>
 
     <article class="card">
       <h2>Enviar récord</h2>
-      <p>Los nuevos tiempos quedan pendientes de aprobación.</p>
       <form id="recordForm" class="form">
-        <label>Jugador aceptado
-          <select id="recordPlayer" required></select>
+        <label>Nombre del jugador
+          <input id="recordName" placeholder="Escribe tu nombre" maxlength="40" required>
         </label>
         <div class="row">
           <label>Categoría
@@ -205,3 +165,421 @@ a {color:var(--green)}
           <label>Tiempo · HH:MM:SS.mmm
             <input id="recordTime" value="00:00:00.000"
               pattern="[0-9]{2}:[0-5][0-9]:[0-5][0-9]\.[0-9]{3}"
+              title="Ejemplo: 00:01:23.456" required>
+          </label>
+        </div>
+        <label>Evidencia opcional
+          <input id="evidence" type="url" placeholder="https://...">
+        </label>
+        <button class="btn">Enviar récord</button>
+      </form>
+      <p class="note">Si el nombre no existe, se registra como pendiente.</p>
+    </article>
+  </section>
+
+  <section id="ranking">
+    <article class="card">
+      <div class="section-top">
+        <h2>Clasificación · Menor a mayor tiempo</h2>
+        <label>Categoría
+          <select id="categoryFilter"></select>
+        </label>
+      </div>
+      <p class="note">Mejor tiempo aprobado de cada jugador aceptado.</p>
+      <div id="rankingTable" class="table-wrap"></div>
+    </article>
+
+    <article class="card wr-card">
+      <div class="wr-title">WR 🌏 · MEJOR TIEMPO HISTÓRICO</div>
+      <div id="wrTime" class="wr-time time">00:00:00.000</div>
+      <div id="wrDetails">Todavía no hay récords aprobados.</div>
+      <p class="note">
+        Solo muestra el menor tiempo aprobado de la categoría seleccionada.
+        Se conserva aunque elimines al jugador de la clasificación.
+      </p>
+    </article>
+  </section>
+
+  <section id="players" hidden>
+    <article class="card">
+      <h2>Jugadores</h2>
+      <div id="playersTable" class="table-wrap"></div>
+    </article>
+  </section>
+
+  <section id="records" hidden>
+    <article class="card">
+      <h2>Revisar récords</h2>
+      <p class="note">
+        Retirar la aprobación excluye el tiempo de la clasificación y del WR.
+      </p>
+      <div id="recordsTable" class="table-wrap"></div>
+    </article>
+  </section>
+
+  <section id="removed" hidden>
+    <article class="card">
+      <h2>Jugadores eliminados</h2>
+      <p>Puedes volver a aceptarlos sin perder sus récords.</p>
+      <div id="removedTable" class="table-wrap"></div>
+    </article>
+  </section>
+
+  <p class="note">
+    Registro por nombre, sin correo ni contraseña.
+    Datos guardados únicamente en este navegador.
+    No hay autenticación ni permisos de administrador.
+    WR significa el mejor tiempo de este panel, no un récord mundial verificado.
+  </p>
+</main>
+
+<div id="toast" role="status" hidden></div>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+const KEY = "speedrun-hub-panel-v2";
+let state = {players:[], records:[]};
+
+try {
+  const saved = JSON.parse(localStorage.getItem(KEY));
+  if (saved && Array.isArray(saved.players) && Array.isArray(saved.records)) {
+    state = saved;
+  }
+} catch {
+  alert("No se pudieron cargar los datos guardados.");
+}
+
+const labels = {
+  pending:"Pendiente", accepted:"Aceptado",
+  rejected:"Rechazado", removed:"Eliminado"
+};
+
+const esc = value => String(value).replace(/[&<>"']/g, c => ({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
+
+const normalize = value =>
+  value.trim().normalize("NFKC").toLocaleLowerCase("es");
+
+const uid = () => {
+  if (globalThis.crypto?.randomUUID) return crypto.randomUUID();
+  return Date.now().toString(36) + Math.random().toString(36).slice(2);
+};
+
+const playerById = id => state.players.find(p => p.id === id);
+
+function badge(status) {
+  const valid = Object.hasOwn(labels, status) ? status : "pending";
+  return `<span class="badge ${valid}">${labels[valid]}</span>`;
+}
+
+function toast(message) {
+  $("toast").textContent = message;
+  $("toast").hidden = false;
+  clearTimeout(toast.timer);
+  toast.timer = setTimeout(() => $("toast").hidden = true, 4000);
+}
+
+function save(message) {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(state));
+    render();
+    toast(message);
+  } catch {
+    render();
+    toast("No se pudo guardar. Los cambios podrían perderse al cerrar.");
+  }
+}
+
+function formatTime(ms) {
+  ms = Math.max(0, Math.floor(ms));
+  const h = Math.floor(ms / 3600000);
+  const m = Math.floor(ms / 60000) % 60;
+  const s = Math.floor(ms / 1000) % 60;
+  return `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:` +
+    `${String(s).padStart(2,"0")}.${String(ms % 1000).padStart(3,"0")}`;
+}
+
+function parseTime(value) {
+  const m = /^(\d{2}):([0-5]\d):([0-5]\d)\.(\d{3})$/.exec(value);
+  return m ? +m[1]*3600000 + +m[2]*60000 + +m[3]*1000 + +m[4] : null;
+}
+
+function button(action,id,text,danger=false) {
+  return `<button type="button"
+    class="btn small ${danger ? "danger" : "secondary"}"
+    data-action="${action}" data-id="${esc(id)}">${text}</button>`;
+}
+
+function table(headers,rows,message) {
+  if (!rows.length) return `<div class="empty">${esc(message)}</div>`;
+  return `<table><thead><tr>` +
+    headers.map(h=>`<th scope="col">${h}</th>`).join("") +
+    `</tr></thead><tbody>` +
+    rows.map(row=>`<tr>${row.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("") +
+    `</tbody></table>`;
+}
+
+function renderPlayers(removed) {
+  const list = state.players.filter(p =>
+    removed ? p.status === "removed" : p.status !== "removed"
+  );
+  const rows = list.map(p=>[
+    esc(p.name),
+    badge(p.status),
+    `<div class="actions">
+      ${button("edit",p.id,"Editar nombre")}
+      ${p.status === "accepted"
+        ? button("remove",p.id,"Eliminar",true)
+        : button("acceptPlayer",p.id,removed ? "Volver a aceptar" : "Aceptar")}
+    </div>`
+  ]);
+  $(removed ? "removedTable" : "playersTable").innerHTML =
+    table(["Jugador","Estado","Acciones"],rows,"No hay jugadores en esta sección.");
+}
+
+function renderRecords() {
+  const list = [...state.records].sort((a,b)=>b.created-a.created);
+  const rows = list.map(r=>[
+    esc(playerById(r.playerId)?.name || "Jugador no disponible"),
+    esc(r.category),
+    `<span class="time">${formatTime(r.ms)}</span>`,
+    esc(new Date(r.created).toLocaleString("es")),
+    badge(r.status),
+    /^https?:\/\//i.test(r.evidence || "")
+      ? `<a href="${esc(r.evidence)}" target="_blank"
+           rel="noopener noreferrer">Ver</a>` : "—",
+    `<div class="actions">${
+      r.status === "pending"
+        ? button("approve",r.id,"Aceptar récord") +
+          button("reject",r.id,"Rechazar",true)
+        : button("review",r.id,"Volver a revisar")
+    }</div>`
+  ]);
+  $("recordsTable").innerHTML = table(
+    ["Jugador","Categoría","Tiempo","Fecha","Estado","Evidencia","Acciones"],
+    rows,"Todavía no hay récords."
+  );
+}
+
+function renderRanking() {
+  const category = $("categoryFilter").value;
+
+  const historical = state.records.filter(r =>
+    r.status === "accepted" && r.category === category &&
+    Number.isFinite(r.ms) && r.ms > 0
+  ).sort((a,b)=>a.ms-b.ms || a.created-b.created);
+
+  const seen = new Set();
+  const ranking = historical.filter(r=>{
+    const p = playerById(r.playerId);
+    if (!p || p.status !== "accepted" || seen.has(p.id)) return false;
+    seen.add(p.id);
+    return true;
+  });
+
+  let position = 0;
+  let previous = null;
+  const rows = ranking.map((r,index)=>{
+    if (r.ms !== previous) position = index + 1;
+    previous = r.ms;
+    const medal = position === 1 ? "🥇 " :
+      position === 2 ? "🥈 " : position === 3 ? "🥉 " : "";
+    return [
+      medal + position,
+      esc(playerById(r.playerId).name),
+      esc(r.category),
+      `<span class="time">${formatTime(r.ms)}</span>`
+    ];
+  });
+
+  $("rankingTable").innerHTML = table(
+    ["Puesto","Jugador","Categoría","Mejor tiempo"],
+    rows,"No hay tiempos aprobados de jugadores aceptados."
+  );
+
+  const wr = historical[0];
+  $("wrTime").textContent = wr ? formatTime(wr.ms) : "00:00:00.000";
+
+  if (!wr) {
+    $("wrDetails").textContent = "Todavía no hay récords aprobados en esta categoría.";
+    return;
+  }
+
+  const ids = [...new Set(
+    historical.filter(r=>r.ms === wr.ms).map(r=>r.playerId)
+  )];
+  const holders = ids.map(id=>playerById(id)?.name || "Jugador no disponible");
+  $("wrDetails").textContent =
+    `${holders.join(" · ")} | ${category} | ` +
+    new Date(wr.created).toLocaleDateString("es") +
+    (ids.length > 1 ? " | Récord compartido" : "");
+}
+
+function render() {
+  const previous = $("categoryFilter").value;
+  const categories = [...new Set(state.records.map(r=>r.category))]
+    .sort((a,b)=>a.localeCompare(b,"es"));
+
+  $("categoryFilter").replaceChildren();
+  if (!categories.length) {
+    $("categoryFilter").add(new Option("Sin categorías",""));
+  } else {
+    categories.forEach(c=>$("categoryFilter").add(new Option(c,c)));
+    if (categories.includes(previous)) $("categoryFilter").value = previous;
+  }
+
+  renderPlayers(false);
+  renderPlayers(true);
+  renderRecords();
+  renderRanking();
+}
+
+$("playerForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const name = $("playerName").value.trim();
+  if (!name) return toast("Escribe un nombre.");
+  if (state.players.some(p=>normalize(p.name) === normalize(name))) {
+    return toast("Ese nombre ya existe. Revisa Jugadores o Eliminados.");
+  }
+  state.players.push({id:uid(),name,status:"pending"});
+  $("playerForm").reset();
+  save("Jugador registrado. Ahora puedes aceptarlo.");
+});
+
+$("recordForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const name = $("recordName").value.trim();
+  let category = $("category").value.trim();
+  const ms = parseTime($("recordTime").value.trim());
+  const evidence = $("evidence").value.trim();
+
+  if (!name || !category) return toast("Completa nombre y categoría.");
+  if (ms === null || ms <= 0) return toast("El tiempo debe ser válido y mayor que cero.");
+  if (evidence && !/^https?:\/\//i.test(evidence)) {
+    return toast("Usa un enlace que comience con http:// o https://.");
+  }
+
+  let player = state.players.find(p=>normalize(p.name) === normalize(name));
+  if (player?.status === "removed") {
+    return toast("Primero vuelve a aceptar al jugador en Eliminados.");
+  }
+  if (!player) {
+    player = {id:uid(),name,status:"pending"};
+    state.players.push(player);
+  }
+
+  const existing = state.records.find(r=>normalize(r.category) === normalize(category));
+  if (existing) category = existing.category;
+
+  state.records.push({
+    id:uid(),playerId:player.id,category,ms,evidence,
+    status:"pending",created:Date.now()
+  });
+
+  $("recordForm").reset();
+  $("recordTime").value = "00:00:00.000";
+  save("Récord enviado. Falta aprobarlo.");
+});
+
+document.addEventListener("click",event=>{
+  const target = event.target.closest("button[data-action]");
+  if (!target) return;
+  const {action,id} = target.dataset;
+  const p = playerById(id);
+  const r = state.records.find(record=>record.id === id);
+
+  if (action === "edit" && p) {
+    const entered = prompt("Editar nombre:",p.name);
+    if (entered === null) return;
+    const name = entered.trim();
+    if (!name || name.length > 40) return toast("Usa entre 1 y 40 caracteres.");
+    if (state.players.some(other=>
+      other.id !== p.id && normalize(other.name) === normalize(name)
+    )) return toast("Ese nombre está en uso. Escribe otro.");
+    p.name = name;
+  } else if (action === "remove" && p) {
+    if (!confirm(`¿Retirar a ${p.name}? Sus récords no se borrarán.`)) return;
+    p.status = "removed";
+  } else if (action === "acceptPlayer" && p) {
+    p.status = "accepted";
+  } else if (action === "approve" && r) {
+    if (playerById(r.playerId)?.status !== "accepted") {
+      return toast("Primero acepta al jugador.");
+    }
+    r.status = "accepted";
+  } else if (action === "reject" && r) {
+    r.status = "rejected";
+  } else if (action === "review" && r) {
+    if (r.status === "accepted" &&
+      !confirm("¿Retirar aprobación? Dejará de contar en la clasificación y el WR.")) {
+      return;
+    }
+    r.status = "pending";
+  } else return;
+
+  save("Cambios guardados.");
+});
+
+document.querySelectorAll("[data-tab]").forEach(tab=>{
+  tab.addEventListener("click",()=>{
+    document.querySelectorAll("[data-tab]").forEach(button=>{
+      const active = button === tab;
+      button.classList.toggle("active",active);
+      button.setAttribute("aria-pressed",String(active));
+      $(button.dataset.tab).hidden = !active;
+    });
+  });
+});
+
+$("categoryFilter").addEventListener("change",renderRanking);
+
+let elapsed = 0;
+let startedAt = 0;
+let running = false;
+let frame;
+const currentTime = ()=>elapsed + (running ? performance.now()-startedAt : 0);
+
+function tick() {
+  $("clock").textContent = formatTime(currentTime());
+  if (running) frame = requestAnimationFrame(tick);
+}
+
+$("start").addEventListener("click",()=>{
+  if (running) {
+    elapsed = currentTime();
+    running = false;
+    cancelAnimationFrame(frame);
+    $("start").textContent = "Continuar";
+    tick();
+  } else {
+    startedAt = performance.now();
+    running = true;
+    $("start").textContent = "Pausar";
+    tick();
+  }
+});
+
+$("reset").addEventListener("click",()=>{
+  running = false;
+  elapsed = 0;
+  cancelAnimationFrame(frame);
+  $("start").textContent = "Iniciar";
+  tick();
+});
+
+$("useTime").addEventListener("click",()=>{
+  const ms = Math.floor(currentTime());
+  if (ms <= 0) return toast("Primero registra un tiempo mayor que cero.");
+  if (ms >= 360000000) return toast("El formulario admite menos de 100 horas.");
+  $("recordTime").value = formatTime(ms);
+  $("recordTime").scrollIntoView({behavior:"smooth",block:"center"});
+  toast("Tiempo copiado al formulario.");
+});
+
+render();
+</script>
+</body>
+</html>
