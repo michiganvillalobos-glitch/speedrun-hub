@@ -15,27 +15,23 @@
 * { box-sizing: border-box; }
 body { margin: 0; background-color: var(--bg-main); color: var(--text-main); font-family: system-ui, -apple-system, sans-serif; }
 
-/* Header Fijo */
 header { padding: 15px 20px; background-color: var(--bg-header); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
-.logo { font-size: 20px; font-weight: 900; color: var(--text-main); letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+.logo { font-size: 20px; font-weight: 900; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
 .logo span { color: var(--accent); }
 .icon-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-muted); }
 #adminBtn.active { color: var(--red); }
 
 main { max-width: 900px; margin: auto; padding: 20px 15px 100px; }
 
-/* Sistema de Pestañas (Tabs) */
 .nav-tabs { display: flex; gap: 5px; margin-bottom: 25px; background: var(--bg-surface); padding: 5px; border-radius: 12px; border: 1px solid var(--border); overflow-x: auto; }
 .nav-tabs button { flex: 1; background: none; border: none; color: var(--text-muted); font-size: 14px; font-weight: bold; cursor: pointer; padding: 12px 10px; border-radius: 8px; white-space: nowrap; transition: 0.2s; }
 .nav-tabs button.active { background: var(--bg-main); color: var(--accent); box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
 
-/* Botones Generales */
 .btn-main { padding: 14px; background: var(--accent); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 20px; font-size: 15px; transition: 0.2s; }
 .btn-main:hover { opacity: 0.9; }
 .admin-only { display: none; }
 body.is-admin .admin-only { display: block; }
 
-/* Tarjetas de Niveles (Demonlist) */
 .level-card { background-color: var(--bg-surface); border-radius: 14px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--border); display: flex; gap: 15px; align-items: center; transition: 0.2s; }
 .level-card:hover { border-color: #444; }
 .level-thumb { width: 120px; height: 70px; background: #222; border-radius: 8px; object-fit: cover; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #555; }
@@ -46,7 +42,6 @@ body.is-admin .admin-only { display: block; }
 .level-details img { height: 20px; width: 20px; object-fit: contain; }
 .level-points { font-size: 20px; font-weight: 900; color: var(--green); text-align: right; }
 
-/* Tarjetas de Ranking (Jugadores) */
 .player-card { background-color: var(--bg-surface); border-radius: 14px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--border); display: flex; align-items: center; gap: 15px; }
 .player-rank { font-size: 20px; font-weight: 900; color: var(--text-muted); width: 40px; text-align: center; }
 .player-rank.top-1 { color: var(--gold); }
@@ -56,14 +51,12 @@ body.is-admin .admin-only { display: block; }
 .player-stats { font-size: 12px; color: var(--text-muted); margin-top: 5px; background: var(--bg-main); padding: 4px 8px; border-radius: 6px; display: inline-block; }
 .player-points { margin-left: auto; font-size: 22px; font-weight: 900; color: var(--green); text-align: right; }
 
-/* Controles de Admin */
 .admin-controls { display: none; gap: 5px; margin-left: 10px; flex-direction: column; }
 body.is-admin .admin-controls { display: flex; }
 .btn-icon { background: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; cursor: pointer; font-size: 14px; color: white; }
 .btn-icon.edit { color: #3b82f6; }
 .btn-icon.delete { color: var(--red); }
 
-/* Modales (Ventanas) */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; backdrop-filter: blur(5px); }
 .modal-overlay.active { display: flex; }
 .modal-content { background: var(--bg-surface); width: 100%; max-width: 500px; border-radius: 16px; padding: 25px; border: 1px solid var(--border); max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
@@ -80,7 +73,6 @@ input:focus, select:focus, textarea:focus { border-color: var(--accent); }
 .btn-cancel { flex: 1; padding: 14px; background: transparent; color: white; border: 1px solid var(--border); border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 15px; }
 .hidden { display: none !important; }
 
-/* Utilidades */
 .empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); background: var(--bg-surface); border-radius: 12px; border: 1px dashed var(--border); }
 </style>
 </head>
@@ -93,7 +85,6 @@ input:focus, select:focus, textarea:focus { border-color: var(--accent); }
 </header>
 
 <main>
-  <!-- Navegación Principal -->
   <div class="nav-tabs">
     <button id="tabRanking" class="active" onclick="switchView('ranking')">🏆 Ranking</button>
     <button id="tabLevels" onclick="switchView('levels')">💀 Demonlist</button>
@@ -101,18 +92,13 @@ input:focus, select:focus, textarea:focus { border-color: var(--accent); }
     <button id="tabDiffs" class="admin-only" style="color:var(--red);" onclick="switchView('diffs')">⚙️ Dificultades</button>
   </div>
 
-  <!-- VISTA 1: RANKING GLOBAL -->
-  <section id="viewRanking">
-    <div id="playerList"></div>
-  </section>
+  <section id="viewRanking"><div id="playerList"></div></section>
 
-  <!-- VISTA 2: DEMONLIST -->
   <section id="viewLevels" class="hidden">
     <button class="btn-main admin-only" onclick="openLevelModal()">+ Añadir Nivel a la Lista</button>
     <div id="levelList"></div>
   </section>
 
-  <!-- VISTA 3: REGISTRO -->
   <section id="viewRegister" class="hidden">
     <div class="modal-content" style="margin:auto;">
       <h2 class="modal-title"><span>👤</span> Crear Cuenta</h2>
@@ -125,14 +111,12 @@ input:focus, select:focus, textarea:focus { border-color: var(--accent); }
     </div>
   </section>
 
-  <!-- VISTA 4: DIFICULTADES (ADMIN) -->
   <section id="viewDiffs" class="hidden">
     <button class="btn-main" onclick="openDiffModal()">+ Añadir Dificultad Personalizada</button>
     <div id="diffList"></div>
   </section>
 </main>
 
-<!-- MODAL: NIVELES -->
 <div class="modal-overlay" id="levelModal">
   <div class="modal-content">
     <h2 class="modal-title"><span>💀</span> <span id="modalLevelTitle">Nuevo Nivel</span></h2>
@@ -154,13 +138,12 @@ input:focus, select:focus, textarea:focus { border-color: var(--accent); }
   </div>
 </div>
 
-<!-- MODAL: DIFICULTADES -->
 <div class="modal-overlay" id="diffModal">
   <div class="modal-content">
     <h2 class="modal-title"><span>🎨</span> Nueva Dificultad</h2>
     <form id="diffForm">
-      <label>Nombre de la Dificultad <input id="dName" type="text" required placeholder="Ej: Extreme Demon"></label>
-      <label>URL de la Imagen (Ícono) <input id="dImage" type="url" placeholder="https://..."></label>
+      <label>Nombre de la Dificultad <input id="dName" type="text" required></label>
+      <label>URL de la Imagen (Ícono) <input id="dImage" type="url"></label>
       <div class="modal-buttons">
         <button type="button" class="btn-cancel" onclick="closeModal('diffModal')">Cancelar</button>
         <button type="submit" class="btn-save">Guardar</button>
@@ -169,7 +152,6 @@ input:focus, select:focus, textarea:focus { border-color: var(--accent); }
   </div>
 </div>
 
-<!-- MODAL: EDITAR JUGADOR (ADMIN) -->
 <div class="modal-overlay" id="playerEditModal">
   <div class="modal-content">
     <h2 class="modal-title"><span>✏️</span> Editar Jugador</h2>
@@ -200,18 +182,40 @@ let difficulties = [
 ];
 let isAdmin = false;
 
-// Lista corta de países para ahorrar espacio
+// AQUÍ ESTÁ LA LISTA COMPLETA MUNDIAL DE PAÍSES
+// (Código ISO: Nombre del País)
 const countries = {
-  AR: "Argentina", BO: "Bolivia", BR: "Brasil", CA: "Canadá", CL: "Chile", CN: "China", CO: "Colombia", CR: "Costa Rica", CU: "Cuba", DE: "Alemania", EC: "Ecuador", ES: "España", FR: "Francia", GB: "Reino Unido", GT: "Guatemala", HN: "Honduras", IT: "Italia", JP: "Japón", MX: "México", NI: "Nicaragua", PA: "Panamá", PE: "Perú", PR: "Puerto Rico", PY: "Paraguay", SV: "El Salvador", US: "Estados Unidos", UY: "Uruguay", VE: "Venezuela"
+  AD: "Andorra", AE: "Emiratos Árabes Unidos", AF: "Afganistán", AG: "Antigua y Barbuda", AI: "Anguila", AL: "Albania", AM: "Armenia", AO: "Angola", AQ: "Antártida", AR: "Argentina", AS: "Samoa Americana", AT: "Austria", AU: "Australia", AW: "Aruba", AX: "Islas Åland", AZ: "Azerbaiyán",
+  BA: "Bosnia y Herzegovina", BB: "Barbados", BD: "Bangladés", BE: "Bélgica", BF: "Burkina Faso", BG: "Bulgaria", BH: "Baréin", BI: "Burundi", BJ: "Benín", BL: "San Bartolomé", BM: "Bermudas", BN: "Brunéi", BO: "Bolivia", BQ: "Bonaire, San Eustaquio y Saba", BR: "Brasil", BS: "Bahamas", BT: "Bután", BV: "Isla Bouvet", BW: "Botsuana", BY: "Bielorrusia", BZ: "Belice",
+  CA: "Canadá", CC: "Islas Cocos", CD: "República Democrática del Congo", CF: "República Centroafricana", CG: "República del Congo", CH: "Suiza", CI: "Costa de Marfil", CK: "Islas Cook", CL: "Chile", CM: "Camerún", CN: "China", CO: "Colombia", CR: "Costa Rica", CU: "Cuba", CV: "Cabo Verde", CW: "Curazao", CX: "Isla de Navidad", CY: "Chipre", CZ: "Chequia",
+  DE: "Alemania", DJ: "Yibuti", DK: "Dinamarca", DM: "Dominica", DO: "República Dominicana", DZ: "Argelia",
+  EC: "Ecuador", EE: "Estonia", EG: "Egipto", EH: "Sáhara Occidental", ER: "Eritrea", ES: "España", ET: "Etiopía",
+  FI: "Finlandia", FJ: "Fiyi", FK: "Islas Malvinas", FM: "Micronesia", FO: "Islas Feroe", FR: "Francia",
+  GA: "Gabón", GB: "Reino Unido", GD: "Granada", GE: "Georgia", GF: "Guayana Francesa", GG: "Guernsey", GH: "Ghana", GI: "Gibraltar", GL: "Groenlandia", GM: "Gambia", GN: "Guinea", GP: "Guadalupe", GQ: "Guinea Ecuatorial", GR: "Grecia", GS: "Islas Georgias del Sur y Sandwich del Sur", GT: "Guatemala", GU: "Guam", GW: "Guinea-Bisáu", GY: "Guyana",
+  HK: "Hong Kong", HM: "Islas Heard y McDonald", HN: "Honduras", HR: "Croacia", HT: "Haití", HU: "Hungría",
+  ID: "Indonesia", IE: "Irlanda", IL: "Israel", IM: "Isla de Man", IN: "India", IO: "Territorio Británico del Océano Índico", IQ: "Irak", IR: "Irán", IS: "Islandia", IT: "Italia",
+  JE: "Jersey", JM: "Jamaica", JO: "Jordania", JP: "Japón",
+  KE: "Kenia", KG: "Kirguistán", KH: "Camboya", KI: "Kiribati", KM: "Comoras", KN: "San Cristóbal y Nieves", KP: "Corea del Norte", KR: "Corea del Sur", KW: "Kuwait", KY: "Islas Caimán", KZ: "Kazajistán",
+  LA: "Laos", LB: "Líbano", LC: "Santa Lucía", LI: "Liechtenstein", LK: "Sri Lanka", LR: "Liberia", LS: "Lesoto", LT: "Lituania", LU: "Luxemburgo", LV: "Letonia", LY: "Libia",
+  MA: "Marruecos", MC: "Mónaco", MD: "Moldavia", ME: "Montenegro", MF: "San Martín (parte francesa)", MG: "Madagascar", MH: "Islas Marshall", MK: "Macedonia del Norte", ML: "Malí", MM: "Myanmar", MN: "Mongolia", MO: "Macao", MP: "Islas Marianas del Norte", MQ: "Martinica", MR: "Mauritania", MS: "Montserrat", MT: "Malta", MU: "Mauricio", MV: "Maldivas", MW: "Malaui", MX: "México", MY: "Malasia", MZ: "Mozambique",
+  NA: "Namibia", NC: "Nueva Caledonia", NE: "Níger", NF: "Isla Norfolk", NG: "Nigeria", NI: "Nicaragua", NL: "Países Bajos", NO: "Noruega", NP: "Nepal", NR: "Nauru", NU: "Niue", NZ: "Nueva Zelanda",
+  OM: "Omán", PA: "Panamá", PE: "Perú", PF: "Polinesia Francesa", PG: "Papúa Nueva Guinea", PH: "Filipinas", PK: "Pakistán", PL: "Polonia", PM: "San Pedro y Miquelón", PN: "Islas Pitcairn", PR: "Puerto Rico", PS: "Palestina", PT: "Portugal", PW: "Palaos", PY: "Paraguay",
+  QA: "Catar", RE: "Reunión", RO: "Rumanía", RS: "Serbia", RU: "Rusia", RW: "Ruanda",
+  SA: "Arabia Saudita", SB: "Islas Salomón", SC: "Seychelles", SD: "Sudán", SE: "Suecia", SG: "Singapur", SH: "Santa Elena, Ascensión y Tristán de Acuña", SI: "Eslovenia", SJ: "Svalbard y Jan Mayen", SK: "Eslovaquia", SL: "Sierra Leona", SM: "San Marino", SN: "Senegal", SO: "Somalia", SR: "Surinam", SS: "Sudán del Sur", ST: "Santo Tomé y Príncipe", SV: "El Salvador", SX: "San Martín (parte neerlandesa)", SY: "Siria", SZ: "Esuatini",
+  TC: "Islas Turcas y Caicos", TD: "Chad", TF: "Tierras Australes Francesas", TG: "Togo", TH: "Tailandia", TJ: "Tayikistán", TK: "Tokelau", TL: "Timor Oriental", TM: "Turkmenistán", TN: "Túnez", TO: "Tonga", TR: "Turquía", TT: "Trinidad y Tobago", TV: "Tuvalu", TW: "Taiwán", TZ: "Tanzania",
+  UA: "Ucrania", UG: "Uganda", UM: "Islas menores alejadas de Estados Unidos", US: "Estados Unidos", UY: "Uruguay", UZ: "Uzbekistán",
+  VA: "Ciudad del Vaticano", VC: "San Vicente y las Granadinas", VE: "Venezuela", VG: "Islas Vírgenes Británicas", VI: "Islas Vírgenes de Estados Unidos", VN: "Vietnam", VU: "Vanuatu",
+  WF: "Wallis y Futuna", WS: "Samoa", YE: "Yemen", YT: "Mayotte",
+  ZA: "Sudáfrica", ZM: "Zambia", ZW: "Zimbabue"
 };
 
-// Cargar Selector de Países
+// Llenar el selector de países con todos los del mundo
 $("regCountry").add(new Option("Selecciona tu país", ""));
 Object.entries(countries).sort((a, b) => a[1].localeCompare(b[1], "es")).forEach(([code, name]) => {
   $("regCountry").add(new Option(name, code));
 });
 
-// Cargar datos de LocalStorage
+// Cargar datos
 try {
   const sP = localStorage.getItem("bdl_players");
   const sL = localStorage.getItem("bdl_levels");
@@ -221,7 +225,6 @@ try {
   if (sD) difficulties = JSON.parse(sD);
 } catch (e) {}
 
-// Login Admin
 $("adminBtn").onclick = () => {
   if (isAdmin) {
     isAdmin = false;
@@ -235,12 +238,10 @@ $("adminBtn").onclick = () => {
       document.body.classList.add("is-admin");
       $("adminBtn").classList.add("active");
       renderAll();
-      alert("Modo Administrador Activado");
     } else if (pass !== null) alert("Contraseña incorrecta.");
   }
 };
 
-// Cambiar de Pestaña
 function switchView(view) {
   $("viewRanking").classList.add("hidden");
   $("viewLevels").classList.add("hidden");
@@ -260,7 +261,7 @@ function switchView(view) {
 
 function closeModal(id) { $(id).classList.remove("active"); }
 
-// REGISTRO DE JUGADOR
+// REGISTRO
 $("registerForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const name = $("regName").value.trim();
@@ -280,7 +281,7 @@ $("registerForm").addEventListener("submit", (e) => {
   switchView('ranking');
 });
 
-// EDICIÓN DE JUGADOR (ADMIN)
+// ADMIN: Editar jugador
 function openPlayerEditModal(id) {
   const p = players.find(x => x.id === id);
   if (!p) return;
@@ -304,7 +305,7 @@ $("playerEditForm").addEventListener("submit", (e) => {
 });
 
 function deletePlayer(id) {
-  if (!confirm("¿Seguro que quieres eliminar a este jugador?")) return;
+  if (!confirm("¿Eliminar jugador?")) return;
   players = players.filter(p => p.id !== id);
   localStorage.setItem("bdl_players", JSON.stringify(players));
   renderRanking();
@@ -334,7 +335,7 @@ function deleteDiff(id) {
 
 function renderDiffs() {
   const c = $("diffList"); c.innerHTML = "";
-  if (difficulties.length === 0) { c.innerHTML = `<div class="empty-state">No hay dificultades personalizadas.</div>`; return; }
+  if (difficulties.length === 0) { c.innerHTML = `<div class="empty-state">No hay dificultades.</div>`; return; }
   difficulties.forEach(d => {
     const div = document.createElement("div");
     div.className = "level-card";
@@ -344,7 +345,7 @@ function renderDiffs() {
         <div class="level-title">${d.name}</div>
       </div>
       <div class="admin-controls" style="display:flex;">
-        <button class="btn-icon delete" onclick="deleteDiff(${d.id})">🗑️ Eliminar</button>
+        <button class="btn-icon delete" onclick="deleteDiff(${d.id})">🗑️</button>
       </div>
     `;
     c.append(div);
@@ -355,7 +356,6 @@ function renderDiffs() {
 function openLevelModal(id = null) {
   $("levelForm").reset();
   $("editLevelId").value = id || "";
-  
   const sel = $("lDiff"); sel.innerHTML = "";
   difficulties.forEach(d => { sel.innerHTML += `<option value="${d.name}">${d.name}</option>`; });
 
@@ -392,7 +392,7 @@ $("levelForm").addEventListener("submit", (e) => {
 });
 
 function deleteLevel(id) {
-  if (!confirm("¿Eliminar nivel de la lista?")) return;
+  if (!confirm("¿Eliminar nivel?")) return;
   levels = levels.filter(l => l.id !== id);
   localStorage.setItem("bdl_levels", JSON.stringify(levels));
   renderLevels();
@@ -402,14 +402,14 @@ function renderLevels() {
   const c = $("levelList"); c.innerHTML = "";
   const sorted = [...levels].sort((a, b) => a.pos - b.pos);
 
-  if (sorted.length === 0) { c.innerHTML = `<div class="empty-state">La Demonlist está vacía.</div>`; return; }
+  if (sorted.length === 0) { c.innerHTML = `<div class="empty-state">Demonlist vacía.</div>`; return; }
 
   sorted.forEach(l => {
     const diffData = difficulties.find(d => d.name === l.difficulty);
     const diffImg = diffData && diffData.image ? `<img src="${diffData.image}">` : '💀';
     const card = document.createElement("div");
     card.className = "level-card";
-    const img = l.image ? `<img src="${l.image}" class="level-thumb">` : `<div class="level-thumb">Sin Imagen</div>`;
+    const img = l.image ? `<img src="${l.image}" class="level-thumb">` : `<div class="level-thumb">Sin Img</div>`;
 
     card.innerHTML = `
       <div class="level-rank">#${l.pos}</div>
@@ -440,7 +440,7 @@ function renderRanking() {
     return { ...p, total };
   }).sort((a, b) => b.total - a.total);
 
-  if (ranked.length === 0) { c.innerHTML = `<div class="empty-state">Nadie está en el ranking aún. ¡Sé el primero!</div>`; return; }
+  if (ranked.length === 0) { c.innerHTML = `<div class="empty-state">Nadie registrado aún.</div>`; return; }
 
   ranked.forEach((p, i) => {
     const card = document.createElement("div");
@@ -454,7 +454,7 @@ function renderRanking() {
       ${avatar}
       <div style="flex-grow:1;">
         <div class="player-name">${p.name} ${flag}</div>
-        <div class="player-stats">🏆 ${p.completedLevels || "Sin niveles completados"}</div>
+        <div class="player-stats">🏆 ${p.completedLevels || "Sin niveles"}</div>
       </div>
       <div class="player-points">${p.total.toFixed(2)} <br><span style="font-size:10px; color:var(--text-muted);">pts</span></div>
       <div class="admin-controls">
