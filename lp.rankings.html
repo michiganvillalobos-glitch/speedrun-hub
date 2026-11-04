@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LP Rankings</title>
+<title>LP Rankings Pro</title>
 
 <style>
 :root {
@@ -22,34 +22,35 @@ body {
 }
 header {
   padding: 20px; background-color: var(--bg-header); border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100;
 }
 .header-content { display: flex; align-items: center; gap: 15px; }
-.logo { font-size: 22px; font-weight: 800; }
+.logo { font-size: 22px; font-weight: 900; letter-spacing: 1px; }
+.logo span { color: var(--accent); }
 .header-actions { display: flex; gap: 10px; align-items: center; }
 .icon-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text-muted); }
 #adminBtn.active { color: var(--red); }
-main { max-width: 600px; margin: auto; padding: 20px 15px; }
+main { max-width: 700px; margin: auto; padding: 20px 15px 100px; }
 
-/* Tarjetas WR */
-.wr-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-.wr-card { background-color: var(--green); border-radius: 12px; padding: 15px; color: white; }
-.wr-card.max { background-color: var(--blue); }
-.wr-title { font-size: 12px; font-weight: bold; margin-bottom: 5px; }
-.wr-score { font-size: 24px; font-weight: 900; margin: 5px 0; }
-.wr-player { font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
-.wr-player img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; border: 2px solid white; }
+/* TARJETAS WR */
+.wr-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+.wr-card { background: linear-gradient(135deg, var(--green) 0%, #0d3a29 100%); border-radius: 16px; padding: 20px; color: white; }
+.wr-card.max { background: linear-gradient(135deg, var(--blue) 0%, #1a3e66 100%); }
+.wr-title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+.wr-score-container { display: flex; align-items: baseline; gap: 5px; margin: 5px 0; }
+.wr-score { font-size: 32px; font-weight: 900; line-height: 1; }
+.wr-pts { font-size: 16px; font-weight: 700; color: rgba(255,255,255,0.7); text-transform: lowercase; }
+.wr-player { font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+.wr-player img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 2px solid white; }
 
-/* Pestañas generales */
+/* TABS Y BOTONES */
 .tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
 .tabs button {
   flex: 1; padding: 12px; border: 0; border-radius: 10px; min-width: 100px;
   background: var(--bg-surface); color: var(--text-muted); font-weight: bold; cursor: pointer; border: 1px solid var(--border);
 }
 .tabs button.active { background: var(--text-main); color: var(--bg-main); border-color: var(--text-main); }
-
-/* Sub-pestañas para separar los rankings */
-.sub-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+.sub-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
 .sub-tabs button {
   flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--border);
   background: transparent; color: var(--text-muted); font-weight: bold; cursor: pointer;
@@ -62,30 +63,36 @@ td { padding: 15px 5px; border-bottom: 1px solid var(--border); vertical-align: 
 tr:last-child td { border-bottom: 0; }
 .rank { font-size: 16px; color: var(--text-muted); width: 40px; text-align: center; font-weight: bold; }
 
+/* JUGADOR */
 .player { display: flex; align-items: center; gap: 12px; font-weight: 600; }
 .avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); background: #333; }
 .player-info { display: flex; flex-direction: column; }
 .player-name { font-size: 15px; display: flex; align-items: center; }
 .player-desc { font-size: 11px; color: var(--text-muted); font-weight: normal; }
 .flag { width: 20px; height: 14px; border-radius: 2px; object-fit: cover; margin-left: 6px; }
-.score { text-align: right; font-size: 22px; font-weight: 900; color: var(--accent); }
 
-/* Formularios */
+/* SCORE (PUNTOS) */
+.score-container { text-align: right; display: flex; align-items: baseline; justify-content: flex-end; gap: 4px; }
+.score { font-size: 20px; font-weight: 900; color: var(--accent); }
+.score-pts { font-size: 11px; font-weight: bold; color: var(--text-muted); }
+
+/* TIME (TIEMPO) */
+.time-display { text-align: right; font-size: 16px; font-weight: 800; color: var(--green); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.video-link { display: inline-block; margin-left: 10px; color: var(--red); text-decoration: none; font-size: 12px; font-weight: bold; }
+
+/* FORMULARIOS */
 form { display: grid; gap: 15px; }
 label { display: grid; gap: 5px; color: var(--text-muted); font-size: 13px; font-weight: bold; }
 input, select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-main); color: var(--text-main); font-size: 16px; }
 button[type="submit"] { padding: 14px; background: var(--accent); color: #000; border: none; border-radius: 10px; font-weight: 800; font-size: 16px; cursor: pointer; }
 
-/* ESTILO DEL CHECKBOX PARA YOUTUBE */
-.yt-toggle {
-  display: flex; align-items: center; justify-content: space-between;
-  background: var(--bg-main); border: 1px solid var(--border); border-radius: 8px;
-  padding: 12px; cursor: pointer; margin-top: 5px;
-}
-.yt-toggle span { font-size: 14px; color: var(--text-main); font-weight: bold; }
+/* FORMULARIO DINÁMICO */
+.time-fields { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 5px; }
+.time-fields input { text-align: center; padding: 10px 5px; }
+.yt-toggle { display: flex; align-items: center; justify-content: space-between; background: var(--bg-main); border: 1px solid var(--border); border-radius: 8px; padding: 12px; cursor: pointer; }
 .yt-toggle input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; accent-color: var(--accent); }
 
-/* Admin */
+/* ADMIN */
 .admin-actions { display: inline-flex; gap: 5px; margin-left: 10px; }
 .admin-btn-icon { background: none; border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 14px; }
 .admin-btn-icon.delete { color: var(--red); border-color: var(--red); }
@@ -94,6 +101,11 @@ button[type="submit"] { padding: 14px; background: var(--accent); color: #000; b
 .admin-btn-icon.verify { color: #3b82f6; border-color: #3b82f6; }
 .verify-item { margin-bottom: 10px; padding: 10px; background: var(--bg-main); border-radius: 8px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
 .verify-info { display: flex; align-items: center; gap: 10px; }
+
+/* TIEMPOS TABLA ESPECIAL */
+.time-table-title { font-size: 18px; font-weight: 800; margin-bottom: 10px; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+.time-category { display: inline-block; background: var(--bg-main); padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; color: var(--text-muted); margin-bottom: 10px; }
+
 [hidden] { display: none !important; }
 </style>
 </head>
@@ -101,63 +113,98 @@ button[type="submit"] { padding: 14px; background: var(--accent); color: #000; b
 <body>
 
 <header>
-  <div class="header-content"><div class="logo">LP Rankings</div></div>
+  <div class="header-content"><div class="logo">LP<span>RANKINGS</span></div></div>
   <div class="header-actions">
-    <button id="themeBtn" class="icon-btn" title="Modo Claro/Oscuro">☀️</button>
-    <button id="adminBtn" class="icon-btn" title="Panel de Moderador">⚙️</button>
+    <button id="themeBtn" class="icon-btn">☀️</button>
+    <button id="adminBtn" class="icon-btn">⚙️</button>
   </div>
 </header>
 
 <main>
   <div class="tabs">
-    <button id="tabRanking" class="active">Global</button>
+    <button id="tabRanking" class="active">Rankings</button>
     <button id="tabSubmit">Tu marca aquí</button>
     <button id="tabProfile">Mi Perfil</button>
     <button id="tabVerify" style="display: none; background: var(--red); color: white;">Verificar</button>
   </div>
-
-  <section id="panelRanking">
+    <section id="panelRanking">
+    <!-- WR DE PUNTOS -->
     <div class="wr-container" id="wrContainer" hidden>
       <div class="wr-card">
         <div class="wr-title">WR Mínima 🌏</div>
-        <div class="wr-score" id="wrScoreMin">0</div>
+        <div class="wr-score-container">
+          <span class="wr-score" id="wrScoreMin">0</span>
+          <span class="wr-pts">pts</span>
+        </div>
         <div class="wr-player" id="wrPlayerMin"></div>
       </div>
       <div class="wr-card max">
         <div class="wr-title">WR Máxima 🌏🏆</div>
-        <div class="wr-score" id="wrScoreMax">0</div>
+        <div class="wr-score-container">
+          <span class="wr-score" id="wrScoreMax">0</span>
+          <span class="wr-pts">pts</span>
+        </div>
         <div class="wr-player" id="wrPlayerMax"></div>
       </div>
     </div>
 
-    <!-- PESTAÑAS DEL RANKING (Mínima primero por defecto) -->
+    <!-- SUBTABS: PUNTOS O TIEMPOS -->
     <div class="sub-tabs" id="rankingSubTabs" hidden>
       <button id="subTabMin" class="active" onclick="switchRankingTab('min')">⏱️ Puntaje Mínimo</button>
       <button id="subTabMax" onclick="switchRankingTab('max')">🏆 Puntaje Máximo</button>
+      <button id="subTabTime" onclick="switchRankingTab('time')">⏳ Tiempos (Speedruns)</button>
     </div>
 
+    <!-- CONTENEDOR DE PUNTOS -->
     <div id="rankingContainer"></div>
+    <!-- CONTENEDOR DE TIEMPOS -->
+    <div id="timeContainer" hidden></div>
+    
     <p id="emptyRanking" class="empty" style="text-align:center; color:var(--text-muted);">Aún no hay clasificaciones</p>
   </section>
 
+  <!-- FORMULARIO DINÁMICO -->
   <section id="panelSubmit" hidden>
     <div class="card">
       <h2 id="formTitle">Registrar marca</h2>
       <form id="recordForm">
         <input type="hidden" id="editRecordId">
-        <label>Nombre del juego <input id="gameName" maxlength="30" value="Reto Principal" required></label>
-        <label>Nombre de usuario <input id="playerName" maxlength="20" required></label>
-        <label>URL de tu foto de perfil (opcional) <input id="avatarUrl" type="url" placeholder="https://ejemplo.com/mi-foto.jpg"></label>
-        <label>Descripción corta (opcional) <input id="playerDesc" maxlength="30" placeholder="Ej: Nivel 50 - Épico"></label>
-        <label>País <select id="country" required></select></label>
-        <label>PIN Secreto (4 números) <input id="playerPin" type="number" placeholder="Ej: 1234" required></label>
-        <label>Tipo de Reto <select id="gameMode" required>
-          <option value="menor">Menor puntuación (Cuanto menos, mejor)</option>
-          <option value="mayor">Mayor puntuación (El más alto gana)</option>
-        </select></label>
-        <label>Puntuación <input id="score" type="number" min="0" max="999999" required></label>
         
-        <!-- CHECKBOX PARA EL VIDEO -->
+        <label>Nombre del juego <input id="gameName" maxlength="30" value="Reto Principal" required></label>
+        
+        <!-- SELECTOR DE TIPO DE RETO -->
+        <label>Tipo de Reto <select id="recordType" required onchange="toggleFormFields()">
+          <option value="puntuacion">Puntuación (Puntos)</option>
+          <option value="tiempo">Tiempo (Speedrun)</option>
+        </select></label>
+
+        <!-- CAMPOS PARA PUNTOS -->
+        <div id="fieldsPuntos">
+          <label>Tipo de Puntuación <select id="gameMode" required>
+            <option value="menor">Menor puntuación (Cuanto menos, mejor)</option>
+            <option value="mayor">Mayor puntuación (El más alto gana)</option>
+          </select></label>
+          <label>Puntuación <input id="score" type="number" min="0" max="999999" placeholder="Ej: 7583"></label>
+        </div>
+
+        <!-- CAMPOS PARA TIEMPO -->
+        <div id="fieldsTiempo" hidden>
+          <label>Categoría del Speedrun <input id="timeCategory" maxlength="30" placeholder="Ej: Any%, 10th Place..."></label>
+          <label>Tiempo exacto (Horas, Minutos, Segundos, Milisegundos)</label>
+          <div class="time-fields">
+            <input id="tHours" type="number" placeholder="00" min="0">
+            <input id="tMins" type="number" placeholder="00" min="0" max="59">
+            <input id="tSecs" type="number" placeholder="00" min="0" max="59">
+            <input id="tMs" type="number" placeholder="000" min="0" max="999">
+          </div>
+        </div>
+
+        <label>Nombre de usuario <input id="playerName" maxlength="20" required></label>
+        <label>URL de tu foto de perfil (opcional) <input id="avatarUrl" type="url"></label>
+        <label>Descripción corta (opcional) <input id="playerDesc" maxlength="30"></label>
+        <label>País <select id="country" required></select></label>
+        <label>PIN Secreto (4 números) <input id="playerPin" type="number" required></label>
+        
         <label class="yt-toggle">
           <span>¿Deseas agregar un link de YouTube?</span>
           <input type="checkbox" id="hasYoutube" onchange="toggleYoutubeField()">
@@ -200,18 +247,17 @@ button[type="submit"] { padding: 14px; background: var(--accent); color: #000; b
     </div>
   </section>
 </main>
-
-  <script>
+<script>
 "use strict";
 
 const ADMIN_PASSWORD = "admin123"; 
 const $ = id => document.getElementById(id);
-const STORAGE_KEY = "lp-ranking-final-v8"; // Cambiado a v8
+const STORAGE_KEY = "lp-ranking-v9"; 
 let records = [];
 let pendingRecords = [];
 let isAdmin = false;
 let editingId = null;
-let currentRankingMode = "min"; // Por defecto mostramos Mínimos
+let currentRankingMode = "min"; 
 
 const countries = {
   AD: "Andorra", AE: "Emiratos Árabes Unidos", AF: "Afganistán", AG: "Antigua y Barbuda", AI: "Anguila", AL: "Albania", AM: "Armenia", AO: "Angola", AQ: "Antártida", AR: "Argentina", AS: "Samoa Americana", AT: "Austria", AU: "Australia", AW: "Aruba", AX: "Islas Åland", AZ: "Azerbaiyán",
@@ -241,10 +287,12 @@ function flagEmoji(code) { return [...code].map(l => String.fromCodePoint(127397
 
 ["country", "profCountry"].forEach(id => {
   const el = $(id);
-  el.add(new Option("Selecciona tu país", ""));
-  Object.entries(countries).sort((a, b) => a[1].localeCompare(b[1], "es")).forEach(([code, name]) => {
-    el.add(new Option(`${flagEmoji(code)} ${name}`, code));
-  });
+  if (el) {
+    el.add(new Option("Selecciona tu país", ""));
+    Object.entries(countries).sort((a, b) => a[1].localeCompare(b[1], "es")).forEach(([code, name]) => {
+      el.add(new Option(`${flagEmoji(code)} ${name}`, code));
+    });
+  }
 });
 
 try {
@@ -254,20 +302,34 @@ try {
   if (savedPend) pendingRecords = JSON.parse(savedPend);
 } catch { records = []; pendingRecords = []; }
 
-// LÓGICA DEL CHECKBOX DE YOUTUBE
 function toggleYoutubeField() {
   const isChecked = $("hasYoutube").checked;
   $("youtubeField").hidden = !isChecked;
   if (!isChecked) $("videoUrl").value = ""; 
 }
 
+function toggleFormFields() {
+  const type = $("recordType").value;
+  if (type === "puntuacion") {
+    $("fieldsPuntos").hidden = false;
+    $("fieldsTiempo").hidden = true;
+    $("score").required = true;
+  } else {
+    $("fieldsPuntos").hidden = true;
+    $("fieldsTiempo").hidden = false;
+    $("score").required = false;
+  }
+}
+</script>
+
+  <script>
 // ADMIN
 $("adminBtn").onclick = () => {
   if (isAdmin) {
     isAdmin = false;
     $("adminBtn").classList.remove("active");
     $("tabVerify").style.display = "none";
-    switchTab("ranking"); render();
+    switchTab("ranking"); renderAll();
   } else {
     const pass = prompt("Contraseña de moderador:");
     if (pass === ADMIN_PASSWORD) {
@@ -275,7 +337,7 @@ $("adminBtn").onclick = () => {
       $("adminBtn").classList.add("active");
       $("tabVerify").style.display = "block";
       $("tabVerify").textContent = `Verificar (${pendingRecords.length})`;
-      render(); renderVerify();
+      renderAll(); renderVerify();
     } else if (pass !== null) alert("Contraseña incorrecta.");
   }
 };
@@ -289,10 +351,74 @@ function switchRankingTab(mode) {
   currentRankingMode = mode;
   $("subTabMax").classList.toggle("active", mode === "max");
   $("subTabMin").classList.toggle("active", mode === "min");
-  render();
+  $("subTabTime").classList.toggle("active", mode === "time");
+  renderAll();
 }
 
-// EDITAR
+// FORMATEAR TIEMPO
+function formatTime(ms) {
+  const hours = Math.floor(ms / 3600000);
+  const minutes = Math.floor(ms / 60000) % 60;
+  const seconds = Math.floor(ms / 1000) % 60;
+  const milliseconds = ms % 1000;
+  return (String(hours).padStart(2, "0") + "h:" + String(minutes).padStart(2, "0") + "m:" + String(seconds).padStart(2, "0") + "s." + String(milliseconds).padStart(3, "0") + "ms");
+}
+
+// ENVIAR / EDITAR
+$("recordForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const game = $("gameName").value.trim();
+  const name = $("playerName").value.trim();
+  const country = $("country").value;
+  const type = $("recordType").value;
+  const avatar = $("avatarUrl").value.trim();
+  const desc = $("playerDesc").value.trim();
+  const pin = $("playerPin").value.trim();
+  const video = $("hasYoutube").checked ? $("videoUrl").value.trim() : "";
+
+  let data = { game, name, country, type, avatar, desc, pin, video, verified: false, created: Date.now() };
+
+  if (type === "puntuacion") {
+    const mode = $("gameMode").value;
+    const score = Number($("score").value);
+    if (!game || !name || !country || isNaN(score) || pin.length < 4) { alert("Faltan datos."); return; }
+    data.mode = mode; data.score = score;
+  } else {
+    const cat = $("timeCategory").value.trim() || "Any%";
+    const h = Number($("tHours").value) || 0;
+    const m = Number($("tMins").value) || 0;
+    const s = Number($("tSecs").value) || 0;
+    const ms = Number($("tMs").value) || 0;
+    if (!game || !name || !country || pin.length < 4) { alert("Faltan datos."); return; }
+    data.category = cat; data.ms = (h * 3600000) + (m * 60000) + (s * 1000) + ms;
+  }
+
+  if (editingId) {
+    const index = records.findIndex(r => r.created === editingId);
+    if (index !== -1) {
+      records[index] = { ...records[index], ...data };
+    }
+    localStorage.setItem(STORAGE_KEY + "_approved", JSON.stringify(records));
+    editingId = null;
+    resetForm(); switchTab("ranking"); renderAll();
+  } else {
+    pendingRecords.push(data);
+    localStorage.setItem(STORAGE_KEY + "_pending", JSON.stringify(pendingRecords));
+    resetForm(); switchTab("ranking");
+    alert("Marca enviada. Espera verificación.");
+    if (isAdmin) $("tabVerify").textContent = `Verificar (${pendingRecords.length})`;
+  }
+});
+
+function resetForm() {
+  $("recordForm").reset();
+  $("hasYoutube").checked = false; toggleYoutubeField();
+  $("submitBtn").textContent = "Subir marca";
+  $("cancelEditBtn").style.display = "none";
+  $("formTitle").textContent = "Registrar marca";
+  toggleFormFields();
+}
+
 function editRecord(id) {
   if (!isAdmin) return;
   const record = records.find(r => r.created === id);
@@ -303,18 +429,23 @@ function editRecord(id) {
   $("avatarUrl").value = record.avatar || "";
   $("playerDesc").value = record.desc || "";
   $("country").value = record.country;
-  $("gameMode").value = record.mode;
-  $("score").value = record.score;
   $("playerPin").value = record.pin || "";
-  
-  if (record.video) {
-    $("hasYoutube").checked = true;
-    toggleYoutubeField();
-    $("videoUrl").value = record.video;
+  $("recordType").value = record.type;
+  toggleFormFields();
+
+  if (record.type === "puntuacion") {
+    $("gameMode").value = record.mode;
+    $("score").value = record.score;
   } else {
-    $("hasYoutube").checked = false;
-    toggleYoutubeField();
+    $("timeCategory").value = record.category || "";
+    $("tHours").value = Math.floor(record.ms / 3600000);
+    $("tMins").value = Math.floor(record.ms / 60000) % 60;
+    $("tSecs").value = Math.floor(record.ms / 1000) % 60;
+    $("tMs").value = record.ms % 1000;
   }
+
+  if (record.video) { $("hasYoutube").checked = true; toggleYoutubeField(); $("videoUrl").value = record.video; }
+  else { $("hasYoutube").checked = false; toggleYoutubeField(); }
 
   editingId = id;
   $("submitBtn").textContent = "Actualizar marca";
@@ -323,62 +454,15 @@ function editRecord(id) {
   switchTab("submit");
 }
 
-$("cancelEditBtn").onclick = () => {
-  editingId = null;
-  $("recordForm").reset();
-  $("hasYoutube").checked = false; toggleYoutubeField();
-  $("submitBtn").textContent = "Subir marca";
-  $("cancelEditBtn").style.display = "none";
-  $("formTitle").textContent = "Registrar marca";
-  switchTab("ranking");
-};
-
-$("recordForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const game = $("gameName").value.trim();
-  const name = $("playerName").value.trim();
-  const country = $("country").value;
-  const mode = $("gameMode").value;
-  const score = Number($("score").value);
-  const avatar = $("avatarUrl").value.trim();
-  const desc = $("playerDesc").value.trim();
-  const pin = $("playerPin").value.trim();
-  const video = $("hasYoutube").checked ? $("videoUrl").value.trim() : "";
-
-  if (!game || !name || !country || isNaN(score) || pin.length < 4) {
-    alert("Faltan datos o el PIN no tiene 4 números."); return;
-  }
-
-  if (editingId) {
-    const index = records.findIndex(r => r.created === editingId);
-    if (index !== -1) {
-      records[index] = { ...records[index], game, name, country, mode, score, avatar, desc, pin, video, verified: records[index].verified };
-    }
-    localStorage.setItem(STORAGE_KEY + "_approved", JSON.stringify(records));
-    editingId = null;
-    $("submitBtn").textContent = "Subir marca";
-    $("cancelEditBtn").style.display = "none";
-    $("formTitle").textContent = "Registrar marca";
-    $("recordForm").reset(); $("hasYoutube").checked = false; toggleYoutubeField();
-    switchTab("ranking"); render();
-  } else {
-    pendingRecords.push({ game, name, country, mode, score, avatar, desc, pin, video, verified: false, created: Date.now() });
-    localStorage.setItem(STORAGE_KEY + "_pending", JSON.stringify(pendingRecords));
-    $("recordForm").reset(); $("hasYoutube").checked = false; toggleYoutubeField();
-    switchTab("ranking");
-    alert("Marca enviada. Espera a que un administrador la verifique.");
-    if (isAdmin) $("tabVerify").textContent = `Verificar (${pendingRecords.length})`;
-  }
-});
+$("cancelEditBtn").onclick = () => { editingId = null; resetForm(); switchTab("ranking"); };
 
 // PERFIL
 $("loginPinForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const pin = $("loginPinInput").value.trim();
   const playerRecord = records.find(r => r.pin === pin);
-  
-  if (!playerRecord) { alert("PIN incorrecto o no registrado."); return; }
-  if (playerRecord.verified) { alert("Tu cuenta ya ha sido verificada por un administrador. No puedes editar tu perfil."); return; }
+  if (!playerRecord) { alert("PIN incorrecto."); return; }
+  if (playerRecord.verified) { alert("Tu cuenta ya está verificada. No puedes editarla."); return; }
   
   $("profileRecordId").value = playerRecord.created;
   $("profName").value = playerRecord.name;
@@ -402,11 +486,11 @@ $("profileForm").addEventListener("submit", (e) => {
     alert("Perfil actualizado.");
     $("loginPinForm").reset(); $("loginPinForm").hidden = false;
     $("profileEditSection").hidden = true;
-    switchTab("ranking"); render();
+    switchTab("ranking"); renderAll();
   }
 });
 
-// ACCIONES DE ADMIN
+// VERIFICACIÓN Y BORRADO (ADMIN)
 function acceptRecord(id) {
   const index = pendingRecords.findIndex(r => r.created === id);
   if (index !== -1) {
@@ -415,11 +499,11 @@ function acceptRecord(id) {
     localStorage.setItem(STORAGE_KEY + "_approved", JSON.stringify(records));
     localStorage.setItem(STORAGE_KEY + "_pending", JSON.stringify(pendingRecords));
     $("tabVerify").textContent = `Verificar (${pendingRecords.length})`;
-    render(); renderVerify();
+    renderAll(); renderVerify();
   }
 }
 function rejectRecord(id) {
-  if (confirm("¿Rechazar esta marca permanentemente?")) {
+  if (confirm("¿Rechazar esta marca?")) {
     pendingRecords = pendingRecords.filter(r => r.created !== id);
     localStorage.setItem(STORAGE_KEY + "_pending", JSON.stringify(pendingRecords));
     $("tabVerify").textContent = `Verificar (${pendingRecords.length})`;
@@ -431,7 +515,7 @@ function deleteRecord(id) {
   if (confirm("¿Eliminar esta marca de la tabla?")) {
     records = records.filter(r => r.created !== id);
     localStorage.setItem(STORAGE_KEY + "_approved", JSON.stringify(records));
-    render();
+    renderAll();
   }
 }
 function toggleVerify(id) {
@@ -440,20 +524,23 @@ function toggleVerify(id) {
   if (index !== -1) {
     records[index].verified = !records[index].verified;
     localStorage.setItem(STORAGE_KEY + "_approved", JSON.stringify(records));
-    render();
+    renderAll();
   }
 }
 
-function render() {
-  const container = $("rankingContainer");
-  container.replaceChildren();
-  
-  const minRecords = records.filter(r => r.mode === "menor").sort((a, b) => a.score - b.score);
-  const maxRecords = records.filter(r => r.mode === "mayor").sort((a, b) => b.score - a.score);
+// RENDERIZAR TODO
+function renderAll() {
+  // Filtrar datos por tipo de reto
+  const pointsRecords = records.filter(r => r.type === "puntuacion");
+  const timeRecords = records.filter(r => r.type === "tiempo");
 
-  $("wrContainer").hidden = records.length === 0;
+  const minRecords = pointsRecords.filter(r => r.mode === "menor").sort((a, b) => a.score - b.score);
+  const maxRecords = pointsRecords.filter(r => r.mode === "mayor").sort((a, b) => b.score - a.score);
+
+  $("wrContainer").hidden = pointsRecords.length === 0;
   $("rankingSubTabs").hidden = records.length === 0;
 
+  // Actualizar WR de Puntos
   if (minRecords.length > 0) {
     const r = minRecords[0];
     $("wrScoreMin").textContent = r.score;
@@ -466,10 +553,29 @@ function render() {
     $("wrPlayerMax").innerHTML = `${r.avatar ? `<img src="${r.avatar}">` : ''} <img src="https://flagcdn.com/w40/${r.country.toLowerCase()}.png"> ${r.name}`;
   } else { $("wrScoreMax").textContent = "0"; $("wrPlayerMax").textContent = "Sin marcas"; }
 
-  const filteredRecords = currentRankingMode === "max" ? maxRecords : minRecords;
+  // Renderizar tabla de Puntos
+  const containerPoints = $("rankingContainer");
+  const containerTime = $("timeContainer");
+  containerPoints.replaceChildren();
+  containerTime.replaceChildren();
 
+  if (currentRankingMode === "time") {
+    containerPoints.hidden = true;
+    containerTime.hidden = false;
+    renderTimeTable(timeRecords, containerTime);
+  } else {
+    containerPoints.hidden = false;
+    containerTime.hidden = true;
+    const filteredRecords = currentRankingMode === "max" ? maxRecords : minRecords;
+    renderPointsTable(filteredRecords, containerPoints);
+  }
+
+  $("emptyRanking").hidden = (currentRankingMode === "time" ? timeRecords.length > 0 : (currentRankingMode === "max" ? maxRecords.length > 0 : minRecords.length > 0));
+}
+
+function renderPointsTable(filtered, container) {
   const grouped = {};
-  filteredRecords.forEach(r => {
+  filtered.forEach(r => {
     if (!grouped[r.game]) grouped[r.game] = [];
     grouped[r.game].push(r);
   });
@@ -479,9 +585,7 @@ function render() {
   for (const key of sortedKeys) {
     const gameGroup = document.createElement("div");
     gameGroup.className = "card";
-    const gameTitle = document.createElement("h2");
-    gameTitle.style.margin = "0 0 15px 0"; gameTitle.style.fontSize = "18px";
-    gameTitle.textContent = key; gameGroup.append(gameTitle);
+    gameGroup.innerHTML = `<h2 style="margin:0 0 15px 0;font-size:18px;">${key}</h2>`;
 
     const table = document.createElement("table");
     const tbody = document.createElement("tbody");
@@ -494,9 +598,7 @@ function render() {
       
       const playerTd = document.createElement("td");
       playerTd.className = "player";
-      let avatarHtml = record.avatar 
-        ? `<img src="${record.avatar}" class="avatar" onerror="this.src='https://ui-avatars.com/api/?name=${record.name}&background=random&color=fff'">` 
-        : `<img src="https://ui-avatars.com/api/?name=${record.name}&background=random&color=fff" class="avatar">`;
+      let avatarHtml = record.avatar ? `<img src="${record.avatar}" class="avatar" onerror="this.src='https://ui-avatars.com/api/?name=${record.name}&background=random&color=fff'">` : `<img src="https://ui-avatars.com/api/?name=${record.name}&background=random&color=fff" class="avatar">`;
 
       playerTd.innerHTML = `
         ${avatarHtml}
@@ -514,7 +616,7 @@ function render() {
         const adminDiv = document.createElement("div");
         adminDiv.className = "admin-actions";
         adminDiv.innerHTML = `
-          <button class="admin-btn-icon verify" onclick="toggleVerify(${record.created})" title="${record.verified ? 'Quitar Verificación' : 'Verificar Cuenta'}">${record.verified ? '✔️' : '☑️'}</button>
+          <button class="admin-btn-icon verify" onclick="toggleVerify(${record.created})" title="Verificar">${record.verified ? '✔️' : '☑️'}</button>
           <button class="admin-btn-icon edit" onclick="editRecord(${record.created})">✏️</button>
           <button class="admin-btn-icon delete" onclick="deleteRecord(${record.created})">🗑️</button>
         `;
@@ -522,8 +624,7 @@ function render() {
       }
 
       const scoreTd = document.createElement("td");
-      scoreTd.className = "score";
-      scoreTd.textContent = record.score;
+      scoreTd.innerHTML = `<div class="score-container"><span class="score">${record.score}</span> <span class="score-pts">pts</span></div>`;
 
       tr.append(rankTd, playerTd, scoreTd);
       tbody.append(tr);
@@ -533,7 +634,74 @@ function render() {
     gameGroup.append(table);
     container.append(gameGroup);
   }
-  $("emptyRanking").hidden = filteredRecords.length > 0;
+}
+
+function renderTimeTable(timeRecords, container) {
+  const grouped = {};
+  timeRecords.forEach(r => {
+    const key = `${r.game} (${r.category})`;
+    if (!grouped[key]) grouped[key] = [];
+    grouped[key].push(r);
+  });
+
+  const sortedKeys = Object.keys(grouped).sort((a,b) => a.localeCompare(b));
+
+  for (const key of sortedKeys) {
+    const gameGroup = document.createElement("div");
+    gameGroup.className = "card";
+    const gameTitle = document.createElement("h2");
+    gameTitle.className = "time-table-title";
+    gameTitle.textContent = key; 
+    gameGroup.append(gameTitle);
+
+    const table = document.createElement("table");
+    const tbody = document.createElement("tbody");
+    const catRecords = grouped[key].sort((a, b) => a.ms - b.ms);
+
+    catRecords.forEach((record, index) => {
+      const tr = document.createElement("tr");
+      const rankTd = document.createElement("td");
+      rankTd.className = "rank";
+      rankTd.innerHTML = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `#${index + 1}`;
+      
+      const playerTd = document.createElement("td");
+      playerTd.className = "player";
+      let avatarHtml = record.avatar ? `<img src="${record.avatar}" class="avatar" onerror="this.src='https://ui-avatars.com/api/?name=${record.name}&background=random&color=fff'">` : `<img src="https://ui-avatars.com/api/?name=${record.name}&background=random&color=fff" class="avatar">`;
+
+      playerTd.innerHTML = `
+        ${avatarHtml}
+        <div class="player-info">
+          <span class="player-name">
+            ${record.name} 
+            ${record.verified ? '✔️' : ''} 
+            <img src="https://flagcdn.com/w40/${record.country.toLowerCase()}.png" class="flag">
+          </span>
+          ${record.desc ? `<span class="player-desc">${record.desc}</span>` : ''}
+        </div>
+      `;
+
+      if (isAdmin) {
+        const adminDiv = document.createElement("div");
+        adminDiv.className = "admin-actions";
+        adminDiv.innerHTML = `
+          <button class="admin-btn-icon verify" onclick="toggleVerify(${record.created})" title="Verificar">${record.verified ? '✔️' : '☑️'}</button>
+          <button class="admin-btn-icon edit" onclick="editRecord(${record.created})">✏️</button>
+          <button class="admin-btn-icon delete" onclick="deleteRecord(${record.created})">🗑️</button>
+        `;
+        playerTd.append(adminDiv);
+      }
+
+      const timeTd = document.createElement("td");
+      timeTd.innerHTML = `<div class="time-display">${index === 0 ? '👑 ' : ''}${formatTime(record.ms)} ${record.video ? `<a href="${record.video}" target="_blank" class="video-link">▶ Video</a>` : ''}</div>`;
+
+      tr.append(rankTd, playerTd, timeTd);
+      tbody.append(tr);
+    });
+
+    table.append(tbody);
+    gameGroup.append(table);
+    container.append(gameGroup);
+  }
 }
 
 function renderVerify() {
@@ -545,13 +713,14 @@ function renderVerify() {
     const div = document.createElement("div");
     div.className = "verify-item";
     let avatarHtml = record.avatar ? `<img src="${record.avatar}" class="avatar" style="width:30px;height:30px;">` : `<img src="https://ui-avatars.com/api/?name=${record.name}&background=random&color=fff" class="avatar" style="width:30px;height:30px;">`;
+    const info = record.type === "puntuacion" ? `${record.score} pts` : formatTime(record.ms);
 
     div.innerHTML = `
       <div class="verify-info">
         ${avatarHtml}
         <div>
           <b>${record.name}</b> (${countries[record.country]})<br>
-          <small style="color:var(--text-muted)">${record.game} - ${record.mode} - ${record.score}</small>
+          <small style="color:var(--text-muted)">${record.game} - ${record.type === 'tiempo' ? record.category : record.mode} - ${info}</small>
         </div>
       </div>
       <div>
@@ -582,7 +751,7 @@ $("tabSubmit").onclick = () => switchTab("submit");
 $("tabProfile").onclick = () => switchTab("profile");
 $("tabVerify").onclick = () => switchTab("verify");
 
-render();
+renderAll();
 </script>
 </body>
 </html>
