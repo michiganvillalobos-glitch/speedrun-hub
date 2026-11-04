@@ -44,7 +44,6 @@ header {
 
 main { max-width: 600px; margin: auto; padding: 20px 15px; }
 
-/* Tarjeta de WR */
 #wrCard {
   background-color: var(--green); border: none; margin-bottom: 20px;
   border-radius: 16px; padding: 20px;
@@ -53,7 +52,6 @@ main { max-width: 600px; margin: auto; padding: 20px 15px; }
 #wrCard .wr-score { font-size: 30px; font-weight: 900; color: white; margin: 5px 0; }
 #wrCard .wr-player { font-size: 15px; font-weight: bold; color: white; display: flex; align-items: center; gap: 8px; }
 
-/* Botones de pestaña */
 .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
 .tabs button {
   flex: 1; padding: 12px; border: 0; border-radius: 10px;
@@ -61,12 +59,10 @@ main { max-width: 600px; margin: auto; padding: 20px 15px; }
 }
 .tabs button.active { background: var(--text-main); color: var(--bg-dark); }
 
-/* Tarjeta del juego */
 .card {
   background-color: var(--surface); border-radius: 16px; padding: 20px; margin-bottom: 20px;
 }
 
-/* Tabla de clasificación */
 table { width: 100%; border-collapse: collapse; }
 td { padding: 15px 5px; border-bottom: 1px solid #2a2a35; vertical-align: middle; }
 tr:last-child td { border-bottom: 0; }
@@ -79,7 +75,6 @@ tr:last-child td { border-bottom: 0; }
 
 .score { text-align: right; font-size: 22px; font-weight: 900; color: var(--accent); }
 
-/* Formulario */
 form { display: grid; gap: 15px; }
 label { display: grid; gap: 5px; color: var(--text-muted); font-size: 13px; font-weight: bold; }
 input, select {
@@ -91,7 +86,6 @@ button[type="submit"] {
   border-radius: 10px; font-weight: 800; font-size: 16px; cursor: pointer;
 }
 
-/* Botones de Admin */
 .admin-actions { display: inline-flex; gap: 5px; margin-left: 10px; }
 .admin-btn-icon {
   background: none; border: 1px solid #2a2a35; padding: 4px 8px;
@@ -120,7 +114,6 @@ button[type="submit"] {
   </div>
 
   <section id="panelRanking">
-    <!-- Tarjeta del Récord Mundial (WR) -->
     <div id="wrCard" hidden>
       <div class="wr-title">WR 🌏</div>
       <div class="wr-score" id="wrScore">0</div>
@@ -159,12 +152,11 @@ button[type="submit"] {
 
 const ADMIN_PASSWORD = "admin123"; 
 const $ = id => document.getElementById(id);
-const STORAGE_KEY = "lp-ranking-v2";
+const STORAGE_KEY = "lp-ranking-v3"; // Cambiado a v3 para que no choque con errores viejos
 let records = [];
 let isAdmin = false;
 let editingId = null;
 
-// Lista completa de países
 const countries = {
   AD: "Andorra", AE: "Emiratos Árabes Unidos", AF: "Afganistán", AG: "Antigua y Barbuda", AI: "Anguila", AL: "Albania", AM: "Armenia", AO: "Angola", AQ: "Antártida", AR: "Argentina", AS: "Samoa Americana", AT: "Austria", AU: "Australia", AW: "Aruba", AX: "Islas Åland", AZ: "Azerbaiyán",
   BA: "Bosnia y Herzegovina", BB: "Barbados", BD: "Bangladés", BE: "Bélgica", BF: "Burkina Faso", BG: "Bulgaria", BH: "Baréin", BI: "Burundi", BJ: "Benín", BL: "San Bartolomé", BM: "Bermudas", BN: "Brunéi", BO: "Bolivia", BQ: "Bonaire, San Eustaquio y Saba", BR: "Brasil", BS: "Bahamas", BT: "Bután", BV: "Isla Bouvet", BW: "Botsuana", BY: "Bielorrusia", BZ: "Belice",
@@ -382,7 +374,9 @@ $("recordForm").addEventListener("submit", (e) => {
 
   if (editingId) {
     const index = records.findIndex(r => r.created === editingId);
-    if (index !== -1) records[index] = { ...records[index], game, name, country, mode, score };
+    if (index !== -1) {
+      records[index] = { ...records[index], game, name, country, mode, score };
+    }
     editingId = null;
     $("submitBtn").textContent = "Subir marca";
     $("cancelEditBtn").style.display = "none";
