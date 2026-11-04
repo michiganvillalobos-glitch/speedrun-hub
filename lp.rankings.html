@@ -9,17 +9,22 @@
 :root {
   --bg-main: #0f0f13; --bg-surface: #1c1c24; --bg-header: #15151a;
   --text-main: #ffffff; --text-muted: #8b8b9f; --accent: #f1c40f;
-  --green: #166347; --red: #d32f2f; --border: #2a2a35;
+  --green: #166347; --green-light: #22c55e; --red: #d32f2f; 
+  --border: #2a2a35; --blue-wr: #2b6cb0;
 }
+
 body.light-mode {
   --bg-main: #f4f7f5; --bg-surface: #ffffff; --bg-header: #ffffff;
-  --text-main: #183225; --text-muted: #64766a; --border: #dce7df; --green: #166347;
+  --text-main: #183225; --text-muted: #64766a; --border: #dce7df; 
+  --green: #166347; --blue-wr: #2b6cb0;
 }
+
 * { box-sizing: border-box; }
 body {
   margin: 0; background-color: var(--bg-main); color: var(--text-main);
   font-family: system-ui, -apple-system, sans-serif; transition: background 0.3s, color 0.3s;
 }
+
 header {
   padding: 20px; background-color: var(--bg-header); border-bottom: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between;
@@ -29,40 +34,66 @@ header {
 .header-actions { display: flex; gap: 10px; align-items: center; }
 .icon-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text-muted); }
 #adminBtn.active { color: var(--red); }
+
 main { max-width: 600px; margin: auto; padding: 20px 15px; }
 
+/* TARJETAS DE WR */
 .wr-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-.wr-card { background-color: var(--green); border: none; border-radius: 12px; padding: 15px; color: white; }
-.wr-title { font-size: 12px; font-weight: bold; opacity: 0.9; margin-bottom: 5px; }
-.wr-score { font-size: 24px; font-weight: 900; margin: 5px 0; }
-.wr-player { font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
-.wr-player img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; border: 2px solid white; }
+.wr-card { background-color: var(--green); border: none; border-radius: 12px; padding: 15px; color: white; position: relative; overflow: hidden; }
+.wr-card.max { background-color: var(--blue-wr); }
+.wr-title { font-size: 12px; font-weight: bold; opacity: 0.9; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;}
 
+/* AQUÍ ESTÁ EL DETALLE BONITO */
+.wr-score-wrapper { display: flex; align-items: baseline; gap: 4px; margin: 5px 0 10px 0; }
+.wr-score { font-size: 28px; font-weight: 900; line-height: 1; }
+.wr-pts { 
+  font-size: 14px; 
+  font-weight: 600; 
+  color: rgba(255, 255, 255, 0.75); 
+  text-transform: lowercase; 
+  letter-spacing: 0.5px;
+}
+
+.wr-player { font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+.wr-player img.avatar-small { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; border: 2px solid white; }
+.wr-player img.flag-small { width: 18px; height: 12px; border-radius: 2px; object-fit: cover; }
+
+/* TABS Y CONTENEDORES */
 .tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
 .tabs button {
   flex: 1; padding: 12px; border: 0; border-radius: 10px; min-width: 100px;
   background: var(--bg-surface); color: var(--text-muted); font-weight: bold; cursor: pointer; border: 1px solid var(--border);
 }
 .tabs button.active { background: var(--text-main); color: var(--bg-main); border-color: var(--text-main); }
+
 .card { background-color: var(--bg-surface); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--border); }
+
+/* TABLA */
 table { width: 100%; border-collapse: collapse; }
 td { padding: 15px 5px; border-bottom: 1px solid var(--border); vertical-align: middle; }
 tr:last-child td { border-bottom: 0; }
 .rank { font-size: 16px; color: var(--text-muted); width: 40px; text-align: center; font-weight: bold; }
 
+/* JUGADOR EN TABLA */
 .player { display: flex; align-items: center; gap: 12px; font-weight: 600; }
 .avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); background: #333; }
 .player-info { display: flex; flex-direction: column; }
-.player-name { font-size: 15px; }
+.player-name { font-size: 15px; display: flex; align-items: center;}
 .player-desc { font-size: 11px; color: var(--text-muted); font-weight: normal; }
-.flag { width: 20px; height: 14px; border-radius: 2px; object-fit: cover; margin-left: 5px; }
-.score { text-align: right; font-size: 22px; font-weight: 900; color: var(--accent); }
+.flag { width: 20px; height: 14px; border-radius: 2px; object-fit: cover; margin-left: 6px; }
 
+/* PUNTOS EN LA TABLA */
+.score-wrapper { text-align: right; display: flex; align-items: baseline; justify-content: flex-end; gap: 3px; }
+.score { font-size: 20px; font-weight: 900; color: var(--accent); }
+.score-pts { font-size: 11px; font-weight: bold; color: var(--text-muted); }
+
+/* FORMULARIOS */
 form { display: grid; gap: 15px; }
 label { display: grid; gap: 5px; color: var(--text-muted); font-size: 13px; font-weight: bold; }
 input, select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-main); color: var(--text-main); font-size: 16px; }
 button[type="submit"] { padding: 14px; background: var(--accent); color: #000; border: none; border-radius: 10px; font-weight: 800; font-size: 16px; cursor: pointer; }
 
+/* ADMIN */
 .admin-actions { display: inline-flex; gap: 5px; margin-left: 10px; }
 .admin-btn-icon { background: none; border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 14px; }
 .admin-btn-icon.delete { color: var(--red); border-color: var(--red); }
@@ -90,19 +121,29 @@ button[type="submit"] { padding: 14px; background: var(--accent); color: #000; b
   <div class="tabs">
     <button id="tabRanking" class="active">Global</button>
     <button id="tabSubmit">Tu marca aquí</button>
+    <button id="tabProfile">Mi Perfil</button>
     <button id="tabVerify" style="display: none; background: var(--red); color: white;">Verificar</button>
   </div>
 
   <section id="panelRanking">
     <div class="wr-container" id="wrContainer" hidden>
+      <!-- TARJETA MÍNIMA -->
       <div class="wr-card">
         <div class="wr-title">WR Mínima 🌏</div>
-        <div class="wr-score" id="wrScoreMin">0</div>
+        <div class="wr-score-wrapper">
+          <span class="wr-score" id="wrScoreMin">0</span>
+          <span class="wr-pts">pts</span>
+        </div>
         <div class="wr-player" id="wrPlayerMin"></div>
       </div>
-      <div class="wr-card" style="background-color: #2b6cb0;">
+      
+      <!-- TARJETA MÁXIMA -->
+      <div class="wr-card max">
         <div class="wr-title">WR Máxima 🌏🏆</div>
-        <div class="wr-score" id="wrScoreMax">0</div>
+        <div class="wr-score-wrapper">
+          <span class="wr-score" id="wrScoreMax">0</span>
+          <span class="wr-pts">pts</span>
+        </div>
         <div class="wr-player" id="wrPlayerMax"></div>
       </div>
     </div>
@@ -120,6 +161,7 @@ button[type="submit"] { padding: 14px; background: var(--accent); color: #000; b
         <label>URL de tu foto de perfil (opcional) <input id="avatarUrl" type="url" placeholder="https://ejemplo.com/mi-foto.jpg"></label>
         <label>Descripción corta / Rango (opcional) <input id="playerDesc" maxlength="30" placeholder="Ej: Nivel 50 - Épico"></label>
         <label>País <select id="country" required></select></label>
+        <label>PIN Secreto (4 números) <input id="playerPin" type="number" placeholder="Ej: 1234" required></label>
         <label>Tipo de Reto <select id="gameMode" required>
           <option value="menor">Menor puntuación (Cuanto menos, mejor)</option>
           <option value="mayor">Mayor puntuación (El más alto gana)</option>
@@ -128,7 +170,26 @@ button[type="submit"] { padding: 14px; background: var(--accent); color: #000; b
         <button type="submit" id="submitBtn">Subir marca</button>
         <button type="button" id="cancelEditBtn" style="background: var(--text-muted); display: none;">Cancelar Edición</button>
       </form>
-      <p style="font-size:12px; color:var(--text-muted); margin-top:15px; text-align:center;">Tu marca será revisada por un administrador antes de ser publicada.</p>
+    </div>
+  </section>
+
+  <section id="panelProfile" hidden>
+    <div class="card">
+      <h2>Mi Perfil</h2>
+      <form id="loginPinForm">
+        <label>Ingresa tu PIN para editar tus datos <input id="loginPinInput" type="number" required></label>
+        <button type="submit">Entrar a mi perfil</button>
+      </form>
+      <div id="profileEditSection" hidden style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 20px;">
+        <form id="profileForm">
+          <input type="hidden" id="profileRecordId">
+          <label>Nuevo Nombre <input id="profName" type="text" required></label>
+          <label>Nueva Foto (URL) <input id="profAvatar" type="url"></label>
+          <label>Nuevo País <select id="profCountry" required></select></label>
+          <label>Nueva Descripción <input id="profDesc" type="text"></label>
+          <button type="submit">Guardar Cambios</button>
+        </form>
+      </div>
     </div>
   </section>
 
@@ -139,13 +200,13 @@ button[type="submit"] { padding: 14px; background: var(--accent); color: #000; b
       <p id="emptyVerify" style="text-align:center; color:var(--text-muted); display: none;">No hay marcas pendientes.</p>
     </div>
   </section>
-</main> 
-  <script>
+</main>
+<script>
 "use strict";
 
 const ADMIN_PASSWORD = "admin123"; 
 const $ = id => document.getElementById(id);
-const STORAGE_KEY = "lp-ranking-final-v5";
+const STORAGE_KEY = "lp-ranking-final-v6";
 let records = [];
 let pendingRecords = [];
 let isAdmin = false;
@@ -166,26 +227,23 @@ const countries = {
   LA: "Laos", LB: "Líbano", LC: "Santa Lucía", LI: "Liechtenstein", LK: "Sri Lanka", LR: "Liberia", LS: "Lesoto", LT: "Lituania", LU: "Luxemburgo", LV: "Letonia", LY: "Libia",
   MA: "Marruecos", MC: "Mónaco", MD: "Moldavia", ME: "Montenegro", MF: "San Martín (parte francesa)", MG: "Madagascar", MH: "Islas Marshall", MK: "Macedonia del Norte", ML: "Malí", MM: "Myanmar", MN: "Mongolia", MO: "Macao", MP: "Islas Marianas del Norte", MQ: "Martinica", MR: "Mauritania", MS: "Montserrat", MT: "Malta", MU: "Mauricio", MV: "Maldivas", MW: "Malaui", MX: "México", MY: "Malasia", MZ: "Mozambique",
   NA: "Namibia", NC: "Nueva Caledonia", NE: "Níger", NF: "Isla Norfolk", NG: "Nigeria", NI: "Nicaragua", NL: "Países Bajos", NO: "Noruega", NP: "Nepal", NR: "Nauru", NU: "Niue", NZ: "Nueva Zelanda",
-  OM: "Omán",
-  PA: "Panamá", PE: "Perú", PF: "Polinesia Francesa", PG: "Papúa Nueva Guinea", PH: "Filipinas", PK: "Pakistán", PL: "Polonia", PM: "San Pedro y Miquelón", PN: "Islas Pitcairn", PR: "Puerto Rico", PS: "Palestina", PT: "Portugal", PW: "Palaos", PY: "Paraguay",
-  QA: "Catar",
-  RE: "Reunión", RO: "Rumanía", RS: "Serbia", RU: "Rusia", RW: "Ruanda",
+  OM: "Omán", PA: "Panamá", PE: "Perú", PF: "Polinesia Francesa", PG: "Papúa Nueva Guinea", PH: "Filipinas", PK: "Pakistán", PL: "Polonia", PM: "San Pedro y Miquelón", PN: "Islas Pitcairn", PR: "Puerto Rico", PS: "Palestina", PT: "Portugal", PW: "Palaos", PY: "Paraguay",
+  QA: "Catar", RE: "Reunión", RO: "Rumanía", RS: "Serbia", RU: "Rusia", RW: "Ruanda",
   SA: "Arabia Saudita", SB: "Islas Salomón", SC: "Seychelles", SD: "Sudán", SE: "Suecia", SG: "Singapur", SH: "Santa Elena, Ascensión y Tristán de Acuña", SI: "Eslovenia", SJ: "Svalbard y Jan Mayen", SK: "Eslovaquia", SL: "Sierra Leona", SM: "San Marino", SN: "Senegal", SO: "Somalia", SR: "Surinam", SS: "Sudán del Sur", ST: "Santo Tomé y Príncipe", SV: "El Salvador", SX: "San Martín (parte neerlandesa)", SY: "Siria", SZ: "Esuatini",
   TC: "Islas Turcas y Caicos", TD: "Chad", TF: "Tierras Australes Francesas", TG: "Togo", TH: "Tailandia", TJ: "Tayikistán", TK: "Tokelau", TL: "Timor Oriental", TM: "Turkmenistán", TN: "Túnez", TO: "Tonga", TR: "Turquía", TT: "Trinidad y Tobago", TV: "Tuvalu", TW: "Taiwán", TZ: "Tanzania",
   UA: "Ucrania", UG: "Uganda", UM: "Islas menores alejadas de Estados Unidos", US: "Estados Unidos", UY: "Uruguay", UZ: "Uzbekistán",
   VA: "Ciudad del Vaticano", VC: "San Vicente y las Granadinas", VE: "Venezuela", VG: "Islas Vírgenes Británicas", VI: "Islas Vírgenes de Estados Unidos", VN: "Vietnam", VU: "Vanuatu",
-  WF: "Wallis y Futuna", WS: "Samoa",
-  YE: "Yemen", YT: "Mayotte",
-  ZA: "Sudáfrica", ZM: "Zambia", ZW: "Zimbabue"
+  WF: "Wallis y Futuna", WS: "Samoa", YE: "Yemen", YT: "Mayotte", ZA: "Sudáfrica", ZM: "Zambia", ZW: "Zimbabue"
 };
 
-function flagEmoji(code) {
-  return [...code].map(letter => String.fromCodePoint(127397 + letter.charCodeAt(0))).join("");
-}
+function flagEmoji(code) { return [...code].map(l => String.fromCodePoint(127397 + l.charCodeAt(0))).join(""); }
 
-$("country").add(new Option("Selecciona tu país", ""));
-Object.entries(countries).sort((a, b) => a[1].localeCompare(b[1], "es")).forEach(([code, name]) => {
-  $("country").add(new Option(`${flagEmoji(code)} ${name}`, code));
+["country", "profCountry"].forEach(id => {
+  const el = $(id);
+  el.add(new Option("Selecciona tu país", ""));
+  Object.entries(countries).sort((a, b) => a[1].localeCompare(b[1], "es")).forEach(([code, name]) => {
+    el.add(new Option(`${flagEmoji(code)} ${name}`, code));
+  });
 });
 
 try {
@@ -194,7 +252,10 @@ try {
   if (savedRecs) records = JSON.parse(savedRecs);
   if (savedPend) pendingRecords = JSON.parse(savedPend);
 } catch { records = []; pendingRecords = []; }
+</script>
 
+  <script>
+// LÓGICA DE ADMIN
 $("adminBtn").onclick = () => {
   if (isAdmin) {
     isAdmin = false;
@@ -219,7 +280,7 @@ $("themeBtn").onclick = () => {
   $("themeBtn").textContent = document.body.classList.contains("light-mode") ? "🌙" : "☀️";
 };
 
-// EDITAR RÉCORD
+// EDITAR COMO ADMIN
 function editRecord(id) {
   if (!isAdmin) return;
   const record = records.find(r => r.created === id);
@@ -232,6 +293,7 @@ function editRecord(id) {
   $("country").value = record.country;
   $("gameMode").value = record.mode;
   $("score").value = record.score;
+  $("playerPin").value = record.pin || "";
 
   editingId = id;
   $("submitBtn").textContent = "Actualizar marca";
@@ -258,13 +320,16 @@ $("recordForm").addEventListener("submit", (e) => {
   const score = Number($("score").value);
   const avatar = $("avatarUrl").value.trim();
   const desc = $("playerDesc").value.trim();
+  const pin = $("playerPin").value.trim();
 
-  if (!game || !name || !country || isNaN(score)) return;
+  if (!game || !name || !country || isNaN(score) || pin.length < 4) {
+    alert("Faltan datos o el PIN no tiene 4 números."); return;
+  }
 
   if (editingId) {
     const index = records.findIndex(r => r.created === editingId);
     if (index !== -1) {
-      records[index] = { ...records[index], game, name, country, mode, score, avatar, desc };
+      records[index] = { ...records[index], game, name, country, mode, score, avatar, desc, pin };
     }
     localStorage.setItem(STORAGE_KEY + "_approved", JSON.stringify(records));
     editingId = null;
@@ -275,9 +340,8 @@ $("recordForm").addEventListener("submit", (e) => {
     switchTab("ranking");
     render();
   } else {
-    pendingRecords.push({ game, name, country, mode, score, avatar, desc, created: Date.now() });
+    pendingRecords.push({ game, name, country, mode, score, avatar, desc, pin, created: Date.now() });
     localStorage.setItem(STORAGE_KEY + "_pending", JSON.stringify(pendingRecords));
-    
     $("recordForm").reset();
     switchTab("ranking");
     alert("Marca enviada. Espera a que un administrador la verifique.");
@@ -285,6 +349,47 @@ $("recordForm").addEventListener("submit", (e) => {
   }
 });
 
+// PERFIL DEL JUGADOR (Con PIN)
+$("loginPinForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const pin = $("loginPinInput").value.trim();
+  const playerRecord = records.find(r => r.pin === pin);
+  
+  if (!playerRecord) { alert("PIN incorrecto o no registrado en las marcas aprobadas."); return; }
+  
+  $("profileRecordId").value = playerRecord.created;
+  $("profName").value = playerRecord.name;
+  $("profAvatar").value = playerRecord.avatar || "";
+  $("profCountry").value = playerRecord.country;
+  $("profDesc").value = playerRecord.desc || "";
+  
+  $("loginPinForm").hidden = true;
+  $("profileEditSection").hidden = false;
+});
+
+$("profileForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const id = Number($("profileRecordId").value);
+  const index = records.findIndex(r => r.created === id);
+  
+  if (index !== -1) {
+    records[index].name = $("profName").value.trim();
+    records[index].avatar = $("profAvatar").value.trim();
+    records[index].country = $("profCountry").value;
+    records[index].desc = $("profDesc").value.trim();
+    
+    localStorage.setItem(STORAGE_KEY + "_approved", JSON.stringify(records));
+    alert("Perfil actualizado con éxito.");
+    
+    $("loginPinForm").reset();
+    $("loginPinForm").hidden = false;
+    $("profileEditSection").hidden = true;
+    switchTab("ranking");
+    render();
+  }
+});
+
+// VERIFICACIÓN
 function acceptRecord(id) {
   const index = pendingRecords.findIndex(r => r.created === id);
   if (index !== -1) {
@@ -296,7 +401,6 @@ function acceptRecord(id) {
     render(); renderVerify();
   }
 }
-
 function rejectRecord(id) {
   if (confirm("¿Rechazar esta marca permanentemente?")) {
     pendingRecords = pendingRecords.filter(r => r.created !== id);
@@ -305,7 +409,6 @@ function rejectRecord(id) {
     renderVerify();
   }
 }
-
 function deleteRecord(id) {
   if (!isAdmin) return;
   if (confirm("¿Eliminar esta marca de la tabla?")) {
@@ -315,6 +418,7 @@ function deleteRecord(id) {
   }
 }
 
+// RENDERIZADO
 function render() {
   const container = $("rankingContainer");
   container.replaceChildren();
@@ -326,13 +430,13 @@ function render() {
   if (minRecords.length > 0) {
     const r = minRecords[0];
     $("wrScoreMin").textContent = r.score;
-    $("wrPlayerMin").innerHTML = `${r.avatar ? `<img src="${r.avatar}">` : ''} <img src="https://flagcdn.com/w40/${r.country.toLowerCase()}.png"> ${r.name}`;
+    $("wrPlayerMin").innerHTML = `${r.avatar ? `<img src="${r.avatar}" class="avatar-small">` : ''} <img src="https://flagcdn.com/w40/${r.country.toLowerCase()}.png" class="flag-small"> ${r.name}`;
   } else { $("wrScoreMin").textContent = "0"; $("wrPlayerMin").textContent = "Sin marcas"; }
 
   if (maxRecords.length > 0) {
     const r = maxRecords[0];
     $("wrScoreMax").textContent = r.score;
-    $("wrPlayerMax").innerHTML = `${r.avatar ? `<img src="${r.avatar}">` : ''} <img src="https://flagcdn.com/w40/${r.country.toLowerCase()}.png"> ${r.name}`;
+    $("wrPlayerMax").innerHTML = `${r.avatar ? `<img src="${r.avatar}" class="avatar-small">` : ''} <img src="https://flagcdn.com/w40/${r.country.toLowerCase()}.png" class="flag-small"> ${r.name}`;
   } else { $("wrScoreMax").textContent = "0"; $("wrPlayerMax").textContent = "Sin marcas"; }
 
   const grouped = {};
@@ -360,6 +464,7 @@ function render() {
       const rankTd = document.createElement("td");
       rankTd.className = "rank";
       rankTd.innerHTML = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `#${index + 1}`;
+      
       const playerTd = document.createElement("td");
       playerTd.className = "player";
       let avatarHtml = record.avatar 
@@ -385,12 +490,15 @@ function render() {
       }
 
       const scoreTd = document.createElement("td");
-      scoreTd.className = "score"; scoreTd.textContent = record.score;
+      scoreTd.innerHTML = `<div class="score-wrapper"><span class="score">${record.score}</span> <span class="score-pts">pts</span></div>`;
+
       tr.append(rankTd, playerTd, scoreTd);
       tbody.append(tr);
     });
 
-    table.append(tbody); gameGroup.append(table); container.append(gameGroup);
+    table.append(tbody);
+    gameGroup.append(table);
+    container.append(gameGroup);
   }
   $("emptyRanking").hidden = records.length > 0;
 }
@@ -403,6 +511,7 @@ function renderVerify() {
   pendingRecords.forEach(record => {
     const div = document.createElement("div");
     div.className = "verify-item";
+    
     let avatarHtml = record.avatar 
         ? `<img src="${record.avatar}" class="avatar" style="width:30px;height:30px;">` 
         : `<img src="https://ui-avatars.com/api/?name=${record.name}&background=random&color=fff" class="avatar" style="width:30px;height:30px;">`;
@@ -427,18 +536,24 @@ function renderVerify() {
 function switchTab(tabName) {
   $("panelRanking").hidden = tabName !== "ranking";
   $("panelSubmit").hidden = tabName !== "submit";
+  $("panelProfile").hidden = tabName !== "profile";
   $("panelVerify").hidden = tabName !== "verify";
+  
   $("tabRanking").classList.toggle("active", tabName === "ranking");
   $("tabSubmit").classList.toggle("active", tabName === "submit");
+  $("tabProfile").classList.toggle("active", tabName === "profile");
   $("tabVerify").classList.toggle("active", tabName === "verify");
+
   if (tabName === "verify" && isAdmin) renderVerify();
 }
 
 $("tabRanking").onclick = () => switchTab("ranking");
 $("tabSubmit").onclick = () => switchTab("submit");
+$("tabProfile").onclick = () => switchTab("profile");
 $("tabVerify").onclick = () => switchTab("verify");
 
 render();
 </script>
 </body>
 </html>
+  
