@@ -9,7 +9,7 @@
 :root {
   --bg-main: #0f0f13; --bg-surface: #1c1c24; --bg-header: #15151a;
   --text-main: #ffffff; --text-muted: #8b8b9f; --accent: #f1c40f;
-  --green: #166347; --red: #d32f2f; --border: #2a2a35;
+  --green: #166347; --red: #d32f2f; --border: #2a2a35; --blue: #2b6cb0;
 }
 body.light-mode {
   --bg-main: #f4f7f5; --bg-surface: #ffffff; --bg-header: #ffffff;
@@ -34,6 +34,7 @@ main { max-width: 600px; margin: auto; padding: 20px 15px; }
 /* Tarjetas WR */
 .wr-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
 .wr-card { background-color: var(--green); border-radius: 12px; padding: 15px; color: white; }
+.wr-card.max { background-color: var(--blue); }
 .wr-title { font-size: 12px; font-weight: bold; margin-bottom: 5px; }
 .wr-score { font-size: 24px; font-weight: 900; margin: 5px 0; }
 .wr-player { font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
@@ -64,21 +65,33 @@ tr:last-child td { border-bottom: 0; }
 .player { display: flex; align-items: center; gap: 12px; font-weight: 600; }
 .avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); background: #333; }
 .player-info { display: flex; flex-direction: column; }
-.player-name { font-size: 15px; }
+.player-name { font-size: 15px; display: flex; align-items: center; }
 .player-desc { font-size: 11px; color: var(--text-muted); font-weight: normal; }
-.flag { width: 20px; height: 14px; border-radius: 2px; object-fit: cover; margin-left: 5px; }
+.flag { width: 20px; height: 14px; border-radius: 2px; object-fit: cover; margin-left: 6px; }
 .score { text-align: right; font-size: 22px; font-weight: 900; color: var(--accent); }
 
+/* Formularios */
 form { display: grid; gap: 15px; }
 label { display: grid; gap: 5px; color: var(--text-muted); font-size: 13px; font-weight: bold; }
 input, select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-main); color: var(--text-main); font-size: 16px; }
 button[type="submit"] { padding: 14px; background: var(--accent); color: #000; border: none; border-radius: 10px; font-weight: 800; font-size: 16px; cursor: pointer; }
 
+/* ESTILO DEL CHECKBOX PARA YOUTUBE */
+.yt-toggle {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--bg-main); border: 1px solid var(--border); border-radius: 8px;
+  padding: 12px; cursor: pointer; margin-top: 5px;
+}
+.yt-toggle span { font-size: 14px; color: var(--text-main); font-weight: bold; }
+.yt-toggle input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; accent-color: var(--accent); }
+
+/* Admin */
 .admin-actions { display: inline-flex; gap: 5px; margin-left: 10px; }
 .admin-btn-icon { background: none; border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 14px; }
 .admin-btn-icon.delete { color: var(--red); border-color: var(--red); }
 .admin-btn-icon.edit { color: #1976d2; border-color: #1976d2; }
 .admin-btn-icon.accept { color: var(--green); border-color: var(--green); font-weight: bold; }
+.admin-btn-icon.verify { color: #3b82f6; border-color: #3b82f6; }
 .verify-item { margin-bottom: 10px; padding: 10px; background: var(--bg-main); border-radius: 8px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
 .verify-info { display: flex; align-items: center; gap: 10px; }
 [hidden] { display: none !important; }
@@ -110,17 +123,17 @@ button[type="submit"] { padding: 14px; background: var(--accent); color: #000; b
         <div class="wr-score" id="wrScoreMin">0</div>
         <div class="wr-player" id="wrPlayerMin"></div>
       </div>
-      <div class="wr-card" style="background-color: #2b6cb0;">
+      <div class="wr-card max">
         <div class="wr-title">WR Máxima 🌏🏆</div>
         <div class="wr-score" id="wrScoreMax">0</div>
         <div class="wr-player" id="wrPlayerMax"></div>
       </div>
     </div>
 
-    <!-- NUEVOS BOTONES PARA SEPARAR LOS RANKINGS -->
+    <!-- PESTAÑAS DEL RANKING (Mínima primero por defecto) -->
     <div class="sub-tabs" id="rankingSubTabs" hidden>
-      <button id="subTabMax" class="active" onclick="switchRankingTab('max')">🏆 Máxima Puntuación</button>
-      <button id="subTabMin" onclick="switchRankingTab('min')">⏱️ Mínima Puntuación</button>
+      <button id="subTabMin" class="active" onclick="switchRankingTab('min')">⏱️ Puntaje Mínimo</button>
+      <button id="subTabMax" onclick="switchRankingTab('max')">🏆 Puntaje Máximo</button>
     </div>
 
     <div id="rankingContainer"></div>
@@ -144,8 +157,14 @@ button[type="submit"] { padding: 14px; background: var(--accent); color: #000; b
         </select></label>
         <label>Puntuación <input id="score" type="number" min="0" max="999999" required></label>
         
-        <!-- LINK DE VIDEO OPCIONAL -->
-        <label>Link de YouTube (Opcional) <input id="videoUrl" type="url" placeholder="https://youtu.be/..."></label>
+        <!-- CHECKBOX PARA EL VIDEO -->
+        <label class="yt-toggle">
+          <span>¿Deseas agregar un link de YouTube?</span>
+          <input type="checkbox" id="hasYoutube" onchange="toggleYoutubeField()">
+        </label>
+        <div id="youtubeField" hidden>
+          <label>Link de YouTube <input id="videoUrl" type="url" placeholder="https://youtu.be/..."></label>
+        </div>
         
         <button type="submit" id="submitBtn">Subir marca</button>
         <button type="button" id="cancelEditBtn" style="background: var(--text-muted); display: none;">Cancelar Edición</button>
@@ -187,12 +206,12 @@ button[type="submit"] { padding: 14px; background: var(--accent); color: #000; b
 
 const ADMIN_PASSWORD = "admin123"; 
 const $ = id => document.getElementById(id);
-const STORAGE_KEY = "lp-ranking-final-v7";
+const STORAGE_KEY = "lp-ranking-final-v8"; // Cambiado a v8
 let records = [];
 let pendingRecords = [];
 let isAdmin = false;
 let editingId = null;
-let currentRankingMode = "max"; // "max" o "min"
+let currentRankingMode = "min"; // Por defecto mostramos Mínimos
 
 const countries = {
   AD: "Andorra", AE: "Emiratos Árabes Unidos", AF: "Afganistán", AG: "Antigua y Barbuda", AI: "Anguila", AL: "Albania", AM: "Armenia", AO: "Angola", AQ: "Antártida", AR: "Argentina", AS: "Samoa Americana", AT: "Austria", AU: "Australia", AW: "Aruba", AX: "Islas Åland", AZ: "Azerbaiyán",
@@ -235,6 +254,14 @@ try {
   if (savedPend) pendingRecords = JSON.parse(savedPend);
 } catch { records = []; pendingRecords = []; }
 
+// LÓGICA DEL CHECKBOX DE YOUTUBE
+function toggleYoutubeField() {
+  const isChecked = $("hasYoutube").checked;
+  $("youtubeField").hidden = !isChecked;
+  if (!isChecked) $("videoUrl").value = ""; 
+}
+
+// ADMIN
 $("adminBtn").onclick = () => {
   if (isAdmin) {
     isAdmin = false;
@@ -258,12 +285,11 @@ $("themeBtn").onclick = () => {
   $("themeBtn").textContent = document.body.classList.contains("light-mode") ? "🌙" : "☀️";
 };
 
-// LÓGICA DE LAS SUB-PESTAÑAS (Ranking Max / Min)
 function switchRankingTab(mode) {
   currentRankingMode = mode;
   $("subTabMax").classList.toggle("active", mode === "max");
   $("subTabMin").classList.toggle("active", mode === "min");
-  render(); // Volver a dibujar la tabla con el modo elegido
+  render();
 }
 
 // EDITAR
@@ -280,7 +306,15 @@ function editRecord(id) {
   $("gameMode").value = record.mode;
   $("score").value = record.score;
   $("playerPin").value = record.pin || "";
-  $("videoUrl").value = record.video || "";
+  
+  if (record.video) {
+    $("hasYoutube").checked = true;
+    toggleYoutubeField();
+    $("videoUrl").value = record.video;
+  } else {
+    $("hasYoutube").checked = false;
+    toggleYoutubeField();
+  }
 
   editingId = id;
   $("submitBtn").textContent = "Actualizar marca";
@@ -292,6 +326,7 @@ function editRecord(id) {
 $("cancelEditBtn").onclick = () => {
   editingId = null;
   $("recordForm").reset();
+  $("hasYoutube").checked = false; toggleYoutubeField();
   $("submitBtn").textContent = "Subir marca";
   $("cancelEditBtn").style.display = "none";
   $("formTitle").textContent = "Registrar marca";
@@ -308,7 +343,7 @@ $("recordForm").addEventListener("submit", (e) => {
   const avatar = $("avatarUrl").value.trim();
   const desc = $("playerDesc").value.trim();
   const pin = $("playerPin").value.trim();
-  const video = $("videoUrl").value.trim();
+  const video = $("hasYoutube").checked ? $("videoUrl").value.trim() : "";
 
   if (!game || !name || !country || isNaN(score) || pin.length < 4) {
     alert("Faltan datos o el PIN no tiene 4 números."); return;
@@ -317,30 +352,33 @@ $("recordForm").addEventListener("submit", (e) => {
   if (editingId) {
     const index = records.findIndex(r => r.created === editingId);
     if (index !== -1) {
-      records[index] = { ...records[index], game, name, country, mode, score, avatar, desc, pin, video };
+      records[index] = { ...records[index], game, name, country, mode, score, avatar, desc, pin, video, verified: records[index].verified };
     }
     localStorage.setItem(STORAGE_KEY + "_approved", JSON.stringify(records));
     editingId = null;
     $("submitBtn").textContent = "Subir marca";
     $("cancelEditBtn").style.display = "none";
     $("formTitle").textContent = "Registrar marca";
-    $("recordForm").reset();
+    $("recordForm").reset(); $("hasYoutube").checked = false; toggleYoutubeField();
     switchTab("ranking"); render();
   } else {
-    pendingRecords.push({ game, name, country, mode, score, avatar, desc, pin, video, created: Date.now() });
+    pendingRecords.push({ game, name, country, mode, score, avatar, desc, pin, video, verified: false, created: Date.now() });
     localStorage.setItem(STORAGE_KEY + "_pending", JSON.stringify(pendingRecords));
-    $("recordForm").reset();
+    $("recordForm").reset(); $("hasYoutube").checked = false; toggleYoutubeField();
     switchTab("ranking");
     alert("Marca enviada. Espera a que un administrador la verifique.");
     if (isAdmin) $("tabVerify").textContent = `Verificar (${pendingRecords.length})`;
   }
 });
 
+// PERFIL
 $("loginPinForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const pin = $("loginPinInput").value.trim();
   const playerRecord = records.find(r => r.pin === pin);
+  
   if (!playerRecord) { alert("PIN incorrecto o no registrado."); return; }
+  if (playerRecord.verified) { alert("Tu cuenta ya ha sido verificada por un administrador. No puedes editar tu perfil."); return; }
   
   $("profileRecordId").value = playerRecord.created;
   $("profName").value = playerRecord.name;
@@ -362,13 +400,13 @@ $("profileForm").addEventListener("submit", (e) => {
     records[index].desc = $("profDesc").value.trim();
     localStorage.setItem(STORAGE_KEY + "_approved", JSON.stringify(records));
     alert("Perfil actualizado.");
-    $("loginPinForm").reset();
-    $("loginPinForm").hidden = false;
+    $("loginPinForm").reset(); $("loginPinForm").hidden = false;
     $("profileEditSection").hidden = true;
     switchTab("ranking"); render();
   }
 });
 
+// ACCIONES DE ADMIN
 function acceptRecord(id) {
   const index = pendingRecords.findIndex(r => r.created === id);
   if (index !== -1) {
@@ -396,6 +434,15 @@ function deleteRecord(id) {
     render();
   }
 }
+function toggleVerify(id) {
+  if (!isAdmin) return;
+  const index = records.findIndex(r => r.created === id);
+  if (index !== -1) {
+    records[index].verified = !records[index].verified;
+    localStorage.setItem(STORAGE_KEY + "_approved", JSON.stringify(records));
+    render();
+  }
+}
 
 function render() {
   const container = $("rankingContainer");
@@ -419,7 +466,6 @@ function render() {
     $("wrPlayerMax").innerHTML = `${r.avatar ? `<img src="${r.avatar}">` : ''} <img src="https://flagcdn.com/w40/${r.country.toLowerCase()}.png"> ${r.name}`;
   } else { $("wrScoreMax").textContent = "0"; $("wrPlayerMax").textContent = "Sin marcas"; }
 
-  // Filtrar según el modo de ranking seleccionado
   const filteredRecords = currentRankingMode === "max" ? maxRecords : minRecords;
 
   const grouped = {};
@@ -455,7 +501,11 @@ function render() {
       playerTd.innerHTML = `
         ${avatarHtml}
         <div class="player-info">
-          <span class="player-name">${record.name} <img src="https://flagcdn.com/w40/${record.country.toLowerCase()}.png" class="flag"></span>
+          <span class="player-name">
+            ${record.name} 
+            ${record.verified ? '✔️' : ''} 
+            <img src="https://flagcdn.com/w40/${record.country.toLowerCase()}.png" class="flag">
+          </span>
           ${record.desc ? `<span class="player-desc">${record.desc}</span>` : ''}
         </div>
       `;
@@ -464,6 +514,7 @@ function render() {
         const adminDiv = document.createElement("div");
         adminDiv.className = "admin-actions";
         adminDiv.innerHTML = `
+          <button class="admin-btn-icon verify" onclick="toggleVerify(${record.created})" title="${record.verified ? 'Quitar Verificación' : 'Verificar Cuenta'}">${record.verified ? '✔️' : '☑️'}</button>
           <button class="admin-btn-icon edit" onclick="editRecord(${record.created})">✏️</button>
           <button class="admin-btn-icon delete" onclick="deleteRecord(${record.created})">🗑️</button>
         `;
@@ -535,4 +586,3 @@ render();
 </script>
 </body>
 </html>
-  
