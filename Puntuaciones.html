@@ -7,12 +7,13 @@
 
 <style>
 :root {
-  --bg-dark: #121214;
-  --surface: #1e1e24;
+  --bg-dark: #0f0f13;
+  --surface: #1c1c24;
   --text-main: #ffffff;
-  --text-muted: #a0a0b0;
+  --text-muted: #8b8b9f;
   --accent: #f1c40f;
-  --green: #2ecc71;
+  --green: #166347;
+  --red: #d32f2f;
 }
 
 * { box-sizing: border-box; }
@@ -26,80 +27,43 @@ body {
 
 header {
   padding: 20px;
-  background-color: #1a1a1f;
-  border-bottom: 1px solid #333;
+  background-color: #15151a;
+  border-bottom: 1px solid #2a2a35;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+.header-content { display: flex; align-items: center; gap: 15px; }
 .logo { font-size: 22px; font-weight: 800; }
+
+#adminBtn {
+  background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text-muted);
+}
+#adminBtn.active { color: var(--red); }
 
 main { max-width: 600px; margin: auto; padding: 20px 15px; }
 
 /* Botones de pestaña */
-.tabs {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
+.tabs { display: flex; gap: 10px; margin-bottom: 20px; }
 .tabs button {
-  flex: 1;
-  padding: 12px;
-  border: 0;
-  border-radius: 10px;
-  background: #2a2a30;
-  color: var(--text-muted);
-  font-weight: bold;
-  cursor: pointer;
+  flex: 1; padding: 12px; border: 0; border-radius: 10px;
+  background: #2a2a35; color: var(--text-muted); font-weight: bold; cursor: pointer;
 }
-.tabs button.active {
-  background: var(--text-main);
-  color: var(--bg-dark);
-}
+.tabs button.active { background: var(--text-main); color: var(--bg-dark); }
 
 /* Tarjeta del juego */
 .card {
-  background-color: var(--surface);
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 20px;
+  background-color: var(--surface); border-radius: 16px; padding: 20px; margin-bottom: 20px;
 }
-
-.game-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.game-icon {
-  width: 40px;
-  height: 40px;
-  background-color: var(--accent);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-}
-
-.game-info h2 { margin: 0; font-size: 18px; }
-.game-info p { margin: 4px 0 0; color: var(--text-muted); font-size: 13px; }
 
 /* Tabla de clasificación */
 table { width: 100%; border-collapse: collapse; }
-
-td {
-  padding: 15px 5px;
-  border-bottom: 1px solid #333;
-  vertical-align: middle;
-}
+td { padding: 15px 5px; border-bottom: 1px solid #2a2a35; vertical-align: middle; }
 tr:last-child td { border-bottom: 0; }
 
 .rank { font-size: 16px; color: var(--text-muted); width: 40px; text-align: center; font-weight: bold; }
-.rank.medal { font-size: 24px; } /* Para las medallas */
+.rank.medal { font-size: 24px; }
 
 .player { display: flex; align-items: center; gap: 10px; font-weight: 600; }
 .flag { width: 26px; height: 18px; border-radius: 3px; object-fit: cover; }
@@ -110,24 +74,22 @@ tr:last-child td { border-bottom: 0; }
 form { display: grid; gap: 15px; }
 label { display: grid; gap: 5px; color: var(--text-muted); font-size: 13px; font-weight: bold; }
 input, select {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #333;
-  border-radius: 8px;
-  background: #121214;
-  color: white;
-  font-size: 16px;
+  width: 100%; padding: 12px; border: 1px solid #2a2a35; border-radius: 8px;
+  background: #121214; color: white; font-size: 16px;
 }
 button[type="submit"] {
-  padding: 14px;
-  background: var(--accent);
-  color: #000;
-  border: none;
-  border-radius: 10px;
-  font-weight: 800;
-  font-size: 16px;
-  cursor: pointer;
+  padding: 14px; background: var(--accent); color: #000; border: none;
+  border-radius: 10px; font-weight: 800; font-size: 16px; cursor: pointer;
 }
+
+/* Botones de Admin */
+.admin-actions { display: inline-flex; gap: 5px; margin-left: 10px; }
+.admin-btn-icon {
+  background: none; border: 1px solid #2a2a35; padding: 4px 8px;
+  border-radius: 6px; cursor: pointer; font-size: 14px;
+}
+.admin-btn-icon.delete { color: var(--red); border-color: #ffcdd2; background: #ffebee; }
+.admin-btn-icon.edit { color: #1976d2; border-color: #bbdefb; background: #e3f2fd; }
 
 [hidden] { display: none !important; }
 </style>
@@ -136,7 +98,10 @@ button[type="submit"] {
 <body>
 
 <header>
-  <div class="logo">Clasificaciones</div>
+  <div class="header-content">
+    <div class="logo">LP Ranking</div>
+  </div>
+  <button id="adminBtn" title="Panel de Moderador">⚙️</button>
 </header>
 
 <main>
@@ -147,16 +112,14 @@ button[type="submit"] {
 
   <section id="panelRanking">
     <div class="card">
-      <!-- Encabezado del juego -->
-      <div class="game-header">
-        <div class="game-icon">🔥</div>
-        <div class="game-info">
-          <h2 id="gameNameDisplay">MiniHunter</h2>
-          <p>Cuanto menos, mejor</p>
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+        <div style="width: 40px; height: 40px; background-color: var(--accent); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🔥</div>
+        <div>
+          <h2 id="gameTitle" style="margin: 0; font-size: 18px;">MiniHunter</h2>
+          <p style="margin: 4px 0 0; color: var(--text-muted); font-size: 13px;">Cuanto menos, mejor</p>
         </div>
       </div>
       
-      <!-- Tabla -->
       <table>
         <tbody id="rankingBody"></tbody>
       </table>
@@ -167,11 +130,14 @@ button[type="submit"] {
     <div class="card">
       <h2>Registrar marca</h2>
       <form id="recordForm">
-        <label>Nombre del juego <input id="gameName" maxlength="30" placeholder="Ej: MiniHunter" value="MiniHunter" required></label>
-        <label>Nombre de usuario <input id="playerName" maxlength="20" placeholder="Tu nombre" required></label>
+        <input type="hidden" id="editRecordId">
+        <label>Nombre del juego <input id="gameName" maxlength="30" value="MiniHunter" required></label>
+        <label>Nombre de usuario <input id="playerName" maxlength="20" required></label>
         <label>País <select id="country" required></select></label>
-        <label>Puntos / Tiempo (número menor) <input id="score" type="number" min="1" max="9999" required></label>
-        <button type="submit">Subir marca</button>
+        <label>Puntuación (número menor) <input id="score" type="number" min="1" max="9999" required></label>
+        
+        <button type="submit" id="submitBtn">Subir marca</button>
+        <button type="button" id="cancelEditBtn" style="background: var(--text-muted); display: none;">Cancelar Edición</button>
       </form>
     </div>
   </section>
@@ -180,11 +146,13 @@ button[type="submit"] {
 <script>
 "use strict";
 
+const ADMIN_PASSWORD = "admin123"; 
 const $ = id => document.getElementById(id);
-const STORAGE_KEY = "geohunter-ranking-v1";
+const STORAGE_KEY = "lp-ranking-v1";
 let records = [];
+let isAdmin = false;
+let editingId = null;
 
-// Lista de países (puedes agregar más)
 const countries = {
   AR: "Argentina", BO: "Bolivia", BR: "Brasil", CA: "Canadá", CL: "Chile", CN: "China", CO: "Colombia", CR: "Costa Rica", CU: "Cuba", DE: "Alemania", EC: "Ecuador", ES: "España", FR: "Francia", GB: "Reino Unido", GT: "Guatemala", HN: "Honduras", IT: "Italia", JP: "Japón", MX: "México", NI: "Nicaragua", PA: "Panamá", PE: "Perú", PR: "Puerto Rico", PY: "Paraguay", SV: "El Salvador", US: "Estados Unidos", UY: "Uruguay", VE: "Venezuela"
 };
@@ -203,6 +171,57 @@ try {
   if (saved !== null) records = JSON.parse(saved);
 } catch { records = []; }
 
+// Lógica del botón de Admin
+$("adminBtn").onclick = () => {
+  if (isAdmin) {
+    isAdmin = false;
+    $("adminBtn").classList.remove("active");
+    render();
+  } else {
+    const pass = prompt("Introduce la contraseña de moderador:");
+    if (pass === ADMIN_PASSWORD) {
+      isAdmin = true;
+      $("adminBtn").classList.add("active");
+      render();
+    } else if (pass !== null) {
+      alert("Contraseña incorrecta.");
+    }
+  }
+};
+
+function deleteRecord(id) {
+  if (!isAdmin) return;
+  if (confirm("¿Eliminar esta marca?")) {
+    records = records.filter(r => r.created !== id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+    render();
+  }
+}
+
+function editRecord(id) {
+  if (!isAdmin) return;
+  const record = records.find(r => r.created === id);
+  if (!record) return;
+
+  $("gameName").value = record.game;
+  $("playerName").value = record.name;
+  $("country").value = record.country;
+  $("score").value = record.score;
+
+  editingId = id;
+  $("submitBtn").textContent = "Actualizar marca";
+  $("cancelEditBtn").style.display = "block";
+  switchTab(false);
+}
+
+$("cancelEditBtn").onclick = () => {
+  editingId = null;
+  $("recordForm").reset();
+  $("submitBtn").textContent = "Subir marca";
+  $("cancelEditBtn").style.display = "none";
+  switchTab(true);
+};
+
 function render() {
   const tbody = $("rankingBody");
   tbody.replaceChildren();
@@ -212,13 +231,12 @@ function render() {
     return;
   }
 
-  // Ordenar de MENOR a MAYOR (como en la imagen de Geohunter)
+  // Ordenar de MENOR a MAYOR
   const sorted = [...records].sort((a, b) => a.score - b.score);
 
   sorted.forEach((record, index) => {
     const tr = document.createElement("tr");
     
-    // Columna del Ranking (Medallas para los primeros 3)
     const rankTd = document.createElement("td");
     rankTd.className = "rank";
     if (index === 0) rankTd.innerHTML = "🥇";
@@ -226,7 +244,6 @@ function render() {
     else if (index === 2) rankTd.innerHTML = "🥉";
     else rankTd.textContent = `#${index + 1}`;
     
-    // Columna del Jugador
     const playerTd = document.createElement("td");
     playerTd.className = "player";
     const img = document.createElement("img");
@@ -236,7 +253,21 @@ function render() {
     nameSpan.textContent = record.name;
     playerTd.append(img, nameSpan);
 
-    // Columna de Puntuación
+    if (isAdmin) {
+      const adminDiv = document.createElement("div");
+      adminDiv.className = "admin-actions";
+      const editBtn = document.createElement("button");
+      editBtn.className = "admin-btn-icon edit";
+      editBtn.textContent = "✏️";
+      editBtn.onclick = () => editRecord(record.created);
+      const deleteBtn = document.createElement("button");
+      deleteBtn.className = "admin-btn-icon delete";
+      deleteBtn.textContent = "🗑️";
+      deleteBtn.onclick = () => deleteRecord(record.created);
+      adminDiv.append(editBtn, deleteBtn);
+      playerTd.append(adminDiv);
+    }
+
     const scoreTd = document.createElement("td");
     scoreTd.className = "score";
     scoreTd.textContent = record.score;
@@ -265,15 +296,22 @@ $("recordForm").addEventListener("submit", (e) => {
 
   if (!game || !name || !country || score <= 0) return;
 
-  records.push({ game, name, country, score, created: Date.now() });
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+  if (editingId) {
+    const index = records.findIndex(r => r.created === editingId);
+    if (index !== -1) records[index] = { ...records[index], game, name, country, score };
+    editingId = null;
+    $("submitBtn").textContent = "Subir marca";
+    $("cancelEditBtn").style.display = "none";
+  } else {
+    records.push({ game, name, country, score, created: Date.now() });
+  }
   
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
   render();
   $("recordForm").reset();
   switchTab(true);
 });
 
-// Iniciar
 render();
 </script>
 
