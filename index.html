@@ -467,7 +467,7 @@ function render() {
         const playerCell = document.createElement("td");
      playerCell.append(makePlayer(record));   
       const timeCell = document.createElement("td");
-    playerCell.textContent = `#${rank} `;
+    playerCell.insertAdjacentText("afterbegin", `#${rank} `);
         timeCell.className = "time";
         
         if (record.ms === bestTime) {
