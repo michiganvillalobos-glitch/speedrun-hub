@@ -140,7 +140,6 @@ button[type="submit"] {
         <label>Nombre de usuario <input id="playerName" maxlength="20" required></label>
         <label>País <select id="country" required></select></label>
         
-        <!-- NUEVO SELECTOR DE MODO -->
         <label>Tipo de Reto <select id="gameMode" required>
           <option value="menor">Menor puntuación (Cuanto menos, mejor)</option>
           <option value="mayor">Mayor puntuación (El más alto gana)</option>
@@ -160,13 +159,38 @@ button[type="submit"] {
 
 const ADMIN_PASSWORD = "admin123"; 
 const $ = id => document.getElementById(id);
-const STORAGE_KEY = "lp-ranking-v2"; // Cambié a v2 por el nuevo modo
+const STORAGE_KEY = "lp-ranking-v2";
 let records = [];
 let isAdmin = false;
 let editingId = null;
 
+// Lista completa de países
 const countries = {
-  AR: "Argentina", BO: "Bolivia", BR: "Brasil", CA: "Canadá", CL: "Chile", CN: "China", CO: "Colombia", CR: "Costa Rica", CU: "Cuba", DE: "Alemania", EC: "Ecuador", ES: "España", FR: "Francia", GB: "Reino Unido", GT: "Guatemala", HN: "Honduras", IT: "Italia", JP: "Japón", MX: "México", NI: "Nicaragua", PA: "Panamá", PE: "Perú", PR: "Puerto Rico", PY: "Paraguay", SV: "El Salvador", US: "Estados Unidos", UY: "Uruguay", VE: "Venezuela"
+  AD: "Andorra", AE: "Emiratos Árabes Unidos", AF: "Afganistán", AG: "Antigua y Barbuda", AI: "Anguila", AL: "Albania", AM: "Armenia", AO: "Angola", AQ: "Antártida", AR: "Argentina", AS: "Samoa Americana", AT: "Austria", AU: "Australia", AW: "Aruba", AX: "Islas Åland", AZ: "Azerbaiyán",
+  BA: "Bosnia y Herzegovina", BB: "Barbados", BD: "Bangladés", BE: "Bélgica", BF: "Burkina Faso", BG: "Bulgaria", BH: "Baréin", BI: "Burundi", BJ: "Benín", BL: "San Bartolomé", BM: "Bermudas", BN: "Brunéi", BO: "Bolivia", BQ: "Bonaire, San Eustaquio y Saba", BR: "Brasil", BS: "Bahamas", BT: "Bután", BV: "Isla Bouvet", BW: "Botsuana", BY: "Bielorrusia", BZ: "Belice",
+  CA: "Canadá", CC: "Islas Cocos", CD: "República Democrática del Congo", CF: "República Centroafricana", CG: "República del Congo", CH: "Suiza", CI: "Costa de Marfil", CK: "Islas Cook", CL: "Chile", CM: "Camerún", CN: "China", CO: "Colombia", CR: "Costa Rica", CU: "Cuba", CV: "Cabo Verde", CW: "Curazao", CX: "Isla de Navidad", CY: "Chipre", CZ: "Chequia",
+  DE: "Alemania", DJ: "Yibuti", DK: "Dinamarca", DM: "Dominica", DO: "República Dominicana", DZ: "Argelia",
+  EC: "Ecuador", EE: "Estonia", EG: "Egipto", EH: "Sáhara Occidental", ER: "Eritrea", ES: "España", ET: "Etiopía",
+  FI: "Finlandia", FJ: "Fiyi", FK: "Islas Malvinas", FM: "Micronesia", FO: "Islas Feroe", FR: "Francia",
+  GA: "Gabón", GB: "Reino Unido", GD: "Granada", GE: "Georgia", GF: "Guayana Francesa", GG: "Guernsey", GH: "Ghana", GI: "Gibraltar", GL: "Groenlandia", GM: "Gambia", GN: "Guinea", GP: "Guadalupe", GQ: "Guinea Ecuatorial", GR: "Grecia", GS: "Islas Georgias del Sur y Sandwich del Sur", GT: "Guatemala", GU: "Guam", GW: "Guinea-Bisáu", GY: "Guyana",
+  HK: "Hong Kong", HM: "Islas Heard y McDonald", HN: "Honduras", HR: "Croacia", HT: "Haití", HU: "Hungría",
+  ID: "Indonesia", IE: "Irlanda", IL: "Israel", IM: "Isla de Man", IN: "India", IO: "Territorio Británico del Océano Índico", IQ: "Irak", IR: "Irán", IS: "Islandia", IT: "Italia",
+  JE: "Jersey", JM: "Jamaica", JO: "Jordania", JP: "Japón",
+  KE: "Kenia", KG: "Kirguistán", KH: "Camboya", KI: "Kiribati", KM: "Comoras", KN: "San Cristóbal y Nieves", KP: "Corea del Norte", KR: "Corea del Sur", KW: "Kuwait", KY: "Islas Caimán", KZ: "Kazajistán",
+  LA: "Laos", LB: "Líbano", LC: "Santa Lucía", LI: "Liechtenstein", LK: "Sri Lanka", LR: "Liberia", LS: "Lesoto", LT: "Lituania", LU: "Luxemburgo", LV: "Letonia", LY: "Libia",
+  MA: "Marruecos", MC: "Mónaco", MD: "Moldavia", ME: "Montenegro", MF: "San Martín (parte francesa)", MG: "Madagascar", MH: "Islas Marshall", MK: "Macedonia del Norte", ML: "Malí", MM: "Myanmar", MN: "Mongolia", MO: "Macao", MP: "Islas Marianas del Norte", MQ: "Martinica", MR: "Mauritania", MS: "Montserrat", MT: "Malta", MU: "Mauricio", MV: "Maldivas", MW: "Malaui", MX: "México", MY: "Malasia", MZ: "Mozambique",
+  NA: "Namibia", NC: "Nueva Caledonia", NE: "Níger", NF: "Isla Norfolk", NG: "Nigeria", NI: "Nicaragua", NL: "Países Bajos", NO: "Noruega", NP: "Nepal", NR: "Nauru", NU: "Niue", NZ: "Nueva Zelanda",
+  OM: "Omán",
+  PA: "Panamá", PE: "Perú", PF: "Polinesia Francesa", PG: "Papúa Nueva Guinea", PH: "Filipinas", PK: "Pakistán", PL: "Polonia", PM: "San Pedro y Miquelón", PN: "Islas Pitcairn", PR: "Puerto Rico", PS: "Palestina", PT: "Portugal", PW: "Palaos", PY: "Paraguay",
+  QA: "Catar",
+  RE: "Reunión", RO: "Rumanía", RS: "Serbia", RU: "Rusia", RW: "Ruanda",
+  SA: "Arabia Saudita", SB: "Islas Salomón", SC: "Seychelles", SD: "Sudán", SE: "Suecia", SG: "Singapur", SH: "Santa Elena, Ascensión y Tristán de Acuña", SI: "Eslovenia", SJ: "Svalbard y Jan Mayen", SK: "Eslovaquia", SL: "Sierra Leona", SM: "San Marino", SN: "Senegal", SO: "Somalia", SR: "Surinam", SS: "Sudán del Sur", ST: "Santo Tomé y Príncipe", SV: "El Salvador", SX: "San Martín (parte neerlandesa)", SY: "Siria", SZ: "Esuatini",
+  TC: "Islas Turcas y Caicos", TD: "Chad", TF: "Tierras Australes Francesas", TG: "Togo", TH: "Tailandia", TJ: "Tayikistán", TK: "Tokelau", TL: "Timor Oriental", TM: "Turkmenistán", TN: "Túnez", TO: "Tonga", TR: "Turquía", TT: "Trinidad y Tobago", TV: "Tuvalu", TW: "Taiwán", TZ: "Tanzania",
+  UA: "Ucrania", UG: "Uganda", UM: "Islas menores alejadas de Estados Unidos", US: "Estados Unidos", UY: "Uruguay", UZ: "Uzbekistán",
+  VA: "Ciudad del Vaticano", VC: "San Vicente y las Granadinas", VE: "Venezuela", VG: "Islas Vírgenes Británicas", VI: "Islas Vírgenes de Estados Unidos", VN: "Vietnam", VU: "Vanuatu",
+  WF: "Wallis y Futuna", WS: "Samoa",
+  YE: "Yemen", YT: "Mayotte",
+  ZA: "Sudáfrica", ZM: "Zambia", ZW: "Zimbabue"
 };
 
 function flagEmoji(code) {
@@ -183,7 +207,6 @@ try {
   if (saved !== null) records = JSON.parse(saved);
 } catch { records = []; }
 
-// Lógica del botón de Admin
 $("adminBtn").onclick = () => {
   if (isAdmin) {
     isAdmin = false;
@@ -247,7 +270,6 @@ function render() {
     $("emptyRanking").hidden = true;
   }
 
-  // Agrupar por juego y modo
   const grouped = {};
   for (const record of records) {
     const key = `${record.game} (${record.mode === "mayor" ? "Máxima" : "Mínima"})`;
@@ -270,7 +292,6 @@ function render() {
     const table = document.createElement("table");
     const tbody = document.createElement("tbody");
 
-    // Ordenar dependiendo del modo
     const catRecords = grouped[key].sort((a, b) => {
       return key.includes("Máxima") ? (b.score - a.score) : (a.score - b.score);
     });
@@ -322,7 +343,6 @@ function render() {
     container.append(gameGroup);
   }
 
-  // Actualizar tarjeta de WR Global (el mejor de todos, sin importar el juego)
   const globalWr = [...records].sort((a, b) => {
     return a.mode === "mayor" ? (b.score - a.score) : (a.score - b.score);
   })[0];
@@ -374,33 +394,8 @@ $("recordForm").addEventListener("submit", (e) => {
   render();
   $("recordForm").reset();
   switchTab(true);
-}); const countries = {
-  AD: "Andorra", AE: "Emiratos Árabes Unidos", AF: "Afganistán", AG: "Antigua y Barbuda", AI: "Anguila", AL: "Albania", AM: "Armenia", AO: "Angola", AQ: "Antártida", AR: "Argentina", AS: "Samoa Americana", AT: "Austria", AU: "Australia", AW: "Aruba", AX: "Islas Åland", AZ: "Azerbaiyán",
-  BA: "Bosnia y Herzegovina", BB: "Barbados", BD: "Bangladés", BE: "Bélgica", BF: "Burkina Faso", BG: "Bulgaria", BH: "Baréin", BI: "Burundi", BJ: "Benín", BL: "San Bartolomé", BM: "Bermudas", BN: "Brunéi", BO: "Bolivia", BQ: "Bonaire, San Eustaquio y Saba", BR: "Brasil", BS: "Bahamas", BT: "Bután", BV: "Isla Bouvet", BW: "Botsuana", BY: "Bielorrusia", BZ: "Belice",
-  CA: "Canadá", CC: "Islas Cocos", CD: "República Democrática del Congo", CF: "República Centroafricana", CG: "República del Congo", CH: "Suiza", CI: "Costa de Marfil", CK: "Islas Cook", CL: "Chile", CM: "Camerún", CN: "China", CO: "Colombia", CR: "Costa Rica", CU: "Cuba", CV: "Cabo Verde", CW: "Curazao", CX: "Isla de Navidad", CY: "Chipre", CZ: "Chequia",
-  DE: "Alemania", DJ: "Yibuti", DK: "Dinamarca", DM: "Dominica", DO: "República Dominicana", DZ: "Argelia",
-  EC: "Ecuador", EE: "Estonia", EG: "Egipto", EH: "Sáhara Occidental", ER: "Eritrea", ES: "España", ET: "Etiopía",
-  FI: "Finlandia", FJ: "Fiyi", FK: "Islas Malvinas", FM: "Micronesia", FO: "Islas Feroe", FR: "Francia",
-  GA: "Gabón", GB: "Reino Unido", GD: "Granada", GE: "Georgia", GF: "Guayana Francesa", GG: "Guernsey", GH: "Ghana", GI: "Gibraltar", GL: "Groenlandia", GM: "Gambia", GN: "Guinea", GP: "Guadalupe", GQ: "Guinea Ecuatorial", GR: "Grecia", GS: "Islas Georgias del Sur y Sandwich del Sur", GT: "Guatemala", GU: "Guam", GW: "Guinea-Bisáu", GY: "Guyana",
-  HK: "Hong Kong", HM: "Islas Heard y McDonald", HN: "Honduras", HR: "Croacia", HT: "Haití", HU: "Hungría",
-  ID: "Indonesia", IE: "Irlanda", IL: "Israel", IM: "Isla de Man", IN: "India", IO: "Territorio Británico del Océano Índico", IQ: "Irak", IR: "Irán", IS: "Islandia", IT: "Italia",
-  JE: "Jersey", JM: "Jamaica", JO: "Jordania", JP: "Japón",
-  KE: "Kenia", KG: "Kirguistán", KH: "Camboya", KI: "Kiribati", KM: "Comoras", KN: "San Cristóbal y Nieves", KP: "Corea del Norte", KR: "Corea del Sur", KW: "Kuwait", KY: "Islas Caimán", KZ: "Kazajistán",
-  LA: "Laos", LB: "Líbano", LC: "Santa Lucía", LI: "Liechtenstein", LK: "Sri Lanka", LR: "Liberia", LS: "Lesoto", LT: "Lituania", LU: "Luxemburgo", LV: "Letonia", LY: "Libia",
-  MA: "Marruecos", MC: "Mónaco", MD: "Moldavia", ME: "Montenegro", MF: "San Martín (parte francesa)", MG: "Madagascar", MH: "Islas Marshall", MK: "Macedonia del Norte", ML: "Malí", MM: "Myanmar", MN: "Mongolia", MO: "Macao", MP: "Islas Marianas del Norte", MQ: "Martinica", MR: "Mauritania", MS: "Montserrat", MT: "Malta", MU: "Mauricio", MV: "Maldivas", MW: "Malaui", MX: "México", MY: "Malasia", MZ: "Mozambique",
-  NA: "Namibia", NC: "Nueva Caledonia", NE: "Níger", NF: "Isla Norfolk", NG: "Nigeria", NI: "Nicaragua", NL: "Países Bajos", NO: "Noruega", NP: "Nepal", NR: "Nauru", NU: "Niue", NZ: "Nueva Zelanda",
-  OM: "Omán",
-  PA: "Panamá", PE: "Perú", PF: "Polinesia Francesa", PG: "Papúa Nueva Guinea", PH: "Filipinas", PK: "Pakistán", PL: "Polonia", PM: "San Pedro y Miquelón", PN: "Islas Pitcairn", PR: "Puerto Rico", PS: "Palestina", PT: "Portugal", PW: "Palaos", PY: "Paraguay",
-  QA: "Catar",
-  RE: "Reunión", RO: "Rumanía", RS: "Serbia", RU: "Rusia", RW: "Ruanda",
-  SA: "Arabia Saudita", SB: "Islas Salomón", SC: "Seychelles", SD: "Sudán", SE: "Suecia", SG: "Singapur", SH: "Santa Elena, Ascensión y Tristán de Acuña", SI: "Eslovenia", SJ: "Svalbard y Jan Mayen", SK: "Eslovaquia", SL: "Sierra Leona", SM: "San Marino", SN: "Senegal", SO: "Somalia", SR: "Surinam", SS: "Sudán del Sur", ST: "Santo Tomé y Príncipe", SV: "El Salvador", SX: "San Martín (parte neerlandesa)", SY: "Siria", SZ: "Esuatini",
-  TC: "Islas Turcas y Caicos", TD: "Chad", TF: "Tierras Australes Francesas", TG: "Togo", TH: "Tailandia", TJ: "Tayikistán", TK: "Tokelau", TL: "Timor Oriental", TM: "Turkmenistán", TN: "Túnez", TO: "Tonga", TR: "Turquía", TT: "Trinidad y Tobago", TV: "Tuvalu", TW: "Taiwán", TZ: "Tanzania",
-  UA: "Ucrania", UG: "Uganda", UM: "Islas menores alejadas de Estados Unidos", US: "Estados Unidos", UY: "Uruguay", UZ: "Uzbekistán",
-  VA: "Ciudad del Vaticano", VC: "San Vicente y las Granadinas", VE: "Venezuela", VG: "Islas Vírgenes Británicas", VI: "Islas Vírgenes de Estados Unidos", VN: "Vietnam", VU: "Vanuatu",
-  WF: "Wallis y Futuna", WS: "Samoa",
-  YE: "Yemen", YT: "Mayotte",
-  ZA: "Sudáfrica", ZM: "Zambia", ZW: "Zimbabue"
-};
+});
+
 render();
 </script>
 
