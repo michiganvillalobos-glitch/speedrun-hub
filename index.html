@@ -461,12 +461,13 @@ function render() {
 
       const catRecords = grouped[game][category].sort((a, b) => a.ms - b.ms || a.created - b.created);
       const bestTime = catRecords[0].ms;
-
+  let rank = 1;
       for (const record of catRecords) {
         const row = document.createElement("tr");
         const playerCell = document.createElement("td");
-        const timeCell = document.createElement("td");
-        playerCell.append(makePlayer(record));
+     playerCell.append(makePlayer(record));   
+      const timeCell = document.createElement("td");
+    playerCell.textContent = `#${rank} `;
         timeCell.className = "time";
         
         if (record.ms === bestTime) {
@@ -498,7 +499,7 @@ function render() {
           adminDiv.append(editBtn, deleteBtn);
           playerCell.append(adminDiv);
         }
-
+     rank++;       
         row.append(playerCell, timeCell);
         tbody.append(row);
       }
