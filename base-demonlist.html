@@ -7,135 +7,135 @@
 
 <style>
 :root {
-  --bg-main: #0d0d12; --bg-surface: #1a1a22; --bg-header: #121218;
-  --text-main: #ffffff; --text-muted: #8b8b9f; --accent: #a855f7;
-  --green: #10b981; --red: #ef4444; --border: #2a2a35;
+  --bg-main: #0a0a0f; --bg-surface: #16161c; --bg-header: #101014;
+  --text-main: #ffffff; --text-muted: #8b8b9f; --accent: #9d4edd; 
+  --green: #10b981; --red: #ef4444; --border: #2a2a35; --gold: #fbbf24;
 }
 
 * { box-sizing: border-box; }
 body { margin: 0; background-color: var(--bg-main); color: var(--text-main); font-family: system-ui, -apple-system, sans-serif; }
 
-header {
-  padding: 20px; background-color: var(--bg-header); border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100;
-}
-.header-content { display: flex; align-items: center; gap: 15px; }
-.logo { font-size: 22px; font-weight: 800; color: var(--accent); }
-.icon-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text-muted); }
+/* Header Fijo */
+header { padding: 15px 20px; background-color: var(--bg-header); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+.logo { font-size: 20px; font-weight: 900; color: var(--text-main); letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+.logo span { color: var(--accent); }
+.icon-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-muted); }
 #adminBtn.active { color: var(--red); }
 
-main { max-width: 800px; margin: auto; padding: 20px 15px 80px; }
+main { max-width: 900px; margin: auto; padding: 20px 15px 100px; }
 
-/* Pestañas principales */
-.main-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-.main-tabs button {
-  background: none; border: none; color: var(--text-muted); font-size: 16px; font-weight: bold;
-  cursor: pointer; padding: 10px; border-bottom: 3px solid transparent;
-}
-.main-tabs button.active { color: var(--accent); border-bottom-color: var(--accent); }
+/* Sistema de Pestañas (Tabs) */
+.nav-tabs { display: flex; gap: 5px; margin-bottom: 25px; background: var(--bg-surface); padding: 5px; border-radius: 12px; border: 1px solid var(--border); overflow-x: auto; }
+.nav-tabs button { flex: 1; background: none; border: none; color: var(--text-muted); font-size: 14px; font-weight: bold; cursor: pointer; padding: 12px 10px; border-radius: 8px; white-space: nowrap; transition: 0.2s; }
+.nav-tabs button.active { background: var(--bg-main); color: var(--accent); box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
 
-/* Botones generales */
-.btn-primary { padding: 12px; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 15px; }
+/* Botones Generales */
+.btn-main { padding: 14px; background: var(--accent); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 20px; font-size: 15px; transition: 0.2s; }
+.btn-main:hover { opacity: 0.9; }
 .admin-only { display: none; }
 body.is-admin .admin-only { display: block; }
 
-/* Tarjetas de Niveles */
-.level-card { background-color: var(--bg-surface); border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--border); display: flex; gap: 15px; align-items: center; position: relative; }
-.level-thumb { width: 100px; height: 60px; background: #333; border-radius: 6px; object-fit: cover; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #666; }
+/* Tarjetas de Niveles (Demonlist) */
+.level-card { background-color: var(--bg-surface); border-radius: 14px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--border); display: flex; gap: 15px; align-items: center; transition: 0.2s; }
+.level-card:hover { border-color: #444; }
+.level-thumb { width: 120px; height: 70px; background: #222; border-radius: 8px; object-fit: cover; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #555; }
 .level-info { flex-grow: 1; }
-.level-rank { font-size: 20px; font-weight: 900; color: var(--accent); }
-.level-title { font-size: 16px; font-weight: bold; margin: 2px 0; }
-.level-details { font-size: 12px; color: var(--text-muted); display: flex; gap: 10px; margin-top: 5px; }
-.level-points { font-size: 18px; font-weight: 900; color: var(--green); text-align: right; }
+.level-rank { font-size: 24px; font-weight: 900; color: var(--text-muted); line-height: 1; margin-bottom: 5px; }
+.level-title { font-size: 18px; font-weight: bold; margin: 0; }
+.level-details { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+.level-details img { height: 20px; width: 20px; object-fit: contain; }
+.level-points { font-size: 20px; font-weight: 900; color: var(--green); text-align: right; }
 
-/* Tarjetas de Jugadores */
-.player-card { background-color: var(--bg-surface); border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--border); display: flex; align-items: center; gap: 15px; }
-.player-rank { font-size: 18px; font-weight: 900; color: var(--accent); width: 30px; }
-.player-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); }
-.player-name { font-size: 16px; font-weight: bold; }
-.player-stats { font-size: 12px; color: var(--text-muted); display: flex; gap: 10px; margin-top: 5px; }
-.player-points { margin-left: auto; font-size: 18px; font-weight: 900; color: var(--green); }
+/* Tarjetas de Ranking (Jugadores) */
+.player-card { background-color: var(--bg-surface); border-radius: 14px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--border); display: flex; align-items: center; gap: 15px; }
+.player-rank { font-size: 20px; font-weight: 900; color: var(--text-muted); width: 40px; text-align: center; }
+.player-rank.top-1 { color: var(--gold); }
+.player-avatar { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); }
+.player-name { font-size: 17px; font-weight: bold; display: flex; align-items: center; gap: 6px; }
+.player-name img { height: 14px; border-radius: 2px; }
+.player-stats { font-size: 12px; color: var(--text-muted); margin-top: 5px; background: var(--bg-main); padding: 4px 8px; border-radius: 6px; display: inline-block; }
+.player-points { margin-left: auto; font-size: 22px; font-weight: 900; color: var(--green); text-align: right; }
 
-/* Admin Controls */
-.admin-controls { display: none; flex-direction: column; gap: 5px; margin-left: 10px; }
+/* Controles de Admin */
+.admin-controls { display: none; gap: 5px; margin-left: 10px; flex-direction: column; }
 body.is-admin .admin-controls { display: flex; }
-.btn-icon { background: none; border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 12px; color: white; }
-.btn-icon.edit { color: #3b82f6; border-color: #3b82f6; }
-.btn-icon.delete { color: var(--red); border-color: var(--red); }
+.btn-icon { background: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; cursor: pointer; font-size: 14px; color: white; }
+.btn-icon.edit { color: #3b82f6; }
+.btn-icon.delete { color: var(--red); }
 
-/* Modal */
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
+/* Modales (Ventanas) */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; backdrop-filter: blur(5px); }
 .modal-overlay.active { display: flex; }
-.modal-content { background: var(--bg-surface); width: 100%; max-width: 500px; border-radius: 12px; padding: 20px; border: 1px solid var(--border); max-height: 90vh; overflow-y: auto; }
-.modal-title { margin-top: 0; font-size: 18px; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; color: var(--accent); }
-form { display: grid; gap: 12px; }
-label { display: grid; gap: 5px; color: var(--text-muted); font-size: 12px; font-weight: bold; }
-input, select, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-main); color: white; font-size: 14px; font-family: inherit; }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.diff-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-.diff-btn { padding: 10px; background: var(--bg-main); border: 1px solid var(--border); border-radius: 8px; color: white; text-align: left; cursor: pointer; font-size: 12px; display: flex; align-items: center; gap: 8px; }
-.diff-btn.active { border-color: var(--accent); background: rgba(168, 85, 247, 0.1); }
-.modal-buttons { display: flex; gap: 10px; margin-top: 15px; }
-.btn-save { flex: 1; padding: 12px; background: var(--green); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-.btn-cancel { flex: 1; padding: 12px; background: var(--bg-main); color: white; border: 1px solid var(--border); border-radius: 8px; font-weight: bold; cursor: pointer; }
+.modal-content { background: var(--bg-surface); width: 100%; max-width: 500px; border-radius: 16px; padding: 25px; border: 1px solid var(--border); max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.modal-title { margin-top: 0; font-size: 20px; display: flex; align-items: center; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+.modal-title span { color: var(--accent); font-size: 24px; }
+
+form { display: grid; gap: 15px; }
+label { display: grid; gap: 6px; color: var(--text-muted); font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+input, select, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-main); color: white; font-size: 15px; font-family: inherit; outline: none; transition: 0.2s; }
+input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.modal-buttons { display: flex; gap: 10px; margin-top: 20px; }
+.btn-save { flex: 1; padding: 14px; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 15px; }
+.btn-cancel { flex: 1; padding: 14px; background: transparent; color: white; border: 1px solid var(--border); border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 15px; }
 .hidden { display: none !important; }
+
+/* Utilidades */
+.empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); background: var(--bg-surface); border-radius: 12px; border: 1px dashed var(--border); }
 </style>
 </head>
 
 <body>
 
 <header>
-  <div class="header-content">
-    <div class="logo">Base Demon List</div>
-  </div>
+  <div class="logo">BASE<span>DEMON</span>LIST</div>
   <button id="adminBtn" class="icon-btn" title="Panel de Moderador">⚙️</button>
 </header>
 
 <main>
-  <div class="main-tabs">
-    <button id="tabPlayers" class="active" onclick="switchView('players')">Jugadores</button>
-    <button id="tabLevels" onclick="switchView('levels')">Lista de Niveles</button>
+  <!-- Navegación Principal -->
+  <div class="nav-tabs">
+    <button id="tabRanking" class="active" onclick="switchView('ranking')">🏆 Ranking</button>
+    <button id="tabLevels" onclick="switchView('levels')">💀 Demonlist</button>
+    <button id="tabRegister" onclick="switchView('register')">👤 Registro</button>
+    <button id="tabDiffs" class="admin-only" style="color:var(--red);" onclick="switchView('diffs')">⚙️ Dificultades</button>
   </div>
 
-  <!-- Vista de Jugadores -->
-  <section id="viewPlayers">
-    <button class="btn-primary admin-only" onclick="openPlayerModal()">+ Agregar Jugador</button>
+  <!-- VISTA 1: RANKING GLOBAL -->
+  <section id="viewRanking">
     <div id="playerList"></div>
   </section>
 
-  <!-- Vista de Niveles -->
+  <!-- VISTA 2: DEMONLIST -->
   <section id="viewLevels" class="hidden">
-    <button class="btn-primary admin-only" onclick="openLevelModal()">+ Agregar Nivel</button>
+    <button class="btn-main admin-only" onclick="openLevelModal()">+ Añadir Nivel a la Lista</button>
     <div id="levelList"></div>
+  </section>
+
+  <!-- VISTA 3: REGISTRO -->
+  <section id="viewRegister" class="hidden">
+    <div class="modal-content" style="margin:auto;">
+      <h2 class="modal-title"><span>👤</span> Crear Cuenta</h2>
+      <form id="registerForm">
+        <label>Nombre de Usuario <input id="regName" type="text" required placeholder="Ej: Michigan16"></label>
+        <label>URL de tu Avatar (Foto) <input id="regAvatar" type="url" placeholder="https://..."></label>
+        <label>País <select id="regCountry" required></select></label>
+        <button type="submit" class="btn-save" style="margin-top:10px;">Unirse al Ranking</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- VISTA 4: DIFICULTADES (ADMIN) -->
+  <section id="viewDiffs" class="hidden">
+    <button class="btn-main" onclick="openDiffModal()">+ Añadir Dificultad Personalizada</button>
+    <div id="diffList"></div>
   </section>
 </main>
 
-<!-- Modal Jugadores -->
-<div class="modal-overlay" id="playerModal">
-  <div class="modal-content">
-    <h2 class="modal-title"><span>👤</span> <span id="playerModalTitle">Editar Jugador</span></h2>
-    <form id="playerForm">
-      <input type="hidden" id="editPlayerId">
-      <label>Nombre del Jugador <input id="pName" type="text" required></label>
-      <label>URL de Foto (Avatar) <input id="pAvatar" type="url" placeholder="https://..."></label>
-      <label>URL de Bandera (País) <input id="pFlag" type="url" placeholder="https://flagcdn.com/w40/ve.png"></label>
-      
-      <label>Niveles Completados (Separados por coma, ej: Tendon, Bloodbath)
-        <textarea id="pLevels" rows="3"></textarea>
-      </label>
-
-      <div class="modal-buttons">
-        <button type="button" class="btn-cancel" onclick="closeModal('playerModal')">Cancelar</button>
-        <button type="submit" class="btn-save">Guardar</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<!-- Modal Niveles -->
+<!-- MODAL: NIVELES -->
 <div class="modal-overlay" id="levelModal">
   <div class="modal-content">
-    <h2 class="modal-title"><span>✏️</span> <span id="levelModalTitle">Editar Nivel</span></h2>
+    <h2 class="modal-title"><span>💀</span> <span id="modalLevelTitle">Nuevo Nivel</span></h2>
     <form id="levelForm">
       <input type="hidden" id="editLevelId">
       <label>Nombre del Nivel <input id="lName" type="text" required></label>
@@ -143,22 +143,49 @@ input, select, textarea { width: 100%; padding: 10px; border: 1px solid var(--bo
         <label>Posición (#) <input id="lPos" type="number" required></label>
         <label>Puntos <input id="lPoints" type="number" step="0.01" required></label>
       </div>
-      <label>Dificultad
-        <div class="diff-options" id="diffOptions">
-          <button type="button" class="diff-btn active" data-diff="Extreme Demon">🔴 Extreme Demon</button>
-          <button type="button" class="diff-btn" data-diff="Insane Demon">🔴 Insane Demon</button>
-          <button type="button" class="diff-btn" data-diff="Hard Demon">🟠 Hard Demon</button>
-        </div>
-      </label>
-      <label>URL de la Imagen <input id="lImage" type="url"></label>
+      <label>Dificultad <select id="lDiff" required></select></label>
+      <label>URL Imagen del Nivel <input id="lImage" type="url" placeholder="https://..."></label>
+      <label>URL Video de YouTube <input id="lYoutube" type="url" placeholder="https://..."></label>
       <div class="modal-buttons">
         <button type="button" class="btn-cancel" onclick="closeModal('levelModal')">Cancelar</button>
+        <button type="submit" class="btn-save">Guardar Nivel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: DIFICULTADES -->
+<div class="modal-overlay" id="diffModal">
+  <div class="modal-content">
+    <h2 class="modal-title"><span>🎨</span> Nueva Dificultad</h2>
+    <form id="diffForm">
+      <label>Nombre de la Dificultad <input id="dName" type="text" required placeholder="Ej: Extreme Demon"></label>
+      <label>URL de la Imagen (Ícono) <input id="dImage" type="url" placeholder="https://..."></label>
+      <div class="modal-buttons">
+        <button type="button" class="btn-cancel" onclick="closeModal('diffModal')">Cancelar</button>
         <button type="submit" class="btn-save">Guardar</button>
       </div>
     </form>
   </div>
 </div>
-<script>
+
+<!-- MODAL: EDITAR JUGADOR (ADMIN) -->
+<div class="modal-overlay" id="playerEditModal">
+  <div class="modal-content">
+    <h2 class="modal-title"><span>✏️</span> Editar Jugador</h2>
+    <form id="playerEditForm">
+      <input type="hidden" id="editPlayerId">
+      <label>Nombre <input id="epName" type="text" required></label>
+      <label>Niveles Completados (Separados por coma) <textarea id="epLevels" rows="3"></textarea></label>
+      <div class="modal-buttons">
+        <button type="button" class="btn-cancel" onclick="closeModal('playerEditModal')">Cancelar</button>
+        <button type="submit" class="btn-save">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+  <script>
 "use strict";
 
 const ADMIN_PASSWORD = "admin123";
@@ -166,73 +193,179 @@ const $ = id => document.getElementById(id);
 
 let players = [];
 let levels = [];
+let difficulties = [
+  { id: 1, name: "Extreme Demon", image: "" },
+  { id: 2, name: "Insane Demon", image: "" },
+  { id: 3, name: "Hard Demon", image: "" }
+];
 let isAdmin = false;
-let currentDiff = "Extreme Demon";
 
-// Cargar datos
+// Lista corta de países para ahorrar espacio
+const countries = {
+  AR: "Argentina", BO: "Bolivia", BR: "Brasil", CA: "Canadá", CL: "Chile", CN: "China", CO: "Colombia", CR: "Costa Rica", CU: "Cuba", DE: "Alemania", EC: "Ecuador", ES: "España", FR: "Francia", GB: "Reino Unido", GT: "Guatemala", HN: "Honduras", IT: "Italia", JP: "Japón", MX: "México", NI: "Nicaragua", PA: "Panamá", PE: "Perú", PR: "Puerto Rico", PY: "Paraguay", SV: "El Salvador", US: "Estados Unidos", UY: "Uruguay", VE: "Venezuela"
+};
+
+// Cargar Selector de Países
+$("regCountry").add(new Option("Selecciona tu país", ""));
+Object.entries(countries).sort((a, b) => a[1].localeCompare(b[1], "es")).forEach(([code, name]) => {
+  $("regCountry").add(new Option(name, code));
+});
+
+// Cargar datos de LocalStorage
 try {
-  const savedP = localStorage.getItem("demonlist_players");
-  const savedL = localStorage.getItem("demonlist_levels");
-  if (savedP) players = JSON.parse(savedP);
-  if (savedL) levels = JSON.parse(savedL);
-} catch { players = []; levels = []; }
+  const sP = localStorage.getItem("bdl_players");
+  const sL = localStorage.getItem("bdl_levels");
+  const sD = localStorage.getItem("bdl_diffs");
+  if (sP) players = JSON.parse(sP);
+  if (sL) levels = JSON.parse(sL);
+  if (sD) difficulties = JSON.parse(sD);
+} catch (e) {}
 
-// Admin Login
+// Login Admin
 $("adminBtn").onclick = () => {
   if (isAdmin) {
     isAdmin = false;
     document.body.classList.remove("is-admin");
     $("adminBtn").classList.remove("active");
-    renderAll();
+    switchView('ranking');
   } else {
-    const pass = prompt("Contraseña de admin:");
+    const pass = prompt("Contraseña de moderador:");
     if (pass === ADMIN_PASSWORD) {
       isAdmin = true;
       document.body.classList.add("is-admin");
       $("adminBtn").classList.add("active");
       renderAll();
-    } else if (pass !== null) alert("Incorrecta.");
+      alert("Modo Administrador Activado");
+    } else if (pass !== null) alert("Contraseña incorrecta.");
   }
 };
 
 // Cambiar de Pestaña
 function switchView(view) {
-  if (view === 'players') {
-    $("viewPlayers").classList.remove("hidden");
-    $("viewLevels").classList.add("hidden");
-    $("tabPlayers").classList.add("active");
-    $("tabLevels").classList.remove("active");
-  } else {
-    $("viewPlayers").classList.add("hidden");
-    $("viewLevels").classList.remove("hidden");
-    $("tabPlayers").classList.remove("active");
-    $("tabLevels").classList.add("active");
-  }
+  $("viewRanking").classList.add("hidden");
+  $("viewLevels").classList.add("hidden");
+  $("viewRegister").classList.add("hidden");
+  $("viewDiffs").classList.add("hidden");
+  
+  $("tabRanking").classList.remove("active");
+  $("tabLevels").classList.remove("active");
+  $("tabRegister").classList.remove("active");
+  $("tabDiffs").classList.remove("active");
+
+  if (view === 'ranking') { $("viewRanking").classList.remove("hidden"); $("tabRanking").classList.add("active"); renderRanking(); }
+  if (view === 'levels') { $("viewLevels").classList.remove("hidden"); $("tabLevels").classList.add("active"); renderLevels(); }
+  if (view === 'register') { $("viewRegister").classList.remove("hidden"); $("tabRegister").classList.add("active"); }
+  if (view === 'diffs') { $("viewDiffs").classList.remove("hidden"); $("tabDiffs").classList.add("active"); renderDiffs(); }
 }
 
 function closeModal(id) { $(id).classList.remove("active"); }
 
-// --- LÓGICA NIVELES ---
-document.querySelectorAll("#diffOptions .diff-btn").forEach(btn => {
-  btn.onclick = () => {
-    document.querySelectorAll("#diffOptions .diff-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    currentDiff = btn.getAttribute("data-diff");
-  };
+// REGISTRO DE JUGADOR
+$("registerForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const name = $("regName").value.trim();
+  const countryCode = $("regCountry").value;
+  if (!name || !countryCode) return;
+
+  players.push({
+    id: Date.now(),
+    name: name,
+    avatar: $("regAvatar").value.trim(),
+    country: countryCode,
+    completedLevels: ""
+  });
+  localStorage.setItem("bdl_players", JSON.stringify(players));
+  $("registerForm").reset();
+  alert("¡Registro exitoso!");
+  switchView('ranking');
 });
 
+// EDICIÓN DE JUGADOR (ADMIN)
+function openPlayerEditModal(id) {
+  const p = players.find(x => x.id === id);
+  if (!p) return;
+  $("editPlayerId").value = p.id;
+  $("epName").value = p.name;
+  $("epLevels").value = p.completedLevels || "";
+  $("playerEditModal").classList.add("active");
+}
+
+$("playerEditForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const id = Number($("editPlayerId").value);
+  const index = players.findIndex(x => x.id === id);
+  if (index !== -1) {
+    players[index].name = $("epName").value.trim();
+    players[index].completedLevels = $("epLevels").value.trim();
+    localStorage.setItem("bdl_players", JSON.stringify(players));
+    closeModal("playerEditModal");
+    renderRanking();
+  }
+});
+
+function deletePlayer(id) {
+  if (!confirm("¿Seguro que quieres eliminar a este jugador?")) return;
+  players = players.filter(p => p.id !== id);
+  localStorage.setItem("bdl_players", JSON.stringify(players));
+  renderRanking();
+}
+
+// DIFICULTADES
+function openDiffModal() { $("diffForm").reset(); $("diffModal").classList.add("active"); }
+
+$("diffForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  difficulties.push({
+    id: Date.now(),
+    name: $("dName").value.trim(),
+    image: $("dImage").value.trim()
+  });
+  localStorage.setItem("bdl_diffs", JSON.stringify(difficulties));
+  closeModal("diffModal");
+  renderDiffs();
+});
+
+function deleteDiff(id) {
+  if (!confirm("¿Eliminar dificultad?")) return;
+  difficulties = difficulties.filter(d => d.id !== id);
+  localStorage.setItem("bdl_diffs", JSON.stringify(difficulties));
+  renderDiffs();
+}
+
+function renderDiffs() {
+  const c = $("diffList"); c.innerHTML = "";
+  if (difficulties.length === 0) { c.innerHTML = `<div class="empty-state">No hay dificultades personalizadas.</div>`; return; }
+  difficulties.forEach(d => {
+    const div = document.createElement("div");
+    div.className = "level-card";
+    div.innerHTML = `
+      <div class="level-info" style="display:flex; align-items:center; gap:10px;">
+        ${d.image ? `<img src="${d.image}" style="height:30px;">` : ''}
+        <div class="level-title">${d.name}</div>
+      </div>
+      <div class="admin-controls" style="display:flex;">
+        <button class="btn-icon delete" onclick="deleteDiff(${d.id})">🗑️ Eliminar</button>
+      </div>
+    `;
+    c.append(div);
+  });
+}
+
+// NIVELES
 function openLevelModal(id = null) {
   $("levelForm").reset();
   $("editLevelId").value = id || "";
+  
+  const sel = $("lDiff"); sel.innerHTML = "";
+  difficulties.forEach(d => { sel.innerHTML += `<option value="${d.name}">${d.name}</option>`; });
+
   if (id) {
     const l = levels.find(x => x.id === id);
-    $("levelModalTitle").textContent = "Editar Nivel";
+    $("modalLevelTitle").textContent = "Editar Nivel";
     $("lName").value = l.name; $("lPos").value = l.pos; $("lPoints").value = l.points;
-    $("lImage").value = l.image || "";
-    currentDiff = l.difficulty;
+    $("lImage").value = l.image || ""; $("lYoutube").value = l.youtube || ""; $("lDiff").value = l.difficulty;
   } else {
-    $("levelModalTitle").textContent = "Agregar Nivel";
-    currentDiff = "Extreme Demon";
+    $("modalLevelTitle").textContent = "Nuevo Nivel";
   }
   $("levelModal").classList.add("active");
 }
@@ -245,99 +378,46 @@ $("levelForm").addEventListener("submit", (e) => {
     name: $("lName").value.trim(),
     pos: Number($("lPos").value),
     points: Number($("lPoints").value),
-    difficulty: currentDiff,
-    image: $("lImage").value.trim()
+    difficulty: $("lDiff").value,
+    image: $("lImage").value.trim(),
+    youtube: $("lYoutube").value.trim()
   };
 
   if (id) levels = levels.map(l => l.id === Number(id) ? data : l);
   else levels.push(data);
 
-  localStorage.setItem("demonlist_levels", JSON.stringify(levels));
+  localStorage.setItem("bdl_levels", JSON.stringify(levels));
   closeModal("levelModal");
-  renderAll();
+  renderLevels();
 });
 
 function deleteLevel(id) {
-  if (!isAdmin) return;
-  if (confirm("¿Borrar nivel?")) {
-    levels = levels.filter(l => l.id !== id);
-    localStorage.setItem("demonlist_levels", JSON.stringify(levels));
-    renderAll();
-  }
-}
-
-// --- LÓGICA JUGADORES ---
-function openPlayerModal(id = null) {
-  $("playerForm").reset();
-  $("editPlayerId").value = id || "";
-  if (id) {
-    const p = players.find(x => x.id === id);
-    $("playerModalTitle").textContent = "Editar Jugador";
-    $("pName").value = p.name;
-    $("pAvatar").value = p.avatar || "";
-    $("pFlag").value = p.flag || "";
-    $("pLevels").value = p.completedLevels || "";
-  } else {
-    $("playerModalTitle").textContent = "Agregar Jugador";
-  }
-  $("playerModal").classList.add("active");
-}
-
-$("playerForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const id = $("editPlayerId").value;
-  const data = {
-    id: id ? Number(id) : Date.now(),
-    name: $("pName").value.trim(),
-    avatar: $("pAvatar").value.trim(),
-    flag: $("pFlag").value.trim(),
-    completedLevels: $("pLevels").value.trim()
-  };
-
-  if (id) players = players.map(p => p.id === Number(id) ? data : p);
-  else players.push(data);
-
-  localStorage.setItem("demonlist_players", JSON.stringify(players));
-  closeModal("playerModal");
-  renderAll();
-});
-
-function deletePlayer(id) {
-  if (!isAdmin) return;
-  if (confirm("¿Borrar jugador?")) {
-    players = players.filter(p => p.id !== id);
-    localStorage.setItem("demonlist_players", JSON.stringify(players));
-    renderAll();
-  }
-}
-
-// --- RENDERIZAR TODO ---
-function renderAll() {
+  if (!confirm("¿Eliminar nivel de la lista?")) return;
+  levels = levels.filter(l => l.id !== id);
+  localStorage.setItem("bdl_levels", JSON.stringify(levels));
   renderLevels();
-  renderPlayers();
 }
 
 function renderLevels() {
-  const container = $("levelList");
-  container.innerHTML = "";
+  const c = $("levelList"); c.innerHTML = "";
   const sorted = [...levels].sort((a, b) => a.pos - b.pos);
 
-  if (sorted.length === 0) {
-    container.innerHTML = `<p style="text-align:center; color:var(--text-muted);">No hay niveles.</p>`;
-    return;
-  }
+  if (sorted.length === 0) { c.innerHTML = `<div class="empty-state">La Demonlist está vacía.</div>`; return; }
 
   sorted.forEach(l => {
+    const diffData = difficulties.find(d => d.name === l.difficulty);
+    const diffImg = diffData && diffData.image ? `<img src="${diffData.image}">` : '💀';
     const card = document.createElement("div");
     card.className = "level-card";
-    const img = l.image ? `<img src="${l.image}" class="level-thumb">` : `<div class="level-thumb">No Img</div>`;
+    const img = l.image ? `<img src="${l.image}" class="level-thumb">` : `<div class="level-thumb">Sin Imagen</div>`;
 
     card.innerHTML = `
       <div class="level-rank">#${l.pos}</div>
       ${img}
       <div class="level-info">
         <div class="level-title">${l.name}</div>
-        <div class="level-details"><span>💀 ${l.difficulty}</span></div>
+        <div class="level-details">${diffImg} <span>${l.difficulty}</span></div>
+        ${l.youtube ? `<a href="${l.youtube}" target="_blank" style="color:var(--red); font-size:12px; text-decoration:none; margin-top:5px; display:inline-block;">▶ Ver Video</a>` : ''}
       </div>
       <div class="level-points">${l.points} <br><span style="font-size:10px; color:var(--text-muted);">pts</span></div>
       <div class="admin-controls">
@@ -345,54 +425,48 @@ function renderLevels() {
         <button class="btn-icon delete" onclick="deleteLevel(${l.id})">🗑️</button>
       </div>
     `;
-    container.append(card);
+    c.append(card);
   });
 }
 
-function renderPlayers() {
-  const container = $("playerList");
-  container.innerHTML = "";
+// RANKING
+function renderRanking() {
+  const c = $("playerList"); c.innerHTML = "";
 
-  // Calcular puntos de cada jugador según los niveles completados
-  const rankedPlayers = players.map(p => {
-    let totalPoints = 0;
+  const ranked = players.map(p => {
+    let total = 0;
     const completed = p.completedLevels ? p.completedLevels.split(',').map(s => s.trim().toLowerCase()) : [];
-    
-    levels.forEach(l => {
-      if (completed.includes(l.name.toLowerCase())) {
-        totalPoints += l.points;
-      }
-    });
-    return { ...p, totalPoints };
-  }).sort((a, b) => b.totalPoints - a.totalPoints); // Ordenar de mayor a menor
+    levels.forEach(l => { if (completed.includes(l.name.toLowerCase())) total += l.points; });
+    return { ...p, total };
+  }).sort((a, b) => b.total - a.total);
 
-  if (rankedPlayers.length === 0) {
-    container.innerHTML = `<p style="text-align:center; color:var(--text-muted);">No hay jugadores registrados.</p>`;
-    return;
-  }
+  if (ranked.length === 0) { c.innerHTML = `<div class="empty-state">Nadie está en el ranking aún. ¡Sé el primero!</div>`; return; }
 
-  rankedPlayers.forEach((p, index) => {
+  ranked.forEach((p, i) => {
     const card = document.createElement("div");
     card.className = "player-card";
     const avatar = p.avatar ? `<img src="${p.avatar}" class="player-avatar">` : `<div class="player-avatar" style="display:flex;align-items:center;justify-content:center;background:#333;">👤</div>`;
-    const flag = p.flag ? `<img src="${p.flag}" style="height:14px;border-radius:2px;margin-left:5px;">` : "";
+    const flag = p.country ? `<img src="https://flagcdn.com/w40/${p.country.toLowerCase()}.png">` : "";
+    const rankClass = i === 0 ? "top-1" : "";
 
     card.innerHTML = `
-      <div class="player-rank">#${index + 1}</div>
+      <div class="player-rank ${rankClass}">#${i + 1}</div>
       ${avatar}
-      <div>
+      <div style="flex-grow:1;">
         <div class="player-name">${p.name} ${flag}</div>
-        <div class="player-stats">Completados: ${p.completedLevels || "Ninguno"}</div>
+        <div class="player-stats">🏆 ${p.completedLevels || "Sin niveles completados"}</div>
       </div>
-      <div class="player-points">${p.totalPoints.toFixed(2)} <br><span style="font-size:10px; color:var(--text-muted);">pts</span></div>
+      <div class="player-points">${p.total.toFixed(2)} <br><span style="font-size:10px; color:var(--text-muted);">pts</span></div>
       <div class="admin-controls">
-        <button class="btn-icon edit" onclick="openPlayerModal(${p.id})">✏️</button>
+        <button class="btn-icon edit" onclick="openPlayerEditModal(${p.id})">✏️</button>
         <button class="btn-icon delete" onclick="deletePlayer(${p.id})">🗑️</button>
       </div>
     `;
-    container.append(card);
+    c.append(card);
   });
 }
+
+function renderAll() { renderRanking(); renderLevels(); renderDiffs(); }
 
 // Iniciar
 renderAll();
