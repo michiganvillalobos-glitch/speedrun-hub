@@ -588,15 +588,27 @@ $("recordForm").addEventListener("submit", event => {
   showSubmission(false);
 });
 
-// Lógica del Modo Oscuro
+// Crear el botón y aplicar el modo oscuro
+const styleTheme = document.createElement("style");
+styleTheme.textContent = `
+  body.dark-mode { --background: #121212 !important; --text: #e0e0e0 !important; --border: #333333 !important; }
+  body.dark-mode header, body.dark-mode .card, body.dark-mode nav button, body.dark-mode input, body.dark-mode select, body.dark-mode .search-box { background-color: #1e1e1e !important; color: var(--text) !important; }
+  body.dark-mode .preview { background-color: #16634733 !important; }
+  #themeBtn { background: none; border: none; font-size: 24px; cursor: pointer; padding: 5px; margin-left: 10px; }`;
+document.head.appendChild(styleTheme);
+
+const headerContent = document.querySelector(".header-content");
+if (headerContent) {
+  const themeBtn = document.createElement("button");
+  themeBtn.id = "themeBtn";
+  themeBtn.textContent = "🌙";
+  themeBtn.title = "Modo Oscuro/Claro";
+  headerContent.appendChild(themeBtn);
+}
+
 $("themeBtn").onclick = () => {
   document.body.classList.toggle("dark-mode");
-  if (document.body.classList.contains("dark-mode")) {
-    $("themeBtn").textContent = "☀️";
-  } else {
-    $("themeBtn").textContent = "🌙";
-  }
-};
+  $("themeBtn").textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";};
 
 render();
 </script>
