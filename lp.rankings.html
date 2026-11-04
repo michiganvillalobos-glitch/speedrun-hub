@@ -692,7 +692,7 @@ function renderTimeTable(timeRecords, container) {
       }
 
       const timeTd = document.createElement("td");
-      timeTd.innerHTML = `<div class="time-display">${index === 0 ? '👑 ' : ''}${formatTime(record.ms)} ${record.video ? `<a href="${record.video}" target="_blank" class="video-link">▶ Video</a>` : ''}</div>`;
+      timeTd.innerHTML = `<div class="time-display">${index === 0 ? '' : ''}${formatTime(record.ms)} ${record.video ? `<a href="${record.video}" target="_blank" class="video-link">▶ Video</a>` : ''}</div>`;
 
       tr.append(rankTd, playerTd, timeTd);
       tbody.append(tr);
