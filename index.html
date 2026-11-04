@@ -465,9 +465,9 @@ function render() {
       for (const record of catRecords) {
         const row = document.createElement("tr");
         const playerCell = document.createElement("td");
-     playerCell.append(makePlayer(record));   
+     playerCell.insertAdjacentText("afterbegin", `#${rank} `); 
       const timeCell = document.createElement("td");
-    playerCell.insertAdjacentText("afterbegin", `#${rank} `);
+    playerCell.append(makePlayer(record));
         timeCell.className = "time";
         
         if (record.ms === bestTime) {
