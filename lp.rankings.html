@@ -66,6 +66,7 @@ button[type="submit"] { padding: 14px; background: var(--accent); color: #000; b
 .admin-actions { display: inline-flex; gap: 5px; margin-left: 10px; }
 .admin-btn-icon { background: none; border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 14px; }
 .admin-btn-icon.delete { color: var(--red); border-color: var(--red); }
+.admin-btn-icon.edit { color: #1976d2; border-color: #1976d2; }
 .admin-btn-icon.accept { color: var(--green); border-color: var(--green); font-weight: bold; }
 .verify-item { margin-bottom: 10px; padding: 10px; background: var(--bg-main); border-radius: 8px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
 .verify-info { display: flex; align-items: center; gap: 10px; }
@@ -111,8 +112,9 @@ button[type="submit"] { padding: 14px; background: var(--accent); color: #000; b
 
   <section id="panelSubmit" hidden>
     <div class="card">
-      <h2>Registrar marca</h2>
+      <h2 id="formTitle">Registrar marca</h2>
       <form id="recordForm">
+        <input type="hidden" id="editRecordId">
         <label>Nombre del juego <input id="gameName" maxlength="30" value="Reto Principal" required></label>
         <label>Nombre de usuario <input id="playerName" maxlength="20" required></label>
         <label>URL de tu foto de perfil (opcional) <input id="avatarUrl" type="url" placeholder="https://ejemplo.com/mi-foto.jpg"></label>
@@ -124,6 +126,7 @@ button[type="submit"] { padding: 14px; background: var(--accent); color: #000; b
         </select></label>
         <label>Puntuación <input id="score" type="number" min="0" max="999999" required></label>
         <button type="submit" id="submitBtn">Subir marca</button>
+        <button type="button" id="cancelEditBtn" style="background: var(--text-muted); display: none;">Cancelar Edición</button>
       </form>
       <p style="font-size:12px; color:var(--text-muted); margin-top:15px; text-align:center;">Tu marca será revisada por un administrador antes de ser publicada.</p>
     </div>
@@ -136,7 +139,8 @@ button[type="submit"] { padding: 14px; background: var(--accent); color: #000; b
       <p id="emptyVerify" style="text-align:center; color:var(--text-muted); display: none;">No hay marcas pendientes.</p>
     </div>
   </section>
-</main><script>
+</main> 
+  <script>
 "use strict";
 
 const ADMIN_PASSWORD = "admin123"; 
@@ -145,6 +149,7 @@ const STORAGE_KEY = "lp-ranking-final-v5";
 let records = [];
 let pendingRecords = [];
 let isAdmin = false;
+let editingId = null;
 
 const countries = {
   AD: "Andorra", AE: "Emiratos Árabes Unidos", AF: "Afganistán", AG: "Antigua y Barbuda", AI: "Anguila", AL: "Albania", AM: "Armenia", AO: "Angola", AQ: "Antártida", AR: "Argentina", AS: "Samoa Americana", AT: "Austria", AU: "Australia", AW: "Aruba", AX: "Islas Åland", AZ: "Azerbaiyán",
@@ -214,6 +219,36 @@ $("themeBtn").onclick = () => {
   $("themeBtn").textContent = document.body.classList.contains("light-mode") ? "🌙" : "☀️";
 };
 
+// EDITAR RÉCORD
+function editRecord(id) {
+  if (!isAdmin) return;
+  const record = records.find(r => r.created === id);
+  if (!record) return;
+
+  $("gameName").value = record.game;
+  $("playerName").value = record.name;
+  $("avatarUrl").value = record.avatar || "";
+  $("playerDesc").value = record.desc || "";
+  $("country").value = record.country;
+  $("gameMode").value = record.mode;
+  $("score").value = record.score;
+
+  editingId = id;
+  $("submitBtn").textContent = "Actualizar marca";
+  $("cancelEditBtn").style.display = "block";
+  $("formTitle").textContent = "Editar marca";
+  switchTab("submit");
+}
+
+$("cancelEditBtn").onclick = () => {
+  editingId = null;
+  $("recordForm").reset();
+  $("submitBtn").textContent = "Subir marca";
+  $("cancelEditBtn").style.display = "none";
+  $("formTitle").textContent = "Registrar marca";
+  switchTab("ranking");
+};
+
 $("recordForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const game = $("gameName").value.trim();
@@ -226,13 +261,28 @@ $("recordForm").addEventListener("submit", (e) => {
 
   if (!game || !name || !country || isNaN(score)) return;
 
-  pendingRecords.push({ game, name, country, mode, score, avatar, desc, created: Date.now() });
-  localStorage.setItem(STORAGE_KEY + "_pending", JSON.stringify(pendingRecords));
-  
-  $("recordForm").reset();
-  switchTab("ranking");
-  alert("Marca enviada con foto. Espera a que un administrador la verifique.");
-  if (isAdmin) $("tabVerify").textContent = `Verificar (${pendingRecords.length})`;
+  if (editingId) {
+    const index = records.findIndex(r => r.created === editingId);
+    if (index !== -1) {
+      records[index] = { ...records[index], game, name, country, mode, score, avatar, desc };
+    }
+    localStorage.setItem(STORAGE_KEY + "_approved", JSON.stringify(records));
+    editingId = null;
+    $("submitBtn").textContent = "Subir marca";
+    $("cancelEditBtn").style.display = "none";
+    $("formTitle").textContent = "Registrar marca";
+    $("recordForm").reset();
+    switchTab("ranking");
+    render();
+  } else {
+    pendingRecords.push({ game, name, country, mode, score, avatar, desc, created: Date.now() });
+    localStorage.setItem(STORAGE_KEY + "_pending", JSON.stringify(pendingRecords));
+    
+    $("recordForm").reset();
+    switchTab("ranking");
+    alert("Marca enviada. Espera a que un administrador la verifique.");
+    if (isAdmin) $("tabVerify").textContent = `Verificar (${pendingRecords.length})`;
+  }
 });
 
 function acceptRecord(id) {
@@ -327,7 +377,10 @@ function render() {
       if (isAdmin) {
         const adminDiv = document.createElement("div");
         adminDiv.className = "admin-actions";
-        adminDiv.innerHTML = `<button class="admin-btn-icon delete" onclick="deleteRecord(${record.created})">🗑️</button>`;
+        adminDiv.innerHTML = `
+          <button class="admin-btn-icon edit" onclick="editRecord(${record.created})">✏️</button>
+          <button class="admin-btn-icon delete" onclick="deleteRecord(${record.created})">🗑️</button>
+        `;
         playerTd.append(adminDiv);
       }
 
