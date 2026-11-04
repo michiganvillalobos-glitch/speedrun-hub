@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Base Demon List</title>
+
+<style>
+:root {
+  --bg-main: #0d0d12;
+  --bg-surface: #1a1a22;
+  --bg-header: #121218;
+  --text-main: #ffffff;
+  --text-muted: #8b8b9f;
+  --accent: #a855f7; /* Color morado de Demonlist */
+  --green: #10b981;
+  --red: #ef4444;
+  --border: #2a2a35;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0; background-color: var(--bg-main); color: var(--text-main);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+header {
+  padding: 20px; background-color: var(--bg-header); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+}
+
+.header-content { display: flex; align-items: center; gap: 15px; }
+.logo { font-size: 22px; font-weight: 800; color: var(--accent); }
+.header-actions { display: flex; gap: 10px; align-items: center; }
+
+.icon-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text-muted); }
+#adminBtn.active { color: var(--red); }
+
+main { max-width: 800px; margin: auto; padding: 20px 15px 80px; }
+
+/* Botones principales */
+.top-actions { display: flex; gap: 10px; margin-bottom: 20px; }
+.btn-primary {
+  flex: 1; padding: 12px; background: var(--accent); color: white; border: none;
+  border-radius: 8px; font-weight: bold; cursor: pointer; text-align: center;
+}
+.btn-secondary {
+  flex: 1; padding: 12px; background: var(--bg-surface); color: var(--text-main); border: 1px solid var(--border);
+  border-radius: 8px; font-weight: bold; cursor: pointer; text-align: center;
+}
+
+/* Tarjetas de Niveles */
+.level-card {
+  background-color: var(--bg-surface); border-radius: 12px; padding: 15px; margin-bottom: 15px;
+  border: 1px solid var(--border); display: flex; gap: 15px; align-items: center; position: relative;
+}
+
+.level-thumb {
+  width: 100px; height: 60px; background: #333; border-radius: 6px; object-fit: cover; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 12px; color: #666;
+}
+
+.level-info { flex-grow: 1; }
+.level-rank { font-size: 20px; font-weight: 900; color: var(--accent); }
+.level-title { font-size: 16px; font-weight: bold; margin: 2px 0; }
+.level-details { font-size: 12px; color: var(--text-muted); display: flex; gap: 10px; margin-top: 5px; }
+.level-points { font-size: 18px; font-weight: 900; color: var(--green); text-align: right; }
+
+/* Controles de Admin en las tarjetas */
+.admin-controls { display: none; flex-direction: column; gap: 5px; margin-left: 10px; }
+body.is-admin .admin-controls { display: flex; }
+
+.btn-icon {
+  background: none; border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px;
+  cursor: pointer; font-size: 12px; color: white;
+}
+.btn-icon.edit { color: #3b82f6; border-color: #3b82f6; }
+.btn-icon.delete { color: var(--red); border-color: var(--red); }
+
+/* Formulario Modal */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8);
+  display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px;
+}
+.modal-overlay.active { display: flex; }
+
+.modal-content {
+  background: var(--bg-surface); width: 100%; max-width: 500px; border-radius: 12px;
+  padding: 20px; border: 1px solid var(--border); max-height: 90vh; overflow-y: auto;
+}
+
+.modal-title { margin-top: 0; font-size: 18px; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+.modal-title span { color: var(--accent); font-size: 24px; }
+
+form { display: grid; gap: 12px; }
+label { display: grid; gap: 5px; color: var(--text-muted); font-size: 12px; font-weight: bold; }
+input, select, textarea {
+  width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--bg-main); color: white; font-size: 14px; font-family: inherit;
+}
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.diff-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.diff-btn {
+  padding: 10px; background: var(--bg-main); border: 1px solid var(--border); border-radius: 8px;
+  color: white; text-align: left; cursor: pointer; font-size: 12px; display: flex; align-items: center; gap: 8px;
+}
+.diff-btn.active { border-color: var(--accent); background: rgba(168, 85, 247, 0.1); }
+
+.modal-buttons { display: flex; gap: 10px; margin-top: 15px; }
+.btn-save { flex: 1; padding: 12px; background: var(--green); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+.btn-cancel { flex: 1; padding: 12px; background: var(--bg-main); color: white; border: 1px solid var(--border); border-radius: 8px; font-weight: bold; cursor: pointer; }
+.btn-delete-record { width: 100%; padding: 12px; background: var(--red); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 5px; }
+
+.hidden { display: none !important; }
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-content">
+    <div class="logo">Base Demon List</div>
+  </div>
+  <div class="header-actions">
+    <button id="adminBtn" class="icon-btn" title="Panel de Moderador">⚙️</button>
+  </div>
+</header>
+
+<main>
+  <div class="top-actions">
+    <button class="btn-primary" id="addBtn" style="display: none;">+ Agregar Nivel</button>
+  </div>
+
+  <div id="levelList">
+    <!-- Aquí se inyectan las tarjetas -->
+  </div>
+</main>
+
+<!-- Modal para Crear/Editar -->
+<div class="modal-overlay" id="levelModal">
+  <div class="modal-content">
+    <h2 class="modal-title"><span>✏️</span> <span id="modalTitleText">Editar Nivel</span></h2>
+    
+    <form id="levelForm">
+      <input type="hidden" id="editId">
+      
+      <label>Nombre del Nivel
+        <input id="levelName" type="text" required placeholder="Ej: Tendon">
+      </label>
+
+      <div class="form-row">
+        <label>Posición (#)
+          <input id="levelPos" type="number" required placeholder="Ej: 1">
+        </label>
+        <label>Intentos
+          <input id="levelAtt" type="number" required placeholder="Ej: 301">
+        </label>
+      </div>
+
+      <label>Puntos (Ranking Global)
+        <input id="levelPoints" type="number" step="0.01" required placeholder="Ej: 1034.07">
+      </label>
+
+      <label>Dificultad
+        <div class="diff-options" id="diffOptions">
+          <button type="button" class="diff-btn" data-diff="Extreme Demon">🔴 Extreme Demon</button>
+          <button type="button" class="diff-btn" data-diff="Insane Demon">🔴 Insane Demon</button>
+          <button type="button" class="diff-btn" data-diff="Hard Demon">🟠 Hard Demon</button>
+          <button type="button" class="diff-btn" data-diff="Medium Demon">🟣 Medium Demon</button>
+          <button type="button" class="diff-btn" data-diff="Easy Demon">🟣 Easy Demon</button>
+          <button type="button" class="diff-btn" data-diff="Otro">⚪ Otro</button>
+        </div>
+      </label>
+
+      <label>URL de la Imagen (Miniatura)
+        <input id="levelImage" type="url" placeholder="https://...">
+      </label>
+
+      <label>URL de YouTube (Video)
+        <input id="levelYoutube" type="url" placeholder="https://youtu.be/...">
+      </label>
+
+      <div class="modal-buttons">
+        <button type="button" class="btn-cancel" id="cancelBtn">Cancelar</button>
+        <button type="submit" class="btn-save">Guardar</button>
+      </div>
+      
+      <button type="button" class="btn-delete-record hidden" id="deleteFromModalBtn">
+        🗑️ Eliminar Nivel
+      </button>
+    </form>
+  </div>
+</div> 
+  <script>
+"use strict";
+
+const ADMIN_PASSWORD = "admin123";
+const STORAGE_KEY = "base-demon-list-v1";
+const $ = id => document.getElementById(id);
+
+let levels = [];
+let isAdmin = false;
+let editingId = null;
+let selectedDiff = "Extreme Demon";
+
+// Cargar datos
+try {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) levels = JSON.parse(saved);
+} catch { levels = []; }
+
+// Lógica Admin
+$("adminBtn").onclick = () => {
+  if (isAdmin) {
+    isAdmin = false;
+    document.body.classList.remove("is-admin");
+    $("adminBtn").classList.remove("active");
+    $("addBtn").style.display = "none";
+    render();
+  } else {
+    const pass = prompt("Contraseña de administrador:");
+    if (pass === ADMIN_PASSWORD) {
+      isAdmin = true;
+      document.body.classList.add("is-admin");
+      $("adminBtn").classList.add("active");
+      $("addBtn").style.display = "block";
+      render();
+    } else if (pass !== null) {
+      alert("Contraseña incorrecta.");
+    }
+  }
+};
+
+// Abrir Modal para AGREGAR
+$("addBtn").onclick = () => {
+  editingId = null;
+  $("levelForm").reset();
+  $("modalTitleText").textContent = "Agregar Nivel";
+  $("deleteFromModalBtn").classList.add("hidden");
+  document.querySelectorAll(".diff-btn").forEach(b => b.classList.remove("active"));
+  document.querySelector('[data-diff="Extreme Demon"]').classList.add("active");
+  selectedDiff = "Extreme Demon";
+  $("levelModal").classList.add("active");
+};
+
+// Cerrar Modal
+$("cancelBtn").onclick = () => {
+  $("levelModal").classList.remove("active");
+};
+
+// Selección de Dificultad
+document.querySelectorAll(".diff-btn").forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll(".diff-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    selectedDiff = btn.getAttribute("data-diff");
+  };
+});
+
+// Guardar Nivel
+$("levelForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  
+  const name = $("levelName").value.trim();
+  const pos = Number($("levelPos").value);
+  const att = Number($("levelAtt").value);
+  const points = Number($("levelPoints").value);
+  const img = $("levelImage").value.trim();
+  const yt = $("levelYoutube").value.trim();
+
+  if (!name || isNaN(pos) || isNaN(att) || isNaN(points)) return;
+
+  const data = {
+    name, pos, attempts: att, points, difficulty: selectedDiff,
+    image: img, youtube: yt, created: Date.now()
+  };
+
+  if (editingId) {
+    const index = levels.findIndex(l => l.id === editingId);
+    if (index !== -1) {
+      levels[index] = { ...levels[index], ...data };
+    }
+  } else {
+    levels.push({ ...data, id: Date.now() });
+  }
+
+  saveAndRender();
+  $("levelModal").classList.remove("active");
+});
+
+// Editar Nivel
+function openEditModal(id) {
+  if (!isAdmin) return;
+  const level = levels.find(l => l.id === id);
+  if (!level) return;
+
+  editingId = id;
+  $("modalTitleText").textContent = "Editar Nivel";
+  $("deleteFromModalBtn").classList.remove("hidden");
+  
+  $("levelName").value = level.name;
+  $("levelPos").value = level.pos;
+  $("levelAtt").value = level.attempts;
+  $("levelPoints").value = level.points;
+  $("levelImage").value = level.image || "";
+  $("levelYoutube").value = level.youtube || "";
+
+  document.querySelectorAll(".diff-btn").forEach(b => {
+    b.classList.remove("active");
+    if (b.getAttribute("data-diff") === level.difficulty) {
+      b.classList.add("active");
+      selectedDiff = level.difficulty;
+    }
+  });
+
+  $("levelModal").classList.add("active");
+}
+
+// Eliminar Nivel
+function deleteLevel(id) {
+  if (!isAdmin) return;
+  if (confirm("¿Seguro que quieres eliminar este nivel?")) {
+    levels = levels.filter(l => l.id !== id);
+    saveAndRender();
+    $("levelModal").classList.remove("active");
+  }
+}
+
+$("deleteFromModalBtn").onclick = () => {
+  if (editingId) deleteLevel(editingId);
+};
+
+function saveAndRender() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(levels));
+  render();
+}
+
+// Renderizar la lista
+function render() {
+  const container = $("levelList");
+  container.innerHTML = "";
+
+  // Ordenar por posición
+  const sorted = [...levels].sort((a, b) => a.pos - b.pos);
+
+  if (sorted.length === 0) {
+    container.innerHTML = `<p style="text-align:center; color:var(--text-muted); margin-top:30px;">No hay niveles en la lista aún.</p>`;
+    return;
+  }
+
+  sorted.forEach(level => {
+    const card = document.createElement("div");
+    card.className = "level-card";
+
+    // Imagen o Placeholder
+    let imgHtml = level.image 
+      ? `<img src="${level.image}" class="level-thumb" onerror="this.outerHTML='<div class=\\'level-thumb\\'>No Image</div>'">` 
+      : `<div class="level-thumb">No Image</div>`;
+
+    // Botón de YouTube si existe
+    let ytHtml = level.youtube 
+      ? `<a href="${level.youtube}" target="_blank" style="color:var(--red); text-decoration:none; font-weight:bold; font-size:12px;">▶ Ver Video</a>` 
+      : "";
+
+    card.innerHTML = `
+      <div class="level-rank">#${level.pos}</div>
+      ${imgHtml}
+      <div class="level-info">
+        <div class="level-title">${level.name}</div>
+        <div class="level-details">
+          <span>💀 ${level.difficulty}</span>
+          <span>🎯 ${level.attempts} intentos</span>
+        </div>
+        ${ytHtml}
+      </div>
+      <div class="level-points">${level.points} <br><span style="font-size:10px; color:var(--text-muted);">pts</span></div>
+      
+      <div class="admin-controls">
+        <button class="btn-icon edit" onclick="openEditModal(${level.id})">✏️</button>
+        <button class="btn-icon delete" onclick="deleteLevel(${level.id})">🗑️</button>
+      </div>
+    `;
+    container.append(card);
+  });
+}
+
+// Iniciar
+render();
+</script>
+</body>
+</html>
