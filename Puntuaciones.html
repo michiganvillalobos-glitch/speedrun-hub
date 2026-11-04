@@ -1,1 +1,333 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ranking de Puntuaciones</title>
 
+<style>
+:root {
+  --green: #166347;
+  --background: #f4f7f5;
+  --border: #dce7df;
+  --text: #183225;
+  --muted: #64766a;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+header {
+  padding: 24px 18px;
+  background: white;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-content {
+  max-width: 800px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo { color: var(--green); font-size: 26px; font-weight: 850; }
+
+main { max-width: 800px; margin: auto; padding: 24px 16px 50px; }
+
+nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+button, input, select { font: inherit; }
+
+button {
+  padding: 13px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--green);
+  color: white;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+nav button { background: #e6eee8; color: var(--green); }
+nav button.active { background: var(--green); color: white; }
+
+.card {
+  padding: 22px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  margin-bottom: 20px;
+}
+
+h1 { margin: 0 0 20px; font-size: 25px; }
+
+.search-box {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fbfcfb;
+  font-size: 15px;
+}
+
+.game-group {
+  margin-bottom: 30px;
+  border-left: 4px solid var(--green);
+  padding-left: 15px;
+}
+
+.game-title { font-size: 22px; font-weight: 800; margin: 0 0 15px 0; }
+
+.category-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--green);
+  text-transform: uppercase;
+  margin: 15px 0 8px 0;
+  background: #edf5ef;
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.table-container { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; text-align: left; }
+
+th { padding: 10px 8px; border-bottom: 1px solid var(--border); color: var(--muted); font-size: 12px; }
+td { padding: 15px 8px; border-bottom: 1px solid var(--border); font-size: 15px; }
+th:last-child, td:last-child { text-align: right; }
+
+.player { display: flex; align-items: center; gap: 9px; }
+.flag { width: 28px; height: 20px; object-fit: contain; }
+
+.points { white-space: nowrap; font-weight: 750; color: var(--green); }
+
+form { display: grid; gap: 18px; }
+
+label { display: grid; gap: 8px; color: var(--muted); font-size: 14px; }
+
+input, select {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fbfcfb;
+  color: var(--text);
+}
+
+.note, .empty { color: var(--muted); font-size: 13px; }
+.empty { padding: 20px; text-align: center; }
+
+[hidden] { display: none !important; }
+
+@media (max-width: 480px) {
+  .card { padding: 16px; }
+  td { padding: 16px 4px; font-size: 13px; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="header-content">
+    <div class="logo">Ranking de Puntos</div>
+  </div>
+</header>
+
+<main>
+  <nav aria-label="Secciones">
+    <button id="rankingButton" class="active" type="button">Tabla de clasificación</button>
+    <button id="submitButton" type="button">Enviar puntuación</button>
+  </nav>
+
+  <section id="rankingPanel">
+    <article class="card">
+      <h1>Tabla de clasificación</h1>
+      <input type="text" id="searchGame" class="search-box" placeholder="🔍 Buscar juego...">
+      <div id="rankingContainer"></div>
+      <p id="emptyRanking" class="empty">Todavía no hay puntuaciones enviadas.</p>
+    </article>
+  </section>
+
+  <section id="submitPanel" hidden>
+    <article class="card">
+      <h1>Enviar puntuación</h1>
+      <form id="recordForm">
+        <label>Nombre del juego o reto <input id="gameName" maxlength="50" placeholder="Ej: MiniHunter" required></label>
+        <label>Categoría (opcional) <input id="category" maxlength="30" placeholder="Ej: Global"></label>
+        <label>Nombre del jugador <input id="playerName" maxlength="40" required></label>
+        <label>País y bandera <select id="country" required></select></label>
+        
+        <label>Puntuación (Puntos) <input id="points" type="number" min="1" max="999999" placeholder="Ej: 150" required></label>
+
+        <button type="submit">Guardar puntuación</button>
+      </form>
+    </article>
+  </section>
+  <p id="notice" role="status" style="font-weight: bold; margin-top: 15px;"></p>
+</main>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const STORAGE_KEY = "geohunter-style-ranking-v1"; 
+let records = [];
+
+// Lista de países (puedes poner más si quieres)
+const countries = {
+  AR: "Argentina", BO: "Bolivia", BR: "Brasil", CA: "Canadá", CL: "Chile", CN: "China", CO: "Colombia", CR: "Costa Rica", CU: "Cuba", DE: "Alemania", EC: "Ecuador", ES: "España", FR: "Francia", GB: "Reino Unido", GT: "Guatemala", HN: "Honduras", IT: "Italia", JP: "Japón", MX: "México", NI: "Nicaragua", PA: "Panamá", PE: "Perú", PR: "Puerto Rico", PY: "Paraguay", SV: "El Salvador", US: "Estados Unidos", UY: "Uruguay", VE: "Venezuela"
+};
+
+function flagEmoji(code) {
+  return [...code].map(letter => String.fromCodePoint(127397 + letter.charCodeAt(0))).join("");
+}
+
+$("country").add(new Option("Selecciona tu país", ""));
+Object.entries(countries).sort((a, b) => a[1].localeCompare(b[1], "es")).forEach(([code, name]) => {
+  $("country").add(new Option(`${flagEmoji(code)} ${name}`, code));
+});
+
+try {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved !== null) records = JSON.parse(saved);
+} catch { records = []; }
+
+function makePlayer(record) {
+  const container = document.createElement("div");
+  container.className = "player";
+  const image = document.createElement("img");
+  image.className = "flag";
+  image.src = "https://flagcdn.com/w40/" + record.country.toLowerCase() + ".png";
+  image.alt = countries[record.country];
+  image.width = 28; image.height = 20;
+  const name = document.createElement("span");
+  name.textContent = record.name;
+  container.append(image, name);
+  return container;
+}
+
+function render() {
+  const container = $("rankingContainer");
+  container.replaceChildren();
+  const searchTerm = $("searchGame").value.toLowerCase();
+  const filtered = records.filter(r => r.game.toLowerCase().includes(searchTerm));
+
+  $("emptyRanking").hidden = filtered.length > 0;
+  if (filtered.length === 0) return;
+
+  const grouped = {};
+  for (const record of filtered) {
+    if (!grouped[record.game]) grouped[record.game] = {};
+    if (!grouped[record.game][record.category]) grouped[record.game][record.category] = [];
+    grouped[record.game][record.category].push(record);
+  }
+
+  const sortedGames = Object.keys(grouped).sort((a,b) => a.localeCompare(b));
+
+  for (const game of sortedGames) {
+    const gameGroup = document.createElement("div");
+    gameGroup.className = "game-group";
+    const gameTitle = document.createElement("h2");
+    gameTitle.className = "game-title";
+    gameTitle.textContent = game;
+    gameGroup.append(gameTitle);
+
+    const sortedCategories = Object.keys(grouped[game]).sort((a,b) => a.localeCompare(b));
+
+    for (const category of sortedCategories) {
+      const catTitle = document.createElement("div");
+      catTitle.className = "category-title";
+      catTitle.textContent = category;
+      gameGroup.append(catTitle);
+
+      const tableContainer = document.createElement("div");
+      tableContainer.className = "table-container";
+      const table = document.createElement("table");
+      const thead = document.createElement("thead");
+      thead.innerHTML = `<tr><th scope="col">Jugador</th><th scope="col">Puntos</th></tr>`;
+      const tbody = document.createElement("tbody");
+
+      // LA LÓGICA DE PUNTOS: Ordenar de MAYOR a MENOR (b.points - a.points)
+      const catRecords = grouped[game][category].sort((a, b) => b.points - a.points || a.created - b.created);
+      const bestPoints = catRecords[0].points;
+
+      let rank = 1;
+      for (const record of catRecords) {
+        const row = document.createElement("tr");
+        const playerCell = document.createElement("td");
+        const pointsCell = document.createElement("td");
+        
+        playerCell.insertAdjacentText("afterbegin", `#${rank} `);
+        playerCell.append(makePlayer(record));
+        
+        pointsCell.className = "points";
+        if (record.points === bestPoints) {
+          pointsCell.textContent = "👑 " + record.points + " pts";
+        } else {
+          pointsCell.textContent = record.points + " pts";
+        }
+
+        row.append(playerCell, pointsCell);
+        tbody.append(row);
+        rank++;
+      }
+
+      table.append(thead, tbody);
+      tableContainer.append(table);
+      gameGroup.append(tableContainer);
+    }
+    container.append(gameGroup);
+  }
+}
+
+$("searchGame").addEventListener("input", render);
+
+function showSubmission(show) {
+  $("rankingPanel").hidden = show;
+  $("submitPanel").hidden = !show;
+  $("rankingButton").classList.toggle("active", !show);
+  $("submitButton").classList.toggle("active", show);
+}
+
+$("rankingButton").onclick = () => showSubmission(false);
+$("submitButton").onclick = () => showSubmission(true);
+
+$("recordForm").addEventListener("submit", event => {
+  event.preventDefault();
+  const game = $("gameName").value.trim();
+  const category = $("category").value.trim() || "General"; 
+  const name = $("playerName").value.trim();
+  const country = $("country").value;
+  const points = Number($("points").value);
+
+  if (!game || !name || !country || points <= 0) {
+    $("notice").textContent = "Completa todos los campos correctamente.";
+    return;
+  }
+
+  records.push({ game, category, name, country, points, created: Date.now() });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+  
+  render();
+  $("recordForm").reset();
+  showSubmission(false);
+  $("notice").textContent = "Puntuación guardada correctamente.";
+});
+
+render();
+</script>
+</body>
+</html>
