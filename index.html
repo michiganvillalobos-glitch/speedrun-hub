@@ -580,9 +580,23 @@ $("recordForm").addEventListener("submit", event => {
 
   render();
   $("recordForm").reset();
+  $("timePreview").textContent = "0h:00m:00s.000ms";
+  showSubmission(false); 
+  render();
+  $("recordForm").reset();
   $("timePreview").textContent = "00h:00m:00s.000ms";
   showSubmission(false);
 });
+
+// Lógica del Modo Oscuro
+$("themeBtn").onclick = () => {
+  document.body.classList.toggle("dark-mode");
+  if (document.body.classList.contains("dark-mode")) {
+    $("themeBtn").textContent = "☀️";
+  } else {
+    $("themeBtn").textContent = "🌙";
+  }
+};
 
 render();
 </script>
