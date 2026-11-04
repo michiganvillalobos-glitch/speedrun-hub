@@ -7,28 +7,41 @@
 
 <style>
 :root {
-  --bg-dark: #0f0f13;
-  --surface: #1c1c24;
+  --bg-main: #0f0f13;
+  --bg-surface: #1c1c24;
+  --bg-header: #15151a;
   --text-main: #ffffff;
   --text-muted: #8b8b9f;
   --accent: #f1c40f;
   --green: #166347;
   --red: #d32f2f;
+  --border: #2a2a35;
+}
+
+body.light-mode {
+  --bg-main: #f4f7f5;
+  --bg-surface: #ffffff;
+  --bg-header: #ffffff;
+  --text-main: #183225;
+  --text-muted: #64766a;
+  --border: #dce7df;
+  --green: #166347;
 }
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  background-color: var(--bg-dark);
+  background-color: var(--bg-main);
   color: var(--text-main);
   font-family: system-ui, -apple-system, sans-serif;
+  transition: background 0.3s, color 0.3s;
 }
 
 header {
   padding: 20px;
-  background-color: #15151a;
-  border-bottom: 1px solid #2a2a35;
+  background-color: var(--bg-header);
+  border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -36,50 +49,53 @@ header {
 
 .header-content { display: flex; align-items: center; gap: 15px; }
 .logo { font-size: 22px; font-weight: 800; }
+.header-actions { display: flex; gap: 10px; align-items: center; }
 
-#adminBtn {
+.icon-btn {
   background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text-muted);
 }
 #adminBtn.active { color: var(--red); }
 
 main { max-width: 600px; margin: auto; padding: 20px 15px; }
 
-#wrCard {
-  background-color: var(--green); border: none; margin-bottom: 20px;
-  border-radius: 16px; padding: 20px;
+/* Tarjetas WR */
+.wr-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.wr-card {
+  background-color: var(--green); border: none; border-radius: 12px; padding: 15px;
+  color: white;
 }
-#wrCard .wr-title { font-size: 14px; font-weight: bold; color: white; }
-#wrCard .wr-score { font-size: 30px; font-weight: 900; color: white; margin: 5px 0; }
-#wrCard .wr-player { font-size: 15px; font-weight: bold; color: white; display: flex; align-items: center; gap: 8px; }
+.wr-title { font-size: 12px; font-weight: bold; opacity: 0.9; margin-bottom: 5px; }
+.wr-score { font-size: 24px; font-weight: 900; margin: 5px 0; }
+.wr-player { font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 5px; }
 
-.tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+/* Botones de pestaña */
+.tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
 .tabs button {
-  flex: 1; padding: 12px; border: 0; border-radius: 10px;
-  background: #2a2a35; color: var(--text-muted); font-weight: bold; cursor: pointer;
+  flex: 1; padding: 12px; border: 0; border-radius: 10px; min-width: 100px;
+  background: var(--bg-surface); color: var(--text-muted); font-weight: bold; cursor: pointer;
+  border: 1px solid var(--border);
 }
-.tabs button.active { background: var(--text-main); color: var(--bg-dark); }
+.tabs button.active { background: var(--text-main); color: var(--bg-main); border-color: var(--text-main); }
 
 .card {
-  background-color: var(--surface); border-radius: 16px; padding: 20px; margin-bottom: 20px;
+  background-color: var(--bg-surface); border-radius: 16px; padding: 20px; margin-bottom: 20px;
+  border: 1px solid var(--border);
 }
 
 table { width: 100%; border-collapse: collapse; }
-td { padding: 15px 5px; border-bottom: 1px solid #2a2a35; vertical-align: middle; }
+td { padding: 15px 5px; border-bottom: 1px solid var(--border); vertical-align: middle; }
 tr:last-child td { border-bottom: 0; }
 
 .rank { font-size: 16px; color: var(--text-muted); width: 40px; text-align: center; font-weight: bold; }
-.rank.medal { font-size: 24px; }
-
 .player { display: flex; align-items: center; gap: 10px; font-weight: 600; }
 .flag { width: 26px; height: 18px; border-radius: 3px; object-fit: cover; }
-
 .score { text-align: right; font-size: 22px; font-weight: 900; color: var(--accent); }
 
 form { display: grid; gap: 15px; }
 label { display: grid; gap: 5px; color: var(--text-muted); font-size: 13px; font-weight: bold; }
 input, select {
-  width: 100%; padding: 12px; border: 1px solid #2a2a35; border-radius: 8px;
-  background: #121214; color: white; font-size: 16px;
+  width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--bg-main); color: var(--text-main); font-size: 16px;
 }
 button[type="submit"] {
   padding: 14px; background: var(--accent); color: #000; border: none;
@@ -88,11 +104,12 @@ button[type="submit"] {
 
 .admin-actions { display: inline-flex; gap: 5px; margin-left: 10px; }
 .admin-btn-icon {
-  background: none; border: 1px solid #2a2a35; padding: 4px 8px;
+  background: none; border: 1px solid var(--border); padding: 4px 8px;
   border-radius: 6px; cursor: pointer; font-size: 14px;
 }
-.admin-btn-icon.delete { color: var(--red); border-color: #ffcdd2; background: #ffebee; }
-.admin-btn-icon.edit { color: #1976d2; border-color: #bbdefb; background: #e3f2fd; }
+.admin-btn-icon.delete { color: var(--red); border-color: var(--red); }
+.admin-btn-icon.edit { color: #1976d2; border-color: #1976d2; }
+.admin-btn-icon.accept { color: var(--green); border-color: var(--green); font-weight: bold; }
 
 [hidden] { display: none !important; }
 </style>
@@ -104,34 +121,44 @@ button[type="submit"] {
   <div class="header-content">
     <div class="logo">LP Rankings</div>
   </div>
-  <button id="adminBtn" title="Panel de Moderador">⚙️</button>
+  <div class="header-actions">
+    <button id="themeBtn" class="icon-btn" title="Modo Claro/Oscuro">☀️</button>
+    <button id="adminBtn" class="icon-btn" title="Panel de Moderador">⚙️</button>
+  </div>
 </header>
 
 <main>
   <div class="tabs">
     <button id="tabRanking" class="active">Global</button>
     <button id="tabSubmit">Tu marca aquí</button>
+    <button id="tabVerify" style="display: none; background: var(--red); color: white;">Verificar</button>
   </div>
 
   <section id="panelRanking">
-    <div id="wrCard" hidden>
-      <div class="wr-title">WR 🌏</div>
-      <div class="wr-score" id="wrScore">0</div>
-      <div class="wr-player" id="wrPlayer"></div>
+    <div class="wr-container" id="wrContainer" hidden>
+      <div class="wr-card">
+        <div class="wr-title">WR Mínima ⏱️</div>
+        <div class="wr-score" id="wrScoreMin">0</div>
+        <div class="wr-player" id="wrPlayerMin"></div>
+      </div>
+      <div class="wr-card" style="background-color: #2b6cb0;">
+        <div class="wr-title">WR Máxima 🏆</div>
+        <div class="wr-score" id="wrScoreMax">0</div>
+        <div class="wr-player" id="wrPlayerMax"></div>
+      </div>
     </div>
 
     <div id="rankingContainer"></div>
-    <p id="emptyRanking" class="empty" style="text-align:center; color:#666;">Aún no hay clasificaciones</p>
+    <p id="emptyRanking" class="empty" style="text-align:center; color:var(--text-muted);">Aún no hay clasificaciones</p>
   </section>
 
   <section id="panelSubmit" hidden>
     <div class="card">
       <h2>Registrar marca</h2>
       <form id="recordForm">
-        <input type="hidden" id="editRecordId">
         <label>Nombre del juego <input id="gameName" maxlength="30" value="MiniHunter" required></label>
-<label>Nombre de usuario <input id="playerName" maxlength="20" required></label>
-<label>País <select id="country" required></select></label>
+        <label>Nombre de usuario <input id="playerName" maxlength="20" required></label>
+        <label>País <select id="country" required></select></label>
         
         <label>Tipo de Reto <select id="gameMode" required>
           <option value="menor">Menor puntuación (Cuanto menos, mejor)</option>
@@ -139,10 +166,19 @@ button[type="submit"] {
         </select></label>
 
         <label>Puntuación <input id="score" type="number" min="0" max="999999" required></label>
-        
         <button type="submit" id="submitBtn">Subir marca</button>
-        <button type="button" id="cancelEditBtn" style="background: var(--text-muted); display: none;">Cancelar Edición</button>
       </form>
+      <p style="font-size:12px; color:var(--text-muted); margin-top:15px; text-align:center;">Tu marca será revisada por un administrador antes de ser publicada.</p>
+    </div>
+  </section>
+
+  <section id="panelVerify" hidden>
+    <div class="card">
+      <h2>Marcas Pendientes</h2>
+      <table>
+        <tbody id="verifyBody"></tbody>
+      </table>
+      <p id="emptyVerify" style="text-align:center; color:var(--text-muted); display: none;">No hay marcas pendientes.</p>
     </div>
   </section>
 </main>
@@ -152,10 +188,10 @@ button[type="submit"] {
 
 const ADMIN_PASSWORD = "admin123"; 
 const $ = id => document.getElementById(id);
-const STORAGE_KEY = "lp-rankings-v1";
+const STORAGE_KEY = "lp-ranking-final-v4";
 let records = [];
+let pendingRecords = [];
 let isAdmin = false;
-let editingId = null;
 
 const countries = {
   AD: "Andorra", AE: "Emiratos Árabes Unidos", AF: "Afganistán", AG: "Antigua y Barbuda", AI: "Anguila", AL: "Albania", AM: "Armenia", AO: "Angola", AQ: "Antártida", AR: "Argentina", AS: "Samoa Americana", AT: "Austria", AU: "Australia", AW: "Aruba", AX: "Islas Åland", AZ: "Azerbaiyán",
@@ -195,79 +231,122 @@ Object.entries(countries).sort((a, b) => a[1].localeCompare(b[1], "es")).forEach
 });
 
 try {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved !== null) records = JSON.parse(saved);
-} catch { records = []; }
+  const savedRecs = localStorage.getItem(STORAGE_KEY + "_approved");
+  const savedPend = localStorage.getItem(STORAGE_KEY + "_pending");
+  if (savedRecs) records = JSON.parse(savedRecs);
+  if (savedPend) pendingRecords = JSON.parse(savedPend);
+} catch { records = []; pendingRecords = []; }
 
+// Lógica de Admin
 $("adminBtn").onclick = () => {
   if (isAdmin) {
     isAdmin = false;
     $("adminBtn").classList.remove("active");
+    $("tabVerify").style.display = "none";
+    switchTab(true);
     render();
   } else {
-    const pass = prompt("Introduce la contraseña de moderador:");
+    const pass = prompt("Contraseña de moderador:");
     if (pass === ADMIN_PASSWORD) {
       isAdmin = true;
       $("adminBtn").classList.add("active");
+      $("tabVerify").style.display = "block";
+      $("tabVerify").textContent = `Verificar (${pendingRecords.length})`;
       render();
-    } else if (pass !== null) {
-      alert("Contraseña incorrecta.");
-    }
+      renderVerify();
+    } else if (pass !== null) alert("Contraseña incorrecta.");
   }
 };
 
+// Lógica de Modo Oscuro/Claro
+$("themeBtn").onclick = () => {
+  document.body.classList.toggle("light-mode");
+  $("themeBtn").textContent = document.body.classList.contains("light-mode") ? "🌙" : "☀️";
+};
+
+// Enviar marca
+$("recordForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const game = $("gameName").value.trim();
+  const name = $("playerName").value.trim();
+  const country = $("country").value;
+  const mode = $("gameMode").value;
+  const score = Number($("score").value);
+
+  if (!game || !name || !country || isNaN(score)) return;
+
+  // Se guarda en pendientes
+  pendingRecords.push({ game, name, country, mode, score, created: Date.now() });
+  localStorage.setItem(STORAGE_KEY + "_pending", JSON.stringify(pendingRecords));
+  
+  $("recordForm").reset();
+  switchTab(true);
+  alert("Marca enviada. Espera a que un administrador la verifique.");
+  
+  if (isAdmin) $("tabVerify").textContent = `Verificar (${pendingRecords.length})`;
+});
+
+// Aprobar o Rechazar
+function acceptRecord(id) {
+  const index = pendingRecords.findIndex(r => r.created === id);
+  if (index !== -1) {
+    records.push(pendingRecords[index]);
+    pendingRecords.splice(index, 1);
+    localStorage.setItem(STORAGE_KEY + "_approved", JSON.stringify(records));
+    localStorage.setItem(STORAGE_KEY + "_pending", JSON.stringify(pendingRecords));
+    $("tabVerify").textContent = `Verificar (${pendingRecords.length})`;
+    render();
+    renderVerify();
+  }
+}
+
+function rejectRecord(id) {
+  if (confirm("¿Rechazar esta marca permanentemente?")) {
+    pendingRecords = pendingRecords.filter(r => r.created !== id);
+    localStorage.setItem(STORAGE_KEY + "_pending", JSON.stringify(pendingRecords));
+    $("tabVerify").textContent = `Verificar (${pendingRecords.length})`;
+    renderVerify();
+  }
+}
+
+// Borrar de la tabla principal (Admin)
 function deleteRecord(id) {
   if (!isAdmin) return;
-  if (confirm("¿Eliminar esta marca?")) {
+  if (confirm("¿Eliminar esta marca de la tabla?")) {
     records = records.filter(r => r.created !== id);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+    localStorage.setItem(STORAGE_KEY + "_approved", JSON.stringify(records));
     render();
   }
 }
 
-function editRecord(id) {
-  if (!isAdmin) return;
-  const record = records.find(r => r.created === id);
-  if (!record) return;
-
-  $("gameName").value = record.game;
-  $("playerName").value = record.name;
-  $("country").value = record.country;
-  $("gameMode").value = record.mode;
-  $("score").value = record.score;
-
-  editingId = id;
-  $("submitBtn").textContent = "Actualizar marca";
-  $("cancelEditBtn").style.display = "block";
-  switchTab(false);
-}
-
-$("cancelEditBtn").onclick = () => {
-  editingId = null;
-  $("recordForm").reset();
-  $("submitBtn").textContent = "Subir marca";
-  $("cancelEditBtn").style.display = "none";
-  switchTab(true);
-};
-
+// Renderizar Tabla Pública
 function render() {
   const container = $("rankingContainer");
   container.replaceChildren();
-  $("wrCard").hidden = records.length === 0;
 
-  if (records.length === 0) {
-    $("emptyRanking").hidden = false;
-    return;
-  } else {
-    $("emptyRanking").hidden = true;
-  }
+  const minRecords = records.filter(r => r.mode === "menor").sort((a, b) => a.score - b.score);
+  const maxRecords = records.filter(r => r.mode === "mayor").sort((a, b) => b.score - a.score);
 
+  $("wrContainer").hidden = records.length === 0;
+
+  // Renderizar WRs
+  if (minRecords.length > 0) {
+    $("wrScoreMin").textContent = minRecords[0].score;
+    $("wrPlayerMin").innerHTML = `<img src="https://flagcdn.com/w40/${minRecords[0].country.toLowerCase()}.png" style="width:16px; border-radius:2px;"> ${minRecords[0].name}`;
+  } else { $("wrScoreMin").textContent = "0"; $("wrPlayerMin").textContent = "Sin marcas"; }
+
+  if (maxRecords.length > 0) {
+    $("wrScoreMax").textContent = maxRecords[0].score;
+    $("wrPlayerMax").innerHTML = `<img src="https://flagcdn.com/w40/${maxRecords[0].country.toLowerCase()}.png" style="width:16px; border-radius:2px;"> ${maxRecords[0].name}`;
+  } else { $("wrScoreMax").textContent = "0"; $("wrPlayerMax").textContent = "Sin marcas"; }
+
+  // Agrupar tabla pública
   const grouped = {};
-  for (const record of records) {
-    const key = `${record.game} (${record.mode === "mayor" ? "Máxima" : "Mínima"})`;
+  records.forEach(r => {
+    const key = `${r.game} (${r.mode === "mayor" ? "Máxima" : "Mínima"})`;
     if (!grouped[key]) grouped[key] = [];
-    grouped[key].push(record);
-  }
+    grouped[key].push(r);
+  });
 
   const sortedKeys = Object.keys(grouped).sort((a,b) => a.localeCompare(b));
 
@@ -283,42 +362,22 @@ function render() {
 
     const table = document.createElement("table");
     const tbody = document.createElement("tbody");
-
-    const catRecords = grouped[key].sort((a, b) => {
-      return key.includes("Máxima") ? (b.score - a.score) : (a.score - b.score);
-    });
+    const catRecords = grouped[key].sort((a, b) => key.includes("Máxima") ? (b.score - a.score) : (a.score - b.score));
 
     catRecords.forEach((record, index) => {
       const tr = document.createElement("tr");
-      
       const rankTd = document.createElement("td");
       rankTd.className = "rank";
-      if (index === 0) rankTd.innerHTML = "🥇";
-      else if (index === 1) rankTd.innerHTML = "🥈";
-      else if (index === 2) rankTd.innerHTML = "🥉";
-      else rankTd.textContent = `#${index + 1}`;
+      rankTd.innerHTML = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `#${index + 1}`;
       
       const playerTd = document.createElement("td");
       playerTd.className = "player";
-      const img = document.createElement("img");
-      img.src = `https://flagcdn.com/w40/${record.country.toLowerCase()}.png`;
-      img.className = "flag";
-      const nameSpan = document.createElement("span");
-      nameSpan.textContent = record.name;
-      playerTd.append(img, nameSpan);
+      playerTd.innerHTML = `<img src="https://flagcdn.com/w40/${record.country.toLowerCase()}.png" class="flag"> <span>${record.name}</span>`;
 
       if (isAdmin) {
         const adminDiv = document.createElement("div");
         adminDiv.className = "admin-actions";
-        const editBtn = document.createElement("button");
-        editBtn.className = "admin-btn-icon edit";
-        editBtn.textContent = "✏️";
-        editBtn.onclick = () => editRecord(record.created);
-        const deleteBtn = document.createElement("button");
-        deleteBtn.className = "admin-btn-icon delete";
-        deleteBtn.textContent = "🗑️";
-        deleteBtn.onclick = () => deleteRecord(record.created);
-        adminDiv.append(editBtn, deleteBtn);
+        adminDiv.innerHTML = `<button class="admin-btn-icon delete" onclick="deleteRecord(${record.created})">🗑️</button>`;
         playerTd.append(adminDiv);
       }
 
@@ -334,61 +393,47 @@ function render() {
     gameGroup.append(table);
     container.append(gameGroup);
   }
+  $("emptyRanking").hidden = records.length > 0;
+}
 
-  const globalWr = [...records].sort((a, b) => {
-    return a.mode === "mayor" ? (b.score - a.score) : (a.score - b.score);
-  })[0];
-  
-  if (globalWr) {
-    $("wrScore").textContent = globalWr.score + " pts";
-    $("wrPlayer").replaceChildren();
-    const img = document.createElement("img");
-    img.src = `https://flagcdn.com/w40/${globalWr.country.toLowerCase()}.png`;
-    img.style.width = "20px";
-    img.style.borderRadius = "3px";
-    const span = document.createElement("span");
-    span.textContent = globalWr.name;
-    $("wrPlayer").append(img, span);
-  }
+// Renderizar Verificación (Solo Admin)
+function renderVerify() {
+  const tbody = $("verifyBody");
+  tbody.replaceChildren();
+  $("emptyVerify").style.display = pendingRecords.length === 0 ? "block" : "none";
+
+  pendingRecords.forEach(record => {
+    const tr = document.createElement("tr");
+    
+    const infoTd = document.createElement("td");
+    infoTd.innerHTML = `<b>${record.name}</b> (${countries[record.country]})<br><small style="color:var(--text-muted)">${record.game} - ${record.mode} - ${record.score}</small>`;
+    
+    const actionTd = document.createElement("td");
+    actionTd.style.textAlign = "right";
+    actionTd.innerHTML = `
+      <button class="admin-btn-icon accept" onclick="acceptRecord(${record.created})">Aceptar</button>
+      <button class="admin-btn-icon delete" onclick="rejectRecord(${record.created})">Rechazar</button>
+    `;
+    tr.append(infoTd, actionTd);
+    tbody.append(tr);
+  });
 }
 
 function switchTab(showRanking) {
-  $("panelRanking").hidden = !showRanking;
-  $("panelSubmit").hidden = showRanking;
-  $("tabRanking").classList.toggle("active", showRanking);
-  $("tabSubmit").classList.toggle("active", !showRanking);
+  $("panelRanking").hidden = showRanking !== "ranking";
+  $("panelSubmit").hidden = showRanking !== "submit";
+  $("panelVerify").hidden = showRanking !== "verify";
+  
+  $("tabRanking").classList.toggle("active", showRanking === "ranking");
+  $("tabSubmit").classList.toggle("active", showRanking === "submit");
+  $("tabVerify").classList.toggle("active", showRanking === "verify");
+
+  if (showRanking === "verify" && isAdmin) renderVerify();
 }
 
-$("tabRanking").onclick = () => switchTab(true);
-$("tabSubmit").onclick = () => switchTab(false);
-
-$("recordForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const game = $("gameName").value.trim();
-  const name = $("playerName").value.trim();
-  const country = $("country").value;
-  const mode = $("gameMode").value;
-  const score = Number($("score").value);
-
-  if (!game || !name || !country || isNaN(score)) return;
-
-  if (editingId) {
-    const index = records.findIndex(r => r.created === editingId);
-    if (index !== -1) {
-      records[index] = { ...records[index], game, name, country, mode, score };
-    }
-    editingId = null;
-    $("submitBtn").textContent = "Subir marca";
-    $("cancelEditBtn").style.display = "none";
-  } else {
-    records.push({ game, name, country, mode, score, created: Date.now() });
-  }
-  
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-  render();
-  $("recordForm").reset();
-  switchTab(true);
-});
+$("tabRanking").onclick = () => switchTab("ranking");
+$("tabSubmit").onclick = () => switchTab("submit");
+$("tabVerify").onclick = () => switchTab("verify");
 
 render();
 </script>
